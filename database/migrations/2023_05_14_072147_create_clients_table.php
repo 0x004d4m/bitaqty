@@ -32,6 +32,8 @@ return new class extends Migration
             $table->foreign('state_id')->references('id')->on('states');
             $table->unsignedBigInteger('currency_id');
             $table->foreign('currency_id')->references('id')->on('currencies');
+            $table->unsignedBigInteger('group_id');
+            $table->foreign('group_id')->references('id')->on('groups');
             $table->timestamps();
             $table->softDeletes();
         });

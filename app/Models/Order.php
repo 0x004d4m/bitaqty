@@ -21,7 +21,6 @@ class Order extends Model
         "profit",
         "credit_before",
         "credit_after",
-        "is_accepted",
         "product_id",
         "order_status_id",
         "userable_type",

@@ -108,16 +108,6 @@ class ProductCrudController extends CrudController
         $this->crud->field('is_active')->label(__('admin_fields.is_active'))->type('boolean');
         $this->crud->field('is_vip')->label(__('admin_fields.is_vip'))->type('boolean');
         $this->crud->field('image')->label(__('admin_fields.image'))->type('image');
-
-        $this->crud->addField([
-            'label' => "Fields",
-            'type' => 'select_multiple',
-            'name' => 'fields', // the method that defines the relationship in your Model
-            'entity' => 'fields', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Field", // foreign key model
-            'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
-        ]);
     }
 
     protected function setupUpdateOperation()

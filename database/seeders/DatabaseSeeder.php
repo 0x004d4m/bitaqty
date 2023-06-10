@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             DashboardValues::class,
             Maintenances::class,
             FieldTypes::class,
+            StatusesSeeder::class,
         ]);
     }
 }

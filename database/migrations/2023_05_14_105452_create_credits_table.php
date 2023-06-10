@@ -24,6 +24,8 @@ return new class extends Migration
             $table->foreign('credit_type_id')->references('id')->on('credit_types');
             $table->unsignedBigInteger('credit_status_id');
             $table->foreign('credit_status_id')->references('id')->on('credit_statuses');
+            $table->unsignedBigInteger('supported_account_id')->nullable();
+            $table->foreign('supported_account_id')->references('id')->on('supported_accounts');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -33,8 +33,6 @@ return [
     "product_fields" => "product fields",
     "state" => "state",
     "states" => "states",
-    "statistic_setting" => "statistic setting",
-    "statistic_settings" => "statistic settings",
     "subcategory" => "subcategory",
     "subcategories" => "subcategories",
     "subcategory_field" => "subcategory field",

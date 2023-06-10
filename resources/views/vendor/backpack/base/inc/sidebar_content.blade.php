@@ -56,7 +56,6 @@
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('client') }}">{{ __('sidebar.clients') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('issue') }}">{{ __('sidebar.issues') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('notification') }}">{{ __('sidebar.notifications') }}</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('allowed-category') }}">{{ __('sidebar.allowed_categories') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('credit') }}">{{ __('sidebar.credits') }}</a></li>
     </ul>
 </li>

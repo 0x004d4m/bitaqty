@@ -47,7 +47,6 @@ class NotificationCrudController extends CrudController
         $this->crud->column('title')->label(__('admin_fields.title'))->type('text');
         $this->crud->column('description')->label(__('admin_fields.description'))->type('textarea');
         $this->crud->column('image')->label(__('admin_fields.image'))->type('image');
-        $this->crud->column('data')->label(__('admin_fields.data'))->type('hidden');
     }
 
     protected function setupCreateOperation()
@@ -77,15 +76,6 @@ class NotificationCrudController extends CrudController
         $this->crud->field('title')->label(__('admin_fields.title'))->type('text');
         $this->crud->field('description')->label(__('admin_fields.description'))->type('textarea');
         $this->crud->field('image')->label(__('admin_fields.image'))->type('image');
-        $this->crud->addField([
-            'label' => __('admin_fields.data'),
-            'name'  => 'data',
-            'type'  => 'json',
-            'view_namespace' => 'json-field-for-backpack::fields',
-            'modes' => ['form', 'tree', 'code'],
-            'default' => [],
-        ]);
-        $this->crud->field('is_read')->label(__('admin_fields.is_read'))->type('boolean');
     }
 
     protected function setupUpdateOperation()

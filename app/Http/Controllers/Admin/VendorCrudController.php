@@ -123,16 +123,6 @@ class VendorCrudController extends CrudController
             'model' => 'App\Models\Currency'
         ]);
         $this->crud->field('image')->label(__('admin_fields.image'))->type('image');
-
-        $this->crud->addField([
-            'label' => "Groups",
-            'type' => 'select_multiple',
-            'name' => 'userGroups', // the method that defines the relationship in your Model
-            'entity' => 'userGroups', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Group", // foreign key model
-            'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
-        ]);
     }
 
     protected function setupUpdateOperation()

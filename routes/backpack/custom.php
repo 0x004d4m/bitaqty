@@ -29,7 +29,6 @@ Route::group([
     Route::crud('field', 'FieldCrudController');
     Route::crud('subcategory-field', 'SubcategoryFieldCrudController');
     Route::crud('product', 'ProductCrudController');
-    Route::crud('product-field', 'ProductFieldCrudController');
     Route::crud('prepaid-card-stock', 'PrepaidCardStockCrudController');
     Route::crud('group', 'GroupCrudController');
     Route::crud('group-price', 'GroupPriceCrudController');
@@ -42,11 +41,9 @@ Route::group([
     Route::get('maintenance/off', 'MaintenanceCrudController@off');
     Route::crud('credit-status', 'CreditStatusCrudController');
     Route::crud('supported-account', 'SupportedAccountCrudController');
-    Route::crud('user-group', 'UserGroupCrudController');
     Route::crud('credit-type', 'CreditTypeCrudController');
     Route::crud('credit', 'CreditCrudController');
     Route::crud('credit-card', 'CreditCardCrudController');
-    Route::crud('allowed-category', 'AllowedCategoryCrudController');
     Route::crud('vendor', 'VendorCrudController');
     Route::crud('client', 'ClientCrudController');
     Route::crud('issue-type', 'IssueTypeCrudController');

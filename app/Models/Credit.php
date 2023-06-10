@@ -28,6 +28,7 @@ class Credit extends Model
         "credit_status_id",
         "userable_type",
         "userable_id",
+        "supported_account_id",
     ];
 
     public function setUserableTypeAttribute()
@@ -48,6 +49,11 @@ class Credit extends Model
     public function creditType()
     {
         return $this->belongsTo(CreditType::class);
+    }
+
+    public function supportedAccount()
+    {
+        return $this->belongsTo(SupportedAccount::class);
     }
 
     public function creditStatus()

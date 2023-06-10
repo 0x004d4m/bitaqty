@@ -78,7 +78,7 @@ class SubcategoryCrudController extends CrudController
         ]);
 
         $this->crud->addField([
-            'label' => "Fields",
+            'label' => __('admin_fields.fields'),
             'type' => 'select_multiple',
             'name' => 'fields', // the method that defines the relationship in your Model
             'entity' => 'fields', // the method that defines the relationship in your Model
@@ -90,7 +90,7 @@ class SubcategoryCrudController extends CrudController
         $this->crud->field('has_limit')->label(__('admin_fields.has_limit'))->type('boolean')->default(true);
 
         $this->crud->addField([
-            'label' => "Clients",
+            'label' => __('admin_fields.clients'),
             'type' => 'select_multiple',
             'name' => 'clients', // the method that defines the relationship in your Model
             'entity' => 'clients', // the method that defines the relationship in your Model
@@ -100,7 +100,7 @@ class SubcategoryCrudController extends CrudController
         ]);
 
         $this->crud->addField([
-            'label' => "Vendors",
+            'label' => __('admin_fields.vendors'),
             'type' => 'select_multiple',
             'name' => 'vendors', // the method that defines the relationship in your Model
             'entity' => 'vendors', // the method that defines the relationship in your Model

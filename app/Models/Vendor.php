@@ -63,11 +63,6 @@ class Vendor extends Model
         return $this->morphMany(Order::class, 'userable');
     }
 
-    public function userGroups()
-    {
-        return $this->morphMany(UserGroup::class, 'userable');
-    }
-
     public function allowedCategories()
     {
         return $this->morphMany(AllowedCategory::class, 'userable');

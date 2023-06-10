@@ -36,6 +36,22 @@ class ClientCrudController extends CrudController
         $this->crud->column('is_approved')->label(__('admin_fields.is_approved'))->type('boolean');
         $this->crud->column('is_blocked')->label(__('admin_fields.is_blocked'))->type('boolean');
         $this->crud->column('can_give_credit')->label(__('admin_fields.can_give_credit'))->type('boolean');
+        $this->crud->addColumn('group_id', [
+            'label' => __('admin_fields.group'),
+            'type' => "select",
+            'name' => 'group_id',
+            'entity' => 'group',
+            'attribute' => "name",
+            'model' => 'App\Models\Group'
+        ]);
+        $this->crud->setColumnDetails('group_id', [
+            'label' => __('admin_fields.group'),
+            'type' => "select",
+            'name' => 'group_id',
+            'entity' => 'group',
+            'attribute' => "name",
+            'model' => 'App\Models\Group'
+        ]);
         $this->crud->addColumn('vendor_id', [
             'label' => __('admin_fields.vendor'),
             'type' => "select",
@@ -117,6 +133,14 @@ class ClientCrudController extends CrudController
         $this->crud->field('is_approved')->label(__('admin_fields.is_approved'))->type('boolean');
         $this->crud->field('is_blocked')->label(__('admin_fields.is_blocked'))->type('boolean');
         $this->crud->field('can_give_credit')->label(__('admin_fields.can_give_credit'))->type('boolean');
+        $this->crud->addField([
+            'label' => __('admin_fields.group'),
+            'type' => "relationship",
+            'name' => 'group_id',
+            'entity' => 'group',
+            'attribute' => "name",
+            'model' => 'App\Models\Group'
+        ]);
         $this->crud->addField([
             'label' => __('admin_fields.vendor'),
             'type' => "relationship",

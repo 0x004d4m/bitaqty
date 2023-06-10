@@ -18,17 +18,5 @@ class CreditCard extends Model
         "number",
         "value",
         "qr",
-        "credit_id",
-        "supported_account_id",
     ];
-
-    public function credit()
-    {
-        return $this->belongsTo(Credit::class);
-    }
-
-    public function supportedAccount()
-    {
-        return $this->belongsTo(SupportedAccount::class);
-    }
 }

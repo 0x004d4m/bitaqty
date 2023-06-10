@@ -80,4 +80,7 @@ return [
     'vendor' => 'Vendor',
     'withdraw' => 'Withdraw',
     'description' => 'description',
+    'clients' => 'Clients',
+    'vendors' => 'Vendors',
+    'fields' => 'Fields',
 ];

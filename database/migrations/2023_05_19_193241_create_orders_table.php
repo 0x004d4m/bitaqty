@@ -20,7 +20,6 @@ return new class extends Migration
             $table->double('profit');
             $table->double('credit_before');
             $table->double('credit_after');
-            $table->boolean('is_accepted')->default(false);
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('order_status_id');

@@ -18,7 +18,7 @@ return [
     "news"=>"News",
     "terms"=>"Terms",
     "maintenances"=>"Maintenance Mode",
-    "statistic_settings"=>"Statistic settings",
+
     "credit_statuses"=>"Credit statuses",
     "order_statuses"=>"Order statuses",
     "supported_accounts"=>"Supported accounts",

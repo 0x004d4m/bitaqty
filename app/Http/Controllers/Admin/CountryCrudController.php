@@ -45,7 +45,7 @@ class CountryCrudController extends CrudController
         Widget::add([
             'type'           => 'relation_table',
             'name'           => 'states',
-            'label'          => 'States',
+            'label'          => __('admin.states'),
             'per_page'       => '10',
             'backpack_crud'  => 'state',
             'relation_attribute' => 'country_id',
@@ -53,7 +53,7 @@ class CountryCrudController extends CrudController
             'button_delete' => true,
             'columns' => [
                 [
-                    'label' => 'name',
+                    'label' => __('admin_fields.name'),
                     'name'  => 'name',
                 ],
             ],
@@ -62,7 +62,7 @@ class CountryCrudController extends CrudController
         Widget::add([
             'type'           => 'relation_table',
             'name'           => 'currencies',
-            'label'          => 'Currencies',
+            'label'          => __('admin.currencies'),
             'per_page'       => '10',
             'backpack_crud'  => 'currency',
             'relation_attribute' => 'country_id',
@@ -70,15 +70,15 @@ class CountryCrudController extends CrudController
             'button_delete' => true,
             'columns' => [
                 [
-                    'label' => 'name',
+                    'label' => __('admin_fields.name'),
                     'name'  => 'name',
                 ],
                 [
-                    'label' => 'symbol',
+                    'label' => __('admin_fields.symbol'),
                     'name'  => 'symbol',
                 ],
                 [
-                    'label' => 'to usd',
+                    'label' => __('admin_fields.to_usd'),
                     'name'  => 'to_usd',
                 ],
             ],

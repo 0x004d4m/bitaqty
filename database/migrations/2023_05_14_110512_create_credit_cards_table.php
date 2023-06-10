@@ -16,10 +16,6 @@ return new class extends Migration
             $table->string('number');
             $table->string('value');
             $table->text('qr');
-            $table->unsignedBigInteger('credit_id');
-            $table->foreign('credit_id')->references('id')->on('credits');
-            $table->unsignedBigInteger('supported_account_id')->nullable();
-            $table->foreign('supported_account_id')->references('id')->on('supported_accounts');
             $table->timestamps();
             $table->softDeletes();
         });

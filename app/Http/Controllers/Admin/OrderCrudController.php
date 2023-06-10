@@ -56,7 +56,6 @@ class OrderCrudController extends CrudController
         $this->crud->column('profit')->label(__('admin_fields.profit'))->type('number');
         $this->crud->column('credit_before')->label(__('admin_fields.credit_before'))->type('double');
         $this->crud->column('credit_after')->label(__('admin_fields.credit_after'))->type('double');
-        $this->crud->column('is_accepted')->label(__('admin_fields.is_accepted'))->type('boolean');
         $this->crud->addColumn('product_id', [
             'label' => __('admin_fields.product'),
             'type' => "select",
@@ -121,7 +120,6 @@ class OrderCrudController extends CrudController
         $this->crud->field('profit')->label(__('admin_fields.profit'))->type('number');
         $this->crud->field('credit_before')->label(__('admin_fields.credit_before'))->type('double');
         $this->crud->field('credit_after')->label(__('admin_fields.credit_after'))->type('double');
-        $this->crud->field('is_accepted')->label(__('admin_fields.is_accepted'))->type('boolean');
         $this->crud->addField([
             'label' => __('admin_fields.product'),
             'type' => "relationship",

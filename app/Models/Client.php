@@ -40,6 +40,7 @@ class Client extends Model
         "state_id",
         "currency_id",
         "vendor_id",
+        "group_id",
     ];
 
     public function vendor()
@@ -62,6 +63,11 @@ class Client extends Model
         return $this->belongsTo(Currency::class);
     }
 
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
     public function notifications()
     {
         return $this->morphMany(Notification::class, 'userable');
@@ -70,11 +76,6 @@ class Client extends Model
     public function orders()
     {
         return $this->morphMany(Order::class, 'userable');
-    }
-
-    public function userGroups()
-    {
-        return $this->morphMany(UserGroup::class, 'userable');
     }
 
     public function allowedCategories()

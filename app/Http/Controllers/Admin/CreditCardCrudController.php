@@ -26,38 +26,6 @@ class CreditCardCrudController extends CrudController
         $this->crud->column('number')->label(__('admin_fields.number'))->type('text');
         $this->crud->column('value')->label(__('admin_fields.value'))->type('double');
         $this->crud->column('qr')->label(__('admin_fields.qr'))->type('text');
-        $this->crud->addColumn('credit_id', [
-            'label' => __('admin_fields.credit'),
-            'type' => "select",
-            'name' => 'credit_id',
-            'entity' => 'credit',
-            'attribute' => "name",
-            'model' => 'App\Models\Credit'
-        ]);
-        $this->crud->setColumnDetails('credit_id', [
-            'label' => __('admin_fields.credit'),
-            'type' => "select",
-            'name' => 'credit_id',
-            'entity' => 'credit',
-            'attribute' => "name",
-            'model' => 'App\Models\Credit'
-        ]);
-        $this->crud->addColumn('supported_account_id', [
-            'label' => __('admin_fields.supported_account'),
-            'type' => "select",
-            'name' => 'supported_account_id',
-            'entity' => 'supportedAccount',
-            'attribute' => "name",
-            'model' => 'App\Models\SupportedAccount'
-        ]);
-        $this->crud->setColumnDetails('supported_account_id', [
-            'label' => __('admin_fields.supported_account'),
-            'type' => "select",
-            'name' => 'supported_account_id',
-            'entity' => 'supportedAccount',
-            'attribute' => "name",
-            'model' => 'App\Models\SupportedAccount'
-        ]);
     }
 
     protected function setupCreateOperation()
@@ -69,22 +37,6 @@ class CreditCardCrudController extends CrudController
         ]);
         $this->crud->field('value')->label(__('admin_fields.value'))->type('double');
         $this->crud->field('qr')->label(__('admin_fields.qr'))->type('text');
-        $this->crud->addField([
-            'label' => __('admin_fields.credit'),
-            'type' => "relationship",
-            'name' => 'credit_id',
-            'entity' => 'credit',
-            'attribute' => "name",
-            'model' => 'App\Models\Credit'
-        ]);
-        $this->crud->addField([
-            'label' => __('admin_fields.supported_account'),
-            'type' => "relationship",
-            'name' => 'supported_account_id',
-            'entity' => 'supportedAccount',
-            'attribute' => "name",
-            'model' => 'App\Models\SupportedAccount'
-        ]);
     }
 
     protected function setupUpdateOperation()

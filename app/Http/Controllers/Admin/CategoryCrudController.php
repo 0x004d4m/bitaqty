@@ -75,7 +75,7 @@ class CategoryCrudController extends CrudController
             'attribute' => "name",
             'model' => 'App\Models\Type'
         ]);
-        $this->crud->column('is_active');
+        $this->crud->column('is_active')->label(__('admin_fields.is_active'))->type('boolean');
 
         $this->crud->addFilter(
             [
@@ -129,7 +129,7 @@ class CategoryCrudController extends CrudController
             'attribute' => "name",
             'model' => 'App\Models\Type'
         ]);
-        $this->crud->field('is_active');
+        $this->crud->field('is_active')->label(__('admin_fields.is_active'))->type('boolean');
     }
 
     protected function setupUpdateOperation()

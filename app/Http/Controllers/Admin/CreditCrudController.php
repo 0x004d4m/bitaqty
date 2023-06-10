@@ -144,6 +144,14 @@ class CreditCrudController extends CrudController
             'attribute' => "name",
             'model' => 'App\Models\CreditStatus'
         ]);
+        $this->crud->addField([
+            'label' => __('admin_fields.supported_account'),
+            'type' => "relationship",
+            'name' => 'supported_account_id',
+            'entity' => 'supportedAccount',
+            'attribute' => "name",
+            'model' => 'App\Models\SupportedAccount'
+        ]);
     }
 
     protected function setupUpdateOperation()

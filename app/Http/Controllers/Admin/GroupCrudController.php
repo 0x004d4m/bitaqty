@@ -45,7 +45,7 @@ class GroupCrudController extends CrudController
         Widget::add([
             'type'           => 'relation_table',
             'name'           => 'groupPrices',
-            'label'          => 'Prices',
+            'label'          => __('admin.group_prices'),
             'per_page'       => '10',
             'backpack_crud'  => 'group-price',
             'relation_attribute' => 'group_id',
@@ -53,11 +53,11 @@ class GroupCrudController extends CrudController
             'button_delete' => true,
             'columns' => [
                 [
-                    'label' => 'product',
+                    'label' => __('admin_fields.product'),
                     'name'  => 'product.name',
                 ],
                 [
-                    'label' => 'price',
+                    'label' => __('admin_fields.price'),
                     'name'  => 'price',
                 ],
             ],
