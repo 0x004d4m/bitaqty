@@ -32,7 +32,8 @@
     },
     "autoload": {
         "files": [
-            "app/Helpers/backpack.php"
+            "app/Helpers/backpack.php",
+            "app/Helpers/sms.php"
         ],
         "psr-4": {
             "App\\": "app/",

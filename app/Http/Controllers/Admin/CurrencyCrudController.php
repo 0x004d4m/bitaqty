@@ -26,7 +26,7 @@ class CurrencyCrudController extends CrudController
     {
         $this->crud->column('name')->label(__('admin_fields.name'))->type('text');
         $this->crud->column('symbol')->label(__('admin_fields.symbol'))->type('text');
-        $this->crud->column('to_usd')->label(__('admin_fields.to_usd'))->type('double');
+        $this->crud->column('to_jod')->label(__('admin_fields.to_jod'))->type('double');
         $this->crud->addColumn('country_id', [
             'label' => __('admin_fields.country'),
             'type' => "select",
@@ -66,7 +66,7 @@ class CurrencyCrudController extends CrudController
 
         $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
         $this->crud->field('symbol')->label(__('admin_fields.symbol'))->type('text');
-        $this->crud->field('to_usd')->label(__('admin_fields.to_usd'))->type('double');
+        $this->crud->field('to_jod')->label(__('admin_fields.to_jod'))->type('double');
     }
 
     protected function setupUpdateOperation()

@@ -78,8 +78,8 @@ class CountryCrudController extends CrudController
                     'name'  => 'symbol',
                 ],
                 [
-                    'label' => __('admin_fields.to_usd'),
-                    'name'  => 'to_usd',
+                    'label' => __('admin_fields.to_jod'),
+                    'name'  => 'to_jod',
                 ],
             ],
         ])->to('after_content');

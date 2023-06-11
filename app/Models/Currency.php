@@ -22,10 +22,10 @@ class Currency extends Model
     protected $fillable = [
         'name',
         'symbol',
-        'to_usd',
+        'to_jod',
         'country_id',
     ];
-    
+
     public function country()
     {
         return $this->belongsTo(Country::class);
