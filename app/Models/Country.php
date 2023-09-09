@@ -17,7 +17,7 @@ class Country extends Model
 
     protected $table = 'countries';
     protected $translatable = ['name'];
-    protected $fillable = ['name'];
+    protected $fillable = ['name','code'];
 
     public function states()
     {

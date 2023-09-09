@@ -11,6 +11,7 @@
         "backpack/logmanager": "^4.0",
         "backpack/permissionmanager": "^6.0",
         "darkaonline/l5-swagger": "^8.5",
+        "giggsey/libphonenumber-for-php": "^8.13",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "izica/relations-widgets-for-backpack": "^3.3",

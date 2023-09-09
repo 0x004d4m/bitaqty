@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Http\Requests\Vendor\Auth;
+
+use App\Rules\ValidPhoneNumber;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class RegisterRequest extends FormRequest
+{
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:clients,email',
+            'phone' => ['required', 'unique:clients,phone', new ValidPhoneNumber($this->input('country_id'))],
+            'password' => 'required|confirmed',
+            'address' => 'required|min:3',
+            'fcm_token' => 'required',
+            'country_id' => 'required|exists:countries,id',
+            'state_id' => [
+                'required',
+                Rule::exists('states', 'id')->where(function ($query) {
+                    $query->where('country_id', $this->input('country_id'));
+                })
+            ],
+            'currency_id' => [
+                'required',
+                Rule::exists('currencies', 'id')->where(function ($query) {
+                    $query->where('country_id', $this->input('country_id'));
+                })
+            ],
+        ];
+    }
+}

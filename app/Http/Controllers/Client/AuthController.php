@@ -1,45 +1,47 @@
 <?php
 
-namespace App\Http\Controllers\Vendor;
+namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Vendor\Auth\ForgetPasswordRequest;
-use App\Http\Requests\Vendor\Auth\LoginRequest;
-use App\Http\Requests\Vendor\Auth\OtpRequest;
-use App\Http\Requests\Vendor\Auth\RegisterRequest;
-use App\Http\Requests\Vendor\Auth\ResetPasswordRequest;
-use App\Models\Vendor;
+use App\Http\Requests\Client\Auth\ForgetPasswordRequest;
+use App\Http\Requests\Client\Auth\LoginRequest;
+use App\Http\Requests\Client\Auth\OtpRequest;
+use App\Http\Requests\Client\Auth\RegisterRequest;
+use App\Http\Requests\Client\Auth\ResetPasswordRequest;
+use App\Mail\Client\RegisterMail;
+use App\Models\Client;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @OA\Tag(
- *     name="VendorAuth",
- *     description="API Endpoints of Vendor Auth"
+ *     name="ClientAuth",
+ *     description="API Endpoints of Client Auth"
  * )
  */
 class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *  path="/api/vendors/auth/register",
+     *  path="/api/clients/auth/register",
      *  summary="Register",
-     *  description="Register Vendor",
-     *  operationId="VendorAuthRegister",
-     *  tags={"VendorAuth"},
+     *  description="Register Client",
+     *  operationId="ClientAuthRegister",
+     *  tags={"ClientAuth"},
      *  @OA\RequestBody(
      *     required=true,
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"name","email","phone","password","password_confirmation","address","fcm_token","country_id","state_id","currency_id"},
+     *          required={"name","email","phone","password","password_confirmation","address","commercial_name","fcm_token","country_id","state_id","currency_id"},
      *         @OA\Property(property="name", type="string", example=""),
      *         @OA\Property(property="email", type="string", example=""),
      *         @OA\Property(property="phone", type="string", example=""),
      *         @OA\Property(property="password", type="string", example=""),
      *         @OA\Property(property="password_confirmation", type="string", example=""),
      *         @OA\Property(property="address", type="string", example=""),
+     *         @OA\Property(property="commercial_name", type="string", example=""),
      *         @OA\Property(property="fcm_token", type="string", example=""),
      *         @OA\Property(property="country_id", type="integer", example=""),
      *         @OA\Property(property="state_id", type="integer", example=""),
@@ -70,24 +72,24 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $Vendor = Vendor::create($request->input());
-        if ($Vendor) {
-            $Vendor->update([
-                'otp_token' => $Vendor->createToken('VendorOtpToken')->plainTextToken,
+        $Client = Client::create($request->input());
+        if($Client){
+            $Client->update([
+                'otp_token' => $Client->createToken('ClientOtpToken')->plainTextToken,
                 'otp_code' => 1234,
             ]);
             // if(env('APP_ENV')=='production'){
-            //     Mail::to($Vendor->email)->send(new RegisterMail());
+            //     Mail::to($Client->email)->send(new RegisterMail());
             // }
             return response()->json([
-                "otp_token" => $Vendor->otp_token,
+                "otp_token" => $Client->otp_token,
             ], 200);
-        } else {
+        }else{
             return response()->json([
-                "message" => "Error Creating Vendor",
+                "message" => "Error Creating Client",
                 "errors" => [
-                    "email" => [
-                        "Error Creating Vendor",
+                    "email"=>[
+                        "Error Creating Client",
                     ]
                 ]
             ], 422);
@@ -96,18 +98,18 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *  path="/api/vendors/auth/login",
+     *  path="/api/clients/auth/login",
      *  summary="Login",
-     *  description="Login Vendor",
-     *  operationId="VendorAuthLogin",
-     *  tags={"VendorAuth"},
+     *  description="Login Client",
+     *  operationId="ClientAuthLogin",
+     *  tags={"ClientAuth"},
      *  @OA\RequestBody(
      *     required=true,
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
      *          required={"username","password","fcm_token"},
-     *         @OA\Property(property="username", type="string", example="email or password"),
+     *         @OA\Property(property="username", type="string", example=""),
      *         @OA\Property(property="password", type="string", example=""),
      *         @OA\Property(property="fcm_token", type="string", example=""),
      *       ),
@@ -136,10 +138,10 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $Vendor = Vendor::where('phone', $request->username)->first();
-        if (!$Vendor) {
-            $Vendor = Vendor::where('email', $request->username)->first();
-            if (!$Vendor) {
+        $Client = Client::where('phone',$request->username)->first();
+        if(!$Client){
+            $Client = Client::where('email', $request->username)->first();
+            if(!$Client){
                 return response()->json([
                     "message" => "Wrong Username",
                     "errors" => [
@@ -150,17 +152,17 @@ class AuthController extends Controller
                 ], 422);
             }
         }
-        if (Hash::check($request->password, $Vendor->password)) {
-            $Vendor->update([
+        if (Hash::check($request->password,$Client->password)) {
+            $Client->update([
                 'fcm_token' => $request->fcm_token,
-                'otp_token' => $Vendor->createToken('VendorOtpToken')->plainTextToken,
+                'otp_token' => $Client->createToken('ClientOtpToken')->plainTextToken,
                 'otp_code' => 1234,
             ]);
             // if(env('APP_ENV')=='production'){
-            //     Mail::to($Vendor->email)->send(new RegisterMail());
+            //     Mail::to($Client->email)->send(new RegisterMail());
             // }
             return response()->json([
-                "otp_token" => $Vendor->otp_token,
+                "otp_token" => $Client->otp_token,
             ], 200);
         }
         return response()->json([
@@ -175,11 +177,11 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *  path="/api/vendors/auth/otp",
+     *  path="/api/clients/auth/otp",
      *  summary="otp",
-     *  description="OTP Vendor",
-     *  operationId="VendorAuthOTP",
-     *  tags={"VendorAuth"},
+     *  description="OTP Client",
+     *  operationId="ClientAuthOTP",
+     *  tags={"ClientAuth"},
      *  @OA\RequestBody(
      *     required=true,
      *     @OA\MediaType(
@@ -188,6 +190,7 @@ class AuthController extends Controller
      *          required={"otp","code"},
      *         @OA\Property(property="otp", type="string", example=""),
      *         @OA\Property(property="code", type="string", example=""),
+     *         @OA\Property(property="access_token_expiry", type="string", example=""),
      *       ),
      *     ),
      *  ),
@@ -197,7 +200,6 @@ class AuthController extends Controller
      *    @OA\JsonContent(
      *      @OA\Property(property="access_token", type="string", example=""),
      *      @OA\Property(property="refresh_token", type="string", example=""),
-     *      @OA\Property(property="access_token_expiry", type="string", example=""),
      *    )
      *  ),
      *  @OA\Response(
@@ -216,19 +218,19 @@ class AuthController extends Controller
      */
     public function otp(OtpRequest $request)
     {
-        $Vendor = Vendor::where('otp_token', $request->otp)->where('otp_code', $request->code)->first();
-        if ($Vendor) {
+        $Client = Client::where('otp_token', $request->otp)->where('otp_code', $request->code)->first();
+        if ($Client) {
             $access_token_expiry = Carbon::now()->addDays(10);
-            $Vendor->update([
+            $Client->update([
                 'otp_token' => null,
                 'otp_code' => null,
                 "is_phone_verified" => true,
-                "access_token" => $Vendor->createToken('VendorAccessToken', ["*"], $access_token_expiry)->plainTextToken,
-                "refresh_token" => $Vendor->createToken('VendorRefreshToken')->plainTextToken,
+                "access_token" => $Client->createToken('ClientAccessToken', ["*"], $access_token_expiry)->plainTextToken,
+                "refresh_token" => $Client->createToken('ClientRefreshToken')->plainTextToken,
             ]);
             return response()->json([
-                "access_token" => $Vendor->access_token,
-                "refresh_token" => $Vendor->refresh_token,
+                "access_token" => $Client->access_token,
+                "refresh_token" => $Client->refresh_token,
                 "access_token_expiry" => $access_token_expiry,
             ], 200);
         } else {
@@ -245,18 +247,18 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *  path="/api/vendors/auth/forget",
+     *  path="/api/clients/auth/forget",
      *  summary="Forget Password",
-     *  description="Forget Password Vendor",
-     *  operationId="VendorAuthForget",
-     *  tags={"VendorAuth"},
+     *  description="Forget Password Client",
+     *  operationId="ClientAuthForget",
+     *  tags={"ClientAuth"},
      *  @OA\RequestBody(
      *     required=true,
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
      *          required={"username"},
-     *         @OA\Property(property="username", type="string", example="email or password"),
+     *         @OA\Property(property="username", type="string", example=""),
      *       ),
      *     ),
      *  ),
@@ -283,10 +285,10 @@ class AuthController extends Controller
      */
     public function forget(ForgetPasswordRequest $request)
     {
-        $Vendor = Vendor::where('phone', $request->username)->first();
-        if (!$Vendor) {
-            $Vendor = Vendor::where('email', $request->username)->first();
-            if (!$Vendor) {
+        $Client = Client::where('phone', $request->username)->first();
+        if (!$Client) {
+            $Client = Client::where('email', $request->username)->first();
+            if (!$Client) {
                 return response()->json([
                     "message" => "Wrong Username",
                     "errors" => [
@@ -297,30 +299,30 @@ class AuthController extends Controller
                 ], 422);
             }
         }
-        $Vendor->update([
-            'forget_token' => $Vendor->createToken('VendorForgetToken')->plainTextToken,
+        $Client->update([
+            'forget_token' => $Client->createToken('ClientForgetToken')->plainTextToken,
         ]);
         // if(env('APP_ENV')=='production'){
-        //     Mail::to($Vendor->email)->send(new RegisterMail());
+        //     Mail::to($Client->email)->send(new RegisterMail());
         // }
         return response()->json([
-            "token" => $Vendor->forget_token,
+            "token" => $Client->forget_token,
         ], 200);
     }
 
     /**
      * @OA\Post(
-     *  path="/api/vendors/auth/reset",
+     *  path="/api/clients/auth/reset",
      *  summary="Reset Password",
-     *  description="Reset Password Vendor",
-     *  operationId="VendorAuthReset",
-     *  tags={"VendorAuth"},
+     *  description="Reset Password Client",
+     *  operationId="ClientAuthReset",
+     *  tags={"ClientAuth"},
      *  @OA\RequestBody(
      *     required=true,
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"token","password","password_confirmed"},
+     *          required={"username"},
      *         @OA\Property(property="token", type="string", example=""),
      *         @OA\Property(property="password", type="string", example=""),
      *         @OA\Property(property="password_confirmed", type="string", example=""),
@@ -350,8 +352,8 @@ class AuthController extends Controller
      */
     public function reset(ResetPasswordRequest $request)
     {
-        $Vendor = Vendor::where('forget_token', $request->token)->first();
-        if (!$Vendor) {
+        $Client = Client::where('forget_token', $request->token)->first();
+        if (!$Client) {
             return response()->json([
                 "message" => "Wrong Token",
                 "errors" => [
@@ -361,7 +363,7 @@ class AuthController extends Controller
                 ]
             ], 422);
         }
-        $Vendor->update([
+        $Client->update([
             'password' => $request->password,
             'otp_token' => null,
             'otp_code' => null,

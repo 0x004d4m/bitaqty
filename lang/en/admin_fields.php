@@ -80,4 +80,5 @@ return [
     'clients' => 'Clients',
     'vendors' => 'Vendors',
     'fields' => 'Fields',
+    'code' => 'Code',
 ];

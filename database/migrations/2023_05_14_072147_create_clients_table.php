@@ -18,13 +18,13 @@ return new class extends Migration
             $table->string('phone');
             $table->string('password');
             $table->json('commercial_name');
-            $table->string('credit');
+            $table->string('credit')->default(0);
             $table->string('email');
-            $table->string('image');
-            $table->boolean('is_approved');
-            $table->boolean('is_blocked');
-            $table->boolean('can_give_credit');
-            $table->unsignedBigInteger('vendor_id');
+            $table->string('image')->nullable();
+            $table->boolean('is_approved')->default(0);
+            $table->boolean('is_blocked')->default(0);
+            $table->boolean('can_give_credit')->default(0);
+            $table->unsignedBigInteger('vendor_id')->nullable();
             $table->foreign('vendor_id')->references('id')->on('vendors');
             $table->unsignedBigInteger('country_id');
             $table->foreign('country_id')->references('id')->on('countries');
@@ -32,8 +32,17 @@ return new class extends Migration
             $table->foreign('state_id')->references('id')->on('states');
             $table->unsignedBigInteger('currency_id');
             $table->foreign('currency_id')->references('id')->on('currencies');
-            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('group_id')->nullable();
             $table->foreign('group_id')->references('id')->on('groups');
+
+            $table->text('fcm_token')->nullable();
+            $table->text('otp_token')->nullable();
+            $table->text('otp_code')->nullable();
+            $table->text('forget_token')->nullable();
+            $table->text('access_token')->nullable();
+            $table->text('refresh_token')->nullable();
+            $table->boolean('is_email_verified')->default(0);
+            $table->boolean('is_phone_verified')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

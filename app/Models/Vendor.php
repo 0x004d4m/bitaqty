@@ -7,6 +7,7 @@ use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
@@ -36,6 +37,14 @@ class Vendor extends Model
         "country_id",
         "state_id",
         "currency_id",
+        "fcm_token",
+        "otp_token",
+        "otp_code",
+        "access_token",
+        "refresh_token",
+        "forget_token",
+        "is_email_verified",
+        "is_phone_verified",
     ];
 
     public function country()
@@ -73,6 +82,11 @@ class Vendor extends Model
         return $this->morphMany(Issue::class, 'userable');
     }
 
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
+
     public function setImageAttribute($value)
     {
         $attribute_name = "image";
@@ -90,5 +104,10 @@ class Vendor extends Model
             $public_destination_path = Str::replaceFirst('public/', 'storage/', $destination_path);
             $this->attributes[$attribute_name] = $public_destination_path . '/' . $filename;
         }
+    }
+
+    public function getImageAttribute()
+    {
+        return url($this->image);
     }
 }

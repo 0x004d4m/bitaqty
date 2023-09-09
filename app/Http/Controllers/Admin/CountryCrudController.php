@@ -24,6 +24,7 @@ class CountryCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->column('name')->label(__('admin_fields.name'))->type('text');
+        $this->crud->column('code')->label(__('admin_fields.code'))->type('text');
     }
 
     protected function setupCreateOperation()
@@ -31,6 +32,7 @@ class CountryCrudController extends CrudController
         $this->crud->setValidation(CountryRequest::class);
 
         $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
+        $this->crud->field('code')->label(__('admin_fields.code'))->type('text');
     }
 
     protected function setupUpdateOperation()

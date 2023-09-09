@@ -7,9 +7,11 @@ use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\HasApiTokens;
 
 class Client extends Model
 {
@@ -17,6 +19,7 @@ class Client extends Model
     use HasFactory;
     use SoftDeletes;
     use HasTranslations;
+    use HasApiTokens;
 
     protected $table = 'clients';
     protected $translatable = [
@@ -30,17 +33,25 @@ class Client extends Model
         "phone",
         "password",
         "commercial_name",
-        "credit",
         "email",
-        "image",
-        "is_approved",
-        "is_blocked",
-        "can_give_credit",
         "country_id",
         "state_id",
         "currency_id",
+        "image",
+        "credit",
+        "is_approved",
+        "is_blocked",
+        "can_give_credit",
         "vendor_id",
         "group_id",
+        "fcm_token",
+        "otp_token",
+        "otp_code",
+        "access_token",
+        "refresh_token",
+        "forget_token",
+        "is_email_verified",
+        "is_phone_verified",
     ];
 
     public function vendor()
@@ -88,6 +99,11 @@ class Client extends Model
         return $this->morphMany(Issue::class, 'userable');
     }
 
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
+
     public function setImageAttribute($value)
     {
         $attribute_name = "image";
@@ -105,5 +121,10 @@ class Client extends Model
             $public_destination_path = Str::replaceFirst('public/', 'storage/', $destination_path);
             $this->attributes[$attribute_name] = $public_destination_path . '/' . $filename;
         }
+    }
+
+    public function getImageAttribute()
+    {
+        return url($this->image);
     }
 }
