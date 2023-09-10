@@ -17,6 +17,7 @@
         "izica/relations-widgets-for-backpack": "^3.3",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
+        "laravel/telescope": "^4.16",
         "laravel/tinker": "^2.8",
         "spatie/laravel-translatable": "^6.4",
         "ziming/json-field-for-backpack": "^1.1"
