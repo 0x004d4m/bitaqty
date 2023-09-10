@@ -12,6 +12,7 @@ use App\Mail\Client\RegisterMail;
 use App\Models\Client;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 /**
@@ -72,7 +73,7 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        dd($request->input());
+        Log::debug($request->input());
         $Client = Client::create($request->input());
         if($Client){
             $Client->update([
