@@ -72,6 +72,7 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request)
     {
+        dd($request->input());
         $Client = Client::create($request->input());
         if($Client){
             $Client->update([
