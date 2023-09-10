@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Vendor;
+namespace App\Http\Controllers\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ClientsController extends Controller
+class OrdersController extends Controller
 {
     //
 }

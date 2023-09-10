@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Client\AuthController as ClientAuthController;
-use App\Http\Controllers\Vendor\AuthController as VendorAuthController;
+use App\Http\Controllers\API\Client\AuthController as ClientAuthController;
+use App\Http\Controllers\API\General\CountryController;
+use App\Http\Controllers\API\Vendor\AuthController as VendorAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,5 @@ Route::post('/vendors/auth/otp', [AuthController::class, 'otp']);
 Route::post('/vendors/auth/login', [AuthController::class, 'login']);
 Route::post('/vendors/auth/forget', [AuthController::class, 'forget']);
 Route::post('/vendors/auth/reset', [AuthController::class, 'reset']);
+
+Route::get('/countries', [CountryController::class, 'index']);

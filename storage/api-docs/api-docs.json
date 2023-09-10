@@ -456,6 +456,98 @@
                 }
             }
         },
+        "/api/countries": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Countries",
+                "description": "Countries",
+                "operationId": "Countries",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "countries": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "states": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": ""
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": ""
+                                                                },
+                                                                "country_id": {
+                                                                    "type": "string",
+                                                                    "example": ""
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "currencies": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": ""
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": ""
+                                                                },
+                                                                "symbol": {
+                                                                    "type": "string",
+                                                                    "example": ""
+                                                                },
+                                                                "to_jod": {
+                                                                    "type": "string",
+                                                                    "example": ""
+                                                                },
+                                                                "country_id": {
+                                                                    "type": "string",
+                                                                    "example": ""
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/vendors/auth/register": {
             "post": {
                 "tags": [
@@ -919,6 +1011,10 @@
         {
             "name": "ClientAuth",
             "description": "API Endpoints of Client Auth"
+        },
+        {
+            "name": "Country",
+            "description": "API Endpoints of Country"
         },
         {
             "name": "VendorAuth",
