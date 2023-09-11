@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
             $table->text('description');
-            $table->text('image');
-            $table->text('solution');
-            $table->boolean('is_solved');
-            $table->boolean('is_duplicate');
+            $table->text('image')->nullable();
+            $table->text('solution')->nullable();
+            $table->boolean('is_solved')->default(0);
+            $table->boolean('is_duplicate')->default(0);
             $table->morphs('userable');
             $table->unsignedBigInteger('issue_type_id');
             $table->foreign('issue_type_id')->references('id')->on('issue_types');
