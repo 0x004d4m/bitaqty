@@ -653,7 +653,7 @@
         "/api/countries": {
             "get": {
                 "tags": [
-                    "Country"
+                    "General"
                 ],
                 "summary": "Countries",
                 "description": "Countries",
@@ -720,6 +720,46 @@
                                                             },
                                                             "type": "object"
                                                         }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/issueTypes": {
+            "get": {
+                "tags": [
+                    "General"
+                ],
+                "summary": "IssueType",
+                "description": "IssueType",
+                "operationId": "IssueType",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
                                                     }
                                                 },
                                                 "type": "object"
@@ -1207,8 +1247,8 @@
             "description": "API Endpoints of Client News"
         },
         {
-            "name": "Country",
-            "description": "API Endpoints of Country"
+            "name": "General",
+            "description": "API Endpoints of General Info"
         },
         {
             "name": "VendorAuth",

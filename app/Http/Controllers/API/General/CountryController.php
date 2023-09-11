@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 
 /**
  * @OA\Tag(
- *     name="Country",
- *     description="API Endpoints of Country"
+ *     name="General",
+ *     description="API Endpoints of General Info"
  * )
  */
 class CountryController extends Controller
@@ -21,7 +21,7 @@ class CountryController extends Controller
      *  summary="Countries",
      *  description="Countries",
      *  operationId="Countries",
-     *  tags={"Country"},
+     *  tags={"General"},
      *  @OA\Response(
      *    response=200,
      *    description="Success",
