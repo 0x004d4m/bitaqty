@@ -18,7 +18,7 @@ class LanguageMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!$request->has('accept-language')) {
-            App::setLocale('ar');
+            App::setLocale('en');
         } else {
             App::setLocale($request->get('accept-language'));
         }
