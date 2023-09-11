@@ -108,6 +108,9 @@ class Vendor extends Model
 
     public function getImageAttribute()
     {
-        return url($this->image);
+        if ($this->attributes['image'] != null) {
+            return url($this->attributes['image']);
+        }
+        return null;
     }
 }

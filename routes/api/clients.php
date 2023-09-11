@@ -4,6 +4,7 @@ use App\Http\Controllers\API\Client\AuthController;
 use App\Http\Controllers\API\Client\IssueController;
 use App\Http\Controllers\API\Client\NewsController;
 use App\Http\Controllers\API\Client\NotificationController;
+use App\Http\Controllers\API\Client\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([

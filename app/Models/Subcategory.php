@@ -66,4 +66,12 @@ class Subcategory extends Model
             $this->attributes[$attribute_name] = $public_destination_path . '/' . $filename;
         }
     }
+
+    public function getImageAttribute()
+    {
+        if ($this->attributes['image'] != null) {
+            return url($this->attributes['image']);
+        }
+        return null;
+    }
 }

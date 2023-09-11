@@ -774,6 +774,67 @@
                 ]
             }
         },
+        "/api/clients": {
+            "get": {
+                "tags": [
+                    "ClientProfile"
+                ],
+                "summary": "Profile",
+                "description": "Client Profile",
+                "operationId": "ClientProfile",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "data": {
+                                                        "type": "object",
+                                                        "example": []
+                                                    },
+                                                    "is_read": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/countries": {
             "get": {
                 "tags": [
@@ -1373,6 +1434,10 @@
         {
             "name": "ClientNotification",
             "description": "API Endpoints of Client Notification"
+        },
+        {
+            "name": "ClientProfile",
+            "description": "API Endpoints of Client Profile"
         },
         {
             "name": "General",
