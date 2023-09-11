@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\Issues\CreateIssueRequest;
 use App\Models\Client;
 use App\Models\Issue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @OA\Tag(
@@ -47,14 +49,6 @@ class IssueController extends Controller
      */
     public function index(Request $request)
     {
-        // "description",
-        // "image",
-        // "solution",
-        // "is_solved",
-        // "is_duplicate",
-        // "issue_type_id",
-        // "userable_type",
-        // "userable_id",
         return response()->json(
             Issue::with(['issueType'])->where('userable_type', Client::class)
                 ->where('userable_id', $request->client_id)
@@ -62,8 +56,63 @@ class IssueController extends Controller
         , 200);
     }
 
-    public function store()
+    /**
+     * @OA\Post(
+     *  path="/api/clients/issues",
+     *  summary="Create Client Issue",
+     *  description="Create Client Issue",
+     *  operationId="ClientCreateIssue",
+     *  tags={"ClientIssue"},
+     *  security={{"bearerAuth": {}}},
+     *  @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *          required={"issue_type_id","description"},
+     *         @OA\Property(property="issue_type_id", type="integer", example=""),
+     *         @OA\Property(property="description", type="string", example=""),
+     *         @OA\Property(property="image", type="file", format="file"),
+     *       ),
+     *     ),
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *  ),
+     *  @OA\Response(
+     *    response=422,
+     *    description="Wrong credentials response",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example=""),
+     *      @OA\Property(property="errors", type="object",
+     *         @OA\Property(property="dynamic-error-keys", type="array",
+     *           @OA\Items(type="string")
+     *         )
+     *       )
+     *     )
+     *  )
+     * )
+     */
+    public function store(CreateIssueRequest $request)
     {
-
+        if(Issue::create([
+            "description" => $request->description,
+            "image" => $request->image,
+            "issue_type_id" => $request->issue_type_id,
+            "userable_type" => Client::class,
+            "userable_id" => $request->client_id,
+        ])){
+            return response()->json([],200);
+        }else{
+            return response()->json([
+                "message" => "Error Creating Issue",
+                "errors" => [
+                    "description" => [
+                        "Error Creating Issue",
+                    ]
+                ]
+            ], 422);
+        }
     }
 }

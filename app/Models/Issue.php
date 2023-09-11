@@ -28,14 +28,20 @@ class Issue extends Model
         "userable_id",
     ];
 
-    public function setUserableTypeAttribute()
+    public function setUserableTypeAttribute($value)
     {
-        $this->attributes["userable_type"] = request("userable_type");
+        if (request("userable_type")) {
+            $this->attributes["userable_type"] = request("userable_type");
+        }
+        $this->attributes["userable_type"] = $value;
     }
 
-    public function setUserableIdAttribute()
+    public function setUserableIdAttribute($value)
     {
-        $this->attributes["userable_id"] = request("userable");
+        if (request("userable")) {
+            $this->attributes["userable_id"] = request("userable");
+        }
+        $this->attributes["userable_id"] = $value;
     }
 
     public function userable()
@@ -54,7 +60,6 @@ class Issue extends Model
         $destination_path = "public/uploads";
 
         if ($value == null) {
-
             $this->attributes[$attribute_name] = null;
         }
 
@@ -64,6 +69,20 @@ class Issue extends Model
             Storage::put($destination_path . '/' . $filename, $image->stream());
             $public_destination_path = Str::replaceFirst('public/', 'storage/', $destination_path);
             $this->attributes[$attribute_name] = $public_destination_path . '/' . $filename;
+        } elseif ($value) {
+            $image = Image::make($value)->encode('png', 90);
+            $filename = md5($value . time()) . '.png';
+            Storage::put($destination_path . '/' . $filename, $image->stream());
+            $public_destination_path = Str::replaceFirst('public/', 'storage/', $destination_path);
+            $this->attributes[$attribute_name] = $public_destination_path . '/' . $filename;
         }
+    }
+
+    public function getImageAttribute()
+    {
+        if ($this->attributes['image'] != null) {
+            return url($this->attributes['image']);
+        }
+        return null;
     }
 }
