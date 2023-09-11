@@ -185,8 +185,8 @@ class AuthController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"otp","code"},
-     *         @OA\Property(property="otp", type="string", example=""),
+     *          required={"otp_token","code"},
+     *         @OA\Property(property="otp_token", type="string", example=""),
      *         @OA\Property(property="code", type="string", example=""),
      *       ),
      *     ),
@@ -320,8 +320,8 @@ class AuthController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"token","password","password_confirmed"},
-     *         @OA\Property(property="token", type="string", example=""),
+     *          required={"forget_token","password","password_confirmed"},
+     *         @OA\Property(property="forget_token", type="string", example=""),
      *         @OA\Property(property="password", type="string", example=""),
      *         @OA\Property(property="password_confirmed", type="string", example=""),
      *       ),

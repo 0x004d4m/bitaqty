@@ -23,5 +23,5 @@ class Controller extends BaseController
      *    scheme="bearer",
      * )
      */
-    public function index(){}
+    public function Info(){}
 }

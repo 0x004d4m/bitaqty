@@ -9,7 +9,7 @@ class OtpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'otp' => 'required',
+            'otp_token' => 'required',
             'code' => 'required',
         ];
     }

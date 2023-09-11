@@ -227,19 +227,15 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "otp",
+                                    "otp_token",
                                     "code"
                                 ],
                                 "properties": {
-                                    "otp": {
+                                    "otp_token": {
                                         "type": "string",
                                         "example": ""
                                     },
                                     "code": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "access_token_expiry": {
                                         "type": "string",
                                         "example": ""
                                     }
@@ -261,6 +257,10 @@
                                             "example": ""
                                         },
                                         "refresh_token": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "access_token_expiry": {
                                             "type": "string",
                                             "example": ""
                                         }
@@ -391,7 +391,7 @@
                                     "username"
                                 ],
                                 "properties": {
-                                    "token": {
+                                    "forget_token": {
                                         "type": "string",
                                         "example": ""
                                     },
@@ -454,6 +454,78 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/clients/issues": {
+            "get": {
+                "tags": [
+                    "ClientIssue"
+                ],
+                "summary": "Issues",
+                "description": "Client Issues",
+                "operationId": "ClientIssues",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "countries": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "solution": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "is_solved": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "is_duplicate": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "issue_type_id": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "issue_type": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": 1,
+                                                            "name": ""
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/countries": {
@@ -765,11 +837,11 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "otp",
+                                    "otp_token",
                                     "code"
                                 ],
                                 "properties": {
-                                    "otp": {
+                                    "otp_token": {
                                         "type": "string",
                                         "example": ""
                                     },
@@ -926,12 +998,12 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "token",
+                                    "forget_token",
                                     "password",
                                     "password_confirmed"
                                 ],
                                 "properties": {
-                                    "token": {
+                                    "forget_token": {
                                         "type": "string",
                                         "example": ""
                                     },
@@ -1011,6 +1083,10 @@
         {
             "name": "ClientAuth",
             "description": "API Endpoints of Client Auth"
+        },
+        {
+            "name": "ClientIssue",
+            "description": "API Endpoints of Clients Issues"
         },
         {
             "name": "Country",

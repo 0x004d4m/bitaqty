@@ -12,7 +12,6 @@ use App\Mail\Client\RegisterMail;
 use App\Models\Client;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 /**
@@ -74,7 +73,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         $Client = Client::create($request->input());
-        if($Client){
+        if ($Client) {
             $Client->update([
                 'otp_token' => $Client->createToken('ClientOtpToken')->plainTextToken,
                 'otp_code' => 1234,
@@ -85,11 +84,11 @@ class AuthController extends Controller
             return response()->json([
                 "otp_token" => $Client->otp_token,
             ], 200);
-        }else{
+        } else {
             return response()->json([
                 "message" => "Error Creating Client",
                 "errors" => [
-                    "email"=>[
+                    "email" => [
                         "Error Creating Client",
                     ]
                 ]
@@ -139,10 +138,10 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $Client = Client::where('phone',$request->username)->first();
-        if(!$Client){
+        $Client = Client::where('phone', $request->username)->first();
+        if (!$Client) {
             $Client = Client::where('email', $request->username)->first();
-            if(!$Client){
+            if (!$Client) {
                 return response()->json([
                     "message" => "Wrong Username",
                     "errors" => [
@@ -153,7 +152,7 @@ class AuthController extends Controller
                 ], 422);
             }
         }
-        if (Hash::check($request->password,$Client->password)) {
+        if (Hash::check($request->password, $Client->password)) {
             $Client->update([
                 'fcm_token' => $request->fcm_token,
                 'otp_token' => $Client->createToken('ClientOtpToken')->plainTextToken,
@@ -169,7 +168,7 @@ class AuthController extends Controller
         return response()->json([
             "message" => "Wrong Password",
             "errors" => [
-                "username" => [
+                "password" => [
                     "Wrong Password",
                 ]
             ]
@@ -188,10 +187,9 @@ class AuthController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"otp","code"},
-     *         @OA\Property(property="otp", type="string", example=""),
+     *          required={"otp_token","code"},
+     *         @OA\Property(property="otp_token", type="string", example=""),
      *         @OA\Property(property="code", type="string", example=""),
-     *         @OA\Property(property="access_token_expiry", type="string", example=""),
      *       ),
      *     ),
      *  ),
@@ -201,6 +199,7 @@ class AuthController extends Controller
      *    @OA\JsonContent(
      *      @OA\Property(property="access_token", type="string", example=""),
      *      @OA\Property(property="refresh_token", type="string", example=""),
+     *      @OA\Property(property="access_token_expiry", type="string", example=""),
      *    )
      *  ),
      *  @OA\Response(
@@ -219,7 +218,7 @@ class AuthController extends Controller
      */
     public function otp(OtpRequest $request)
     {
-        $Client = Client::where('otp_token', $request->otp)->where('otp_code', $request->code)->first();
+        $Client = Client::where('otp_token', $request->otp_token)->where('otp_code', $request->code)->first();
         if ($Client) {
             $access_token_expiry = Carbon::now()->addDays(10);
             $Client->update([
@@ -324,7 +323,7 @@ class AuthController extends Controller
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
      *          required={"username"},
-     *         @OA\Property(property="token", type="string", example=""),
+     *         @OA\Property(property="forget_token", type="string", example=""),
      *         @OA\Property(property="password", type="string", example=""),
      *         @OA\Property(property="password_confirmed", type="string", example=""),
      *       ),
@@ -353,7 +352,7 @@ class AuthController extends Controller
      */
     public function reset(ResetPasswordRequest $request)
     {
-        $Client = Client::where('forget_token', $request->token)->first();
+        $Client = Client::where('forget_token', $request->forget_token)->first();
         if (!$Client) {
             return response()->json([
                 "message" => "Wrong Token",

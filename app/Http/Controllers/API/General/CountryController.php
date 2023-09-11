@@ -62,9 +62,9 @@ class CountryController extends Controller
     {
         return response()->json([
             "countries" => Country::with([
-                        'states',
-                        'currencies',
-                    ])->get()
+                'states',
+                'currencies',
+            ])->get()
         ], 200);
     }
 }
