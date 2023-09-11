@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Client\AuthController;
 use App\Http\Controllers\API\Client\IssueController;
 use App\Http\Controllers\API\Client\NewsController;
+use App\Http\Controllers\API\Client\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -33,7 +34,7 @@ Route::group([
             "prefix" => "notifications"
         ], function () {
             Route::get('/', [NotificationController::class, 'index']);
-            Route::delete('/', [NotificationController::class, 'destroy']);
+            Route::delete('/{id}', [NotificationController::class, 'destroy']);
         });
         Route::group([
             "prefix" => "issues"
