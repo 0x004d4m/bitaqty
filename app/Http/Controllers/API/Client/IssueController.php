@@ -4,9 +4,12 @@ namespace App\Http\Controllers\API\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Issues\CreateIssueRequest;
+use App\Http\Resources\General\CountryResource;
+use App\Http\Resources\General\IssueResource;
 use App\Models\Client;
 use App\Models\Issue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -30,7 +33,7 @@ class IssueController extends Controller
      *    description="Success",
      *    @OA\JsonContent(
      *      @OA\Property(
-     *          property="countries",
+     *          property="data",
      *          type="array",
      *          @OA\Items(
      *              @OA\Property(property="id", type="integer", example=""),
@@ -39,7 +42,6 @@ class IssueController extends Controller
      *              @OA\Property(property="solution", type="string", example=""),
      *              @OA\Property(property="is_solved", type="boolean", example=""),
      *              @OA\Property(property="is_duplicate", type="boolean", example=""),
-     *              @OA\Property(property="issue_type_id", type="boolean", example=""),
      *              @OA\Property(property="issue_type", type="object", example={"id":1,"name":""}),
      *          ),
      *      ),
@@ -49,11 +51,12 @@ class IssueController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(
-            Issue::with(['issueType'])->where('userable_type', Client::class)
-                ->where('userable_id', $request->client_id)
-                ->paginate()
-        , 200);
+        return IssueResource::collection(
+            Issue::with(['issueType'])
+            ->where('userable_type', Client::class)
+            ->where('userable_id', $request->client_id)
+            ->paginate()
+        );
     }
 
     /**

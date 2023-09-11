@@ -471,7 +471,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "countries": {
+                                        "data": {
                                             "type": "array",
                                             "items": {
                                                 "properties": {
@@ -496,10 +496,6 @@
                                                         "example": ""
                                                     },
                                                     "is_duplicate": {
-                                                        "type": "boolean",
-                                                        "example": ""
-                                                    },
-                                                    "issue_type_id": {
                                                         "type": "boolean",
                                                         "example": ""
                                                     },
@@ -601,6 +597,59 @@
                 ]
             }
         },
+        "/api/clients/news": {
+            "get": {
+                "tags": [
+                    "ClientNews"
+                ],
+                "summary": "News",
+                "description": "Client News",
+                "operationId": "ClientNews",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "action": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/countries": {
             "get": {
                 "tags": [
@@ -616,7 +665,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "countries": {
+                                        "data": {
                                             "type": "array",
                                             "items": {
                                                 "properties": {
@@ -643,10 +692,6 @@
                                                                 "name": {
                                                                     "type": "string",
                                                                     "example": ""
-                                                                },
-                                                                "country_id": {
-                                                                    "type": "string",
-                                                                    "example": ""
                                                                 }
                                                             },
                                                             "type": "object"
@@ -669,10 +714,6 @@
                                                                     "example": ""
                                                                 },
                                                                 "to_jod": {
-                                                                    "type": "string",
-                                                                    "example": ""
-                                                                },
-                                                                "country_id": {
                                                                     "type": "string",
                                                                     "example": ""
                                                                 }
@@ -1160,6 +1201,10 @@
         {
             "name": "ClientIssue",
             "description": "API Endpoints of Clients Issues"
+        },
+        {
+            "name": "ClientNews",
+            "description": "API Endpoints of Client News"
         },
         {
             "name": "Country",

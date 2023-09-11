@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\General;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\General\CountryResource;
 use App\Models\Country;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,7 @@ class CountryController extends Controller
      *    description="Success",
      *    @OA\JsonContent(
      *      @OA\Property(
-     *          property="countries",
+     *          property="data",
      *          type="array",
      *          @OA\Items(
      *              @OA\Property(property="id", type="integer", example=""),
@@ -38,7 +39,6 @@ class CountryController extends Controller
      *                  @OA\Items(
      *                      @OA\Property(property="id", type="integer", example=""),
      *                      @OA\Property(property="name", type="string", example=""),
-     *                      @OA\Property(property="country_id", type="string", example=""),
      *                  ),
      *              ),
      *              @OA\Property(
@@ -49,7 +49,6 @@ class CountryController extends Controller
      *                      @OA\Property(property="name", type="string", example=""),
      *                      @OA\Property(property="symbol", type="string", example=""),
      *                      @OA\Property(property="to_jod", type="string", example=""),
-     *                      @OA\Property(property="country_id", type="string", example=""),
      *                  ),
      *              ),
      *          ),
@@ -60,11 +59,11 @@ class CountryController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            "countries" => Country::with([
+        return CountryResource::collection(
+            Country::with([
                 'states',
                 'currencies',
             ])->get()
-        ], 200);
+        );
     }
 }

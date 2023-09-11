@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Client\AuthController;
 use App\Http\Controllers\API\Client\IssueController;
+use App\Http\Controllers\API\Client\NewsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
