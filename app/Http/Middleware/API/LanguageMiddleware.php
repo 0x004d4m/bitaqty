@@ -17,10 +17,10 @@ class LanguageMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->has('accept-language')) {
+        if (!$request->has('Accept-Language')) {
             App::setLocale('ar');
         } else {
-            App::setLocale($request->get('accept-language'));
+            App::setLocale($request->get('Accept-Language'));
         }
         return $next($request);
     }
