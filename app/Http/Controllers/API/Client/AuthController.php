@@ -82,7 +82,9 @@ class AuthController extends Controller
             //     Mail::to($Client->email)->send(new RegisterMail());
             // }
             return response()->json([
-                "otp_token" => $Client->otp_token,
+                "data"=>[
+                    "otp_token" => $Client->otp_token,
+                ]
             ], 200);
         } else {
             return response()->json([
@@ -162,7 +164,9 @@ class AuthController extends Controller
             //     Mail::to($Client->email)->send(new RegisterMail());
             // }
             return response()->json([
-                "otp_token" => $Client->otp_token,
+                "data" => [
+                    "otp_token" => $Client->otp_token,
+                ]
             ], 200);
         }
         return response()->json([
@@ -229,9 +233,11 @@ class AuthController extends Controller
                 "refresh_token" => $Client->createToken('ClientRefreshToken')->plainTextToken,
             ]);
             return response()->json([
+                "data" => [
                 "access_token" => $Client->access_token,
                 "refresh_token" => $Client->refresh_token,
                 "access_token_expiry" => $access_token_expiry,
+                ]
             ], 200);
         } else {
             return response()->json([
@@ -306,7 +312,9 @@ class AuthController extends Controller
         //     Mail::to($Client->email)->send(new RegisterMail());
         // }
         return response()->json([
-            "token" => $Client->forget_token,
+            "data"=>[
+                "token" => $Client->forget_token,
+            ]
         ], 200);
     }
 
@@ -332,9 +340,6 @@ class AuthController extends Controller
      *  @OA\Response(
      *    response=200,
      *    description="Success",
-     *    @OA\JsonContent(
-     *      @OA\Property(property="message", type="string", example="")
-     *    )
      *  ),
      *  @OA\Response(
      *    response=422,
@@ -371,8 +376,6 @@ class AuthController extends Controller
             'refresh_token' => null,
             'forget_token' => null,
         ]);
-        return response()->json([
-            "message" => "Password Resetted Successfully",
-        ], 200);
+        return response()->json([], 200);
     }
 }
