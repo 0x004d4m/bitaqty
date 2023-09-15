@@ -43,6 +43,6 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        return NewsResource::collection(News::orderBy('id', 'desc')->paginate());
+        return NewsResource::collection(News::orderBy('id', 'desc')->get());
     }
 }

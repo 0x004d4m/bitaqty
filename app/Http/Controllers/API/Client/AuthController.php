@@ -330,7 +330,7 @@ class AuthController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"username"},
+     *          required={"forget_token","password","password_confirmed"},
      *         @OA\Property(property="forget_token", type="string", example=""),
      *         @OA\Property(property="password", type="string", example=""),
      *         @OA\Property(property="password_confirmed", type="string", example=""),

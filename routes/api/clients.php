@@ -47,6 +47,14 @@ Route::group([
             "prefix" => "home"
         ], function () {
             Route::get('/', [HomeController::class, 'index']);
+            // Route::get('/onboarding', [HomeController::class, 'index']);
+            // Route::get('/creditsRequest', [HomeController::class, 'index']);
+            // Route::get('/prepaid_card', [HomeController::class, 'index']);
+            // Route::get('/send_credit', [HomeController::class, 'index']);
+            // Route::get('/creditHistory', [HomeController::class, 'index']);
+            // Route::get('/change_currency', [HomeController::class, 'index']);
+            // Route::get('/privacy_policy', [HomeController::class, 'index']);
+            // Route::get('/terms_and_conditions', [HomeController::class, 'index']);
         });
     });
 });
