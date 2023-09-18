@@ -21,11 +21,7 @@ Route::group([
         Route::post('forget', [AuthController::class, 'forget']);
         Route::post('reset', [AuthController::class, 'reset']);
     });
-    Route::group([
-        "prefix" => "news"
-    ], function () {
-        Route::get('/', [NewsController::class, 'index']);
-    });
+    Route::get('/news', [NewsController::class, 'index']);
     Route::get('/onboarding', [OnboardingController::class, 'index']);
     Route::get('/privacy_policy', [TermsController::class, 'privacy']);
     Route::get('/terms_and_conditions', [TermsController::class, 'terms']);
@@ -48,11 +44,11 @@ Route::group([
             Route::get('/', [IssueController::class, 'index']);
             Route::post('/', [IssueController::class, 'store']);
         });
+        // Route::get('/creditsRequest', [HomeController::class, 'index']);
         Route::group([
             "prefix" => "home"
         ], function () {
-            Route::get('/', [HomeController::class, 'index']);
-            // Route::get('/creditsRequest', [HomeController::class, 'index']);
+            // Route::get('/', [HomeController::class, 'index']);
             // Route::get('/prepaid_card', [HomeController::class, 'index']);
             // Route::get('/send_credit', [HomeController::class, 'index']);
             // Route::get('/creditHistory', [HomeController::class, 'index']);

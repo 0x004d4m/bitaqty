@@ -27,6 +27,7 @@ class Onboarding extends Model
         'title',
         'description',
         'image',
+        'type',
     ];
 
     public function setImageAttribute($value)

@@ -42,6 +42,6 @@ class OnboardingController extends Controller
      */
     public function index(Request $request)
     {
-        return OnboardingResource::collection(Onboarding::get());
+        return OnboardingResource::collection(Onboarding::where('type', 'client')->get());
     }
 }

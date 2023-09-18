@@ -22,6 +22,7 @@ class NewsCrudController extends CrudController
 
     protected function setupListOperation()
     {
+        $this->crud->column('type')->label(__('admin_fields.type'))->type('type');
         $this->crud->column('title')->label(__('admin_fields.title'))->type('text');
         $this->crud->column('description')->label(__('admin_fields.description'))->type('textarea');
         $this->crud->column('action')->label(__('admin_fields.action'))->type('text');
@@ -31,6 +32,13 @@ class NewsCrudController extends CrudController
     {
         $this->crud->setValidation(NewsRequest::class);
 
+        $this->crud->addField([   // select_from_array
+            'name'        => 'type',
+            'label'       => __('admin_fields.type'),
+            'type'        => 'select_from_array',
+            'options'     => ['client' => 'client', 'vendor' => 'vendor'],
+            'allows_null' => false,
+        ]);
         $this->crud->field('title')->label(__('admin_fields.title'))->type('text');
         $this->crud->field('description')->label(__('admin_fields.description'))->type('textarea');
         $this->crud->field('action')->label(__('admin_fields.action'))->type('text');
