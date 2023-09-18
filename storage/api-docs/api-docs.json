@@ -763,6 +763,54 @@
                 ]
             }
         },
+        "/api/clients/onboarding": {
+            "get": {
+                "tags": [
+                    "ClientOnboardings"
+                ],
+                "summary": "Onboarding",
+                "description": "Client Onboardings",
+                "operationId": "ClientOnboardings",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/clients": {
             "get": {
                 "tags": [
@@ -1057,6 +1105,70 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/clients/privacy_policy": {
+            "get": {
+                "tags": [
+                    "ClientTerms"
+                ],
+                "summary": "terms",
+                "description": "Client Terms",
+                "operationId": "ClientTerms",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 0,
+                                                "name": "",
+                                                "term": ""
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/clients/terms_and_conditions": {
+            "get": {
+                "tags": [
+                    "ClientTerms"
+                ],
+                "summary": "Privacy",
+                "description": "Client Privacy",
+                "operationId": "ClientPrivacy",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 0,
+                                                "name": "",
+                                                "term": ""
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/countries": {
@@ -1660,8 +1772,16 @@
             "description": "API Endpoints of Client Notification"
         },
         {
+            "name": "ClientOnboardings",
+            "description": "API Endpoints of Client Onboardings"
+        },
+        {
             "name": "ClientProfile",
             "description": "API Endpoints of Client Profile"
+        },
+        {
+            "name": "ClientTerms",
+            "description": "API Endpoints of Client Terms"
         },
         {
             "name": "General",

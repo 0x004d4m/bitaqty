@@ -4,7 +4,9 @@ use App\Http\Controllers\API\Client\AuthController;
 use App\Http\Controllers\API\Client\IssueController;
 use App\Http\Controllers\API\Client\NewsController;
 use App\Http\Controllers\API\Client\NotificationController;
+use App\Http\Controllers\API\Client\OnboardingController;
 use App\Http\Controllers\API\Client\ProfileController;
+use App\Http\Controllers\API\Client\TermsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -24,6 +26,9 @@ Route::group([
     ], function () {
         Route::get('/', [NewsController::class, 'index']);
     });
+    Route::get('/onboarding', [OnboardingController::class, 'index']);
+    Route::get('/privacy_policy', [TermsController::class, 'privacy']);
+    Route::get('/terms_and_conditions', [TermsController::class, 'terms']);
     Route::group([
         "middleware" => "ClientAuth"
     ], function () {
@@ -47,14 +52,11 @@ Route::group([
             "prefix" => "home"
         ], function () {
             Route::get('/', [HomeController::class, 'index']);
-            // Route::get('/onboarding', [HomeController::class, 'index']);
             // Route::get('/creditsRequest', [HomeController::class, 'index']);
             // Route::get('/prepaid_card', [HomeController::class, 'index']);
             // Route::get('/send_credit', [HomeController::class, 'index']);
             // Route::get('/creditHistory', [HomeController::class, 'index']);
             // Route::get('/change_currency', [HomeController::class, 'index']);
-            // Route::get('/privacy_policy', [HomeController::class, 'index']);
-            // Route::get('/terms_and_conditions', [HomeController::class, 'index']);
         });
     });
 });

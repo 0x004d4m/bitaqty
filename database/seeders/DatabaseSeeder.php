@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             Maintenances::class,
             FieldTypes::class,
             StatusesSeeder::class,
+            TermsSeeder::class,
         ]);
     }
 }

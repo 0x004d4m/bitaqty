@@ -8,9 +8,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 class TermCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     public function setup()
@@ -23,24 +21,20 @@ class TermCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->column('name')->label(__('admin_fields.name'))->type('text');
-        $this->crud->column('term')->label(__('admin_fields.term'))->type('textarea');
-    }
-
-    protected function setupCreateOperation()
-    {
-        $this->crud->setValidation(TermRequest::class);
-
-        $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
-        $this->crud->field('term')->label(__('admin_fields.term'))->type('textarea');
+        $this->crud->column('term')->label(__('admin_fields.term'))->type('hidden');
     }
 
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        $this->crud->setValidation(TermRequest::class);
+
+        $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
+        $this->crud->field('term')->label(__('admin_fields.term'))->type('CKEditor');
     }
 
     protected function setupShowOperation()
     {
-        $this->setupListOperation();
+        $this->crud->column('name')->label(__('admin_fields.name'))->type('text');
+        $this->crud->column('term')->label(__('admin_fields.term'))->type('textarea');
     }
 }
