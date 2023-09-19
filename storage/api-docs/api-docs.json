@@ -551,7 +551,6 @@
                                     "amount",
                                     "notes",
                                     "deposit_or_withdraw",
-                                    "credit_type_id",
                                     "supported_account_id"
                                 ],
                                 "properties": {
@@ -568,10 +567,6 @@
                                         "example": ""
                                     },
                                     "deposit_or_withdraw": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "credit_type_id": {
                                         "type": "string",
                                         "example": ""
                                     },

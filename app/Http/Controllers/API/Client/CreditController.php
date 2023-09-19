@@ -77,12 +77,11 @@ class CreditController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"image","amount","notes","deposit_or_withdraw","credit_type_id","supported_account_id"},
+     *          required={"image","amount","notes","deposit_or_withdraw","supported_account_id"},
      *         @OA\Property(property="image", type="string", example=""),
      *         @OA\Property(property="amount", type="string", example=""),
      *         @OA\Property(property="notes", type="string", example=""),
      *         @OA\Property(property="deposit_or_withdraw", type="string", example=""),
-     *         @OA\Property(property="credit_type_id", type="string", example=""),
      *         @OA\Property(property="supported_account_id", type="string", example=""),
      *       ),
      *     ),
@@ -119,7 +118,7 @@ class CreditController extends Controller
             "amount" => $request->amount,
             "notes" => $request->notes,
             "deposit_or_withdraw" => $request->deposit_or_withdraw,
-            "credit_type_id" => $request->credit_type_id,
+            "credit_type_id" => 1,
             "supported_account_id" => $request->supported_account_id,
             "credit_before" => $Client->credit,
             "credit_after" => $balance,
