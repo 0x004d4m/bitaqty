@@ -931,6 +931,10 @@
                                                     "is_read": {
                                                         "type": "string",
                                                         "example": ""
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": ""
                                                     }
                                                 },
                                                 "type": "object"
@@ -958,6 +962,67 @@
                 "summary": "Notifications",
                 "description": "Client Delete Notifications",
                 "operationId": "ClientDeleteNotifications",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "notification id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "ClientNotification"
+                ],
+                "summary": "Notifications",
+                "description": "Client Read Notifications",
+                "operationId": "ClientReadNotifications",
                 "parameters": [
                     {
                         "name": "id",

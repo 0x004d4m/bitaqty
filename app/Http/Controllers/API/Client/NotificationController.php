@@ -105,4 +105,59 @@ class NotificationController extends Controller
             ]
         ], 422);
     }
+
+    /**
+     * @OA\patch(
+     *  path="/api/clients/notifications/{id}",
+     *  summary="Notifications",
+     *  description="Client Read Notifications",
+     *  operationId="ClientReadNotifications",
+     *  tags={"ClientNotification"},
+     *  security={{"bearerAuth": {}}},
+     *  @OA\Parameter(
+     *     name="id",
+     *     description="notification id",
+     *     required=true,
+     *     in="path",
+     *     @OA\Schema(
+     *         type="integer"
+     *     )
+     *  ),
+     *  @OA\Response(
+     *     response=200,
+     *     description="Success",
+     *     @OA\JsonContent()
+     *  ),
+     *  @OA\Response(
+     *    response=422,
+     *    description="Wrong credentials response",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example=""),
+     *      @OA\Property(property="errors", type="object",
+     *         @OA\Property(property="dynamic-error-keys", type="array",
+     *           @OA\Items(type="string")
+     *         )
+     *       )
+     *     )
+     *  )
+     * )
+     */
+    public function read(Request $request, $id)
+    {
+        $Notification = Notification::where('id', $id)->first();
+        if($Notification){
+            $Notification->update([
+                'is_read'=>1
+            ]);
+            return response([], 200);
+        }
+        return response()->json([
+            "message" => "Wrong ID",
+            "errors" => [
+                "id" => [
+                    "Wrong ID",
+                ]
+            ]
+        ], 422);
+    }
 }
