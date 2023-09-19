@@ -37,6 +37,7 @@ class NotificationController extends Controller
      *              @OA\Property(property="image", type="string", example=""),
      *              @OA\Property(property="data", type="object", example={}),
      *              @OA\Property(property="is_read", type="string", example=""),
+     *              @OA\Property(property="created_at", type="string", example=""),
      *          ),
      *      ),
      *    ),
