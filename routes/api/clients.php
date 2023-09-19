@@ -38,6 +38,7 @@ Route::group([
         ], function () {
             Route::get('/', [NotificationController::class, 'index']);
             Route::delete('/{id}', [NotificationController::class, 'destroy']);
+            Route::patch('/{id}', [NotificationController::class, 'read']);
         });
         Route::group([
             "prefix" => "issues"
