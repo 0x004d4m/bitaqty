@@ -81,4 +81,8 @@ return [
     'vendors' => 'Vendors',
     'fields' => 'Fields',
     'code' => 'Code',
+    'userable_from_type' => 'Sender Type',
+    'user_from' => 'Sender Name',
+    'credit_from_before' => 'Sender Credit Before Operation',
+    'credit_from_after' => 'Sender Credit After Operation',
 ];

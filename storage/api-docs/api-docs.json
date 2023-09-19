@@ -445,6 +445,261 @@
                 }
             }
         },
+        "/api/clients/credits": {
+            "get": {
+                "tags": [
+                    "ClientCredits"
+                ],
+                "summary": "Credits",
+                "description": "Client Credits",
+                "operationId": "ClientCredits",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "amount": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "notes": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "deposit_or_withdraw": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "credit_type": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": ""
+                                                        }
+                                                    },
+                                                    "supported_account": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "image": ""
+                                                        }
+                                                    },
+                                                    "credit_status": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": ""
+                                                        }
+                                                    },
+                                                    "from": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "name": "",
+                                                            "email": "",
+                                                            "phone": "",
+                                                            "image": ""
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/credits/request": {
+            "post": {
+                "tags": [
+                    "ClientCredits"
+                ],
+                "summary": "Client Credits Request",
+                "description": "Client Credits Request",
+                "operationId": "ClientCreditsRequest",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "image",
+                                    "amount",
+                                    "notes",
+                                    "deposit_or_withdraw",
+                                    "credit_type_id",
+                                    "supported_account_id"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "amount": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "deposit_or_withdraw": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "credit_type_id": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "supported_account_id": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/credits/send": {
+            "post": {
+                "tags": [
+                    "ClientCredits"
+                ],
+                "summary": "Client Credits Send",
+                "description": "Client Credits Send",
+                "operationId": "ClientCreditsSend",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "amount",
+                                    "notes",
+                                    "to_client_email_or_phone"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "to_client_email_or_phone": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/clients/issues": {
             "get": {
                 "tags": [
@@ -1255,6 +1510,134 @@
                 }
             }
         },
+        "/api/creditStatuses": {
+            "get": {
+                "tags": [
+                    "General"
+                ],
+                "summary": "CreditStatuses",
+                "description": "CreditStatuses",
+                "operationId": "CreditStatuses",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/creditTypes": {
+            "get": {
+                "tags": [
+                    "General"
+                ],
+                "summary": "CreditTypes",
+                "description": "CreditTypes",
+                "operationId": "CreditTypes",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/currencies": {
+            "get": {
+                "tags": [
+                    "General"
+                ],
+                "summary": "Currencies",
+                "description": "Currencies",
+                "operationId": "Currencies",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "symbol": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "to_jod": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/issueTypes": {
             "get": {
                 "tags": [
@@ -1279,6 +1662,50 @@
                                                         "example": ""
                                                     },
                                                     "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/supportedAccounts": {
+            "get": {
+                "tags": [
+                    "General"
+                ],
+                "summary": "SupportedAccounts",
+                "description": "SupportedAccounts",
+                "operationId": "SupportedAccounts",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
                                                         "type": "string",
                                                         "example": ""
                                                     }
@@ -1758,6 +2185,10 @@
         {
             "name": "ClientAuth",
             "description": "API Endpoints of Client Auth"
+        },
+        {
+            "name": "ClientCredits",
+            "description": "API Endpoints of Client Credits"
         },
         {
             "name": "ClientIssue",

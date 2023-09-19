@@ -81,4 +81,8 @@ return [
     'vendors' => 'التجار',
     'fields' => 'الحقول',
     'code' => 'الرمز',
+    'userable_from_type' => 'نوع المرسل',
+    'user_from' => 'المرسل',
+    'credit_from_before' => 'رصيد المرسل قبل العملية',
+    'credit_from_after' => 'رصيد المرسل بعد العملية',
 ];

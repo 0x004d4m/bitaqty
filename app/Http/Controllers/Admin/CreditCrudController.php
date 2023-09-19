@@ -88,6 +88,30 @@ class CreditCrudController extends CrudController
             'attribute' => "name",
             'model' => 'App\Models\CreditStatus'
         ]);
+        $this->crud->addColumn([
+            'name'     => 'userable_from_type',
+            'label'    => __('admin_fields.userable_from_type'),
+            'type'     => 'closure',
+            'function' => function ($entry) {
+                return str_replace("App\\Models\\", "", $entry->userable_from_type);
+            }
+        ]);
+        $this->crud->addColumn('userable_from_id', [
+            'label' => __('admin_fields.user_from'),
+            'type' => "select",
+            'name' => 'userable_id',
+            'entity' => 'userable',
+            'attribute' => "name",
+        ]);
+        $this->crud->setColumnDetails('userable_from_id', [
+            'label' => __('admin_fields.user_from'),
+            'type' => "select",
+            'name' => 'userable_id',
+            'entity' => 'userable',
+            'attribute' => "name",
+        ]);
+        $this->crud->column('credit_from_before')->label(__('admin_fields.credit_from_before'))->type('double');
+        $this->crud->column('credit_from_after')->label(__('admin_fields.credit_from_after'))->type('double');
     }
 
     protected function setupCreateOperation()

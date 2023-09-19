@@ -29,21 +29,58 @@ class Credit extends Model
         "userable_type",
         "userable_id",
         "supported_account_id",
+        "userable_from_type",
+        "userable_from_id",
+        "credit_from_before",
+        "credit_from_after",
     ];
-
-    public function setUserableTypeAttribute()
-    {
-        $this->attributes["userable_type"] = request("userable_type");
-    }
-
-    public function setUserableIdAttribute()
-    {
-        $this->attributes["userable_id"] = request("userable");
-    }
 
     public function userable()
     {
         return $this->morphTo();
+    }
+
+    public function setUserableTypeAttribute($value)
+    {
+        if (request("userable_type")) {
+            $this->attributes["userable_type"] = request("userable_type");
+        }
+        $this->attributes["userable_type"] = $value;
+    }
+
+    public function setUserableIdAttribute($value)
+    {
+        if (request("userable")) {
+            $this->attributes["userable_id"] = request("userable");
+        }
+        $this->attributes["userable_id"] = $value;
+    }
+
+    public function userableFrom()
+    {
+        return $this->morphTo();
+    }
+
+    public function setUserableFromTypeAttribute($value)
+    {
+        if (request("userable_from_type")) {
+            $this->attributes["userable_from_type"] = request("userable_from_type");
+        }
+        if($value==null){
+            $this->attributes["userable_from_type"] = User::class;
+        }
+        $this->attributes["userable_from_type"] = $value;
+    }
+
+    public function setUserableFromIdAttribute($value)
+    {
+        if (request("userable_from")) {
+            $this->attributes["userable_from_id"] = request("userable_from");
+        }
+        if ($value == null) {
+            $this->attributes["userable_from_id"] = backpack_user()->id;
+        }
+        $this->attributes["userable_from_id"] = $value;
     }
 
     public function creditType()

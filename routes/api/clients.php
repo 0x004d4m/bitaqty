@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Client\AuthController;
+use App\Http\Controllers\API\Client\CreditController;
 use App\Http\Controllers\API\Client\IssueController;
 use App\Http\Controllers\API\Client\NewsController;
 use App\Http\Controllers\API\Client\NotificationController;
@@ -44,15 +45,17 @@ Route::group([
             Route::get('/', [IssueController::class, 'index']);
             Route::post('/', [IssueController::class, 'store']);
         });
-        // Route::get('/creditsRequest', [HomeController::class, 'index']);
+        // Route::get('/prepaid_card', [HomeController::class, 'index']);
         Route::group([
-            "prefix" => "home"
+            "middleware" => "Currency"
         ], function () {
-            // Route::get('/', [HomeController::class, 'index']);
-            // Route::get('/prepaid_card', [HomeController::class, 'index']);
-            // Route::get('/send_credit', [HomeController::class, 'index']);
-            // Route::get('/creditHistory', [HomeController::class, 'index']);
-            // Route::get('/change_currency', [HomeController::class, 'index']);
+            Route::group([
+                "prefix" => "credits"
+            ], function () {
+                Route::get('/', [CreditController::class, 'index']);
+                Route::post('/request', [CreditController::class, 'request']);
+                Route::post('/send', [CreditController::class, 'send']);
+            });
         });
     });
 });
