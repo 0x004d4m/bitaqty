@@ -40,7 +40,7 @@ class Subcategory extends Model
 
     public function clients()
     {
-        return $this->belongsToMany(Client::class, 'subcategory_clients');
+        return $this->belongsToMany('App\Models\Client', 'subcategory_clients');
     }
 
     public function fields()

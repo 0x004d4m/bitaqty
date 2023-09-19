@@ -58,7 +58,7 @@ class CreditController extends Controller
                 'creditStatus',
                 'userableFrom',
             ])
-                ->where('userable_type', Client::class)
+                ->where('userable_type', 'App\Models\Client')
                 ->where('userable_id', $request->client_id)
                 ->paginate()
         );
@@ -123,9 +123,9 @@ class CreditController extends Controller
             "credit_before" => $Client->credit,
             "credit_after" => $balance,
             "credit_status_id" => 1,
-            "userable_type" => Client::class,
+            "userable_type" => 'App\Models\Client',
             "userable_id" => $request->client_id,
-            "userable_type" => Client::class,
+            "userable_type" => 'App\Models\Client',
             "userable_id" => $request->client_id,
         ])) {
             return response()->json([], 200);
@@ -217,9 +217,9 @@ class CreditController extends Controller
             "credit_before" => $From->credit,
             "credit_after" => $balanceFrom,
             "credit_status_id" => 1,
-            "userable_type" => Client::class,
+            "userable_type" => 'App\Models\Client',
             "userable_id" => $request->client_id,
-            "userable_from_type" => Client::class,
+            "userable_from_type" => 'App\Models\Client',
             "userable_from_id" => $To->client_id,
             "credit_from_before" => $To->credit,
             "credit_from_after" => $balanceTo,
