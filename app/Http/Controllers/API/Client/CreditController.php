@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\API\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\CreditPrepaidRequset;
+use App\Http\Requests\Client\CreditQrRequest;
 use App\Http\Requests\Client\CreditRequestRequset;
 use App\Http\Requests\Client\CreditSendRequset;
 use App\Http\Resources\Client\CreditResource;
 use App\Models\Client;
 use App\Models\Credit;
+use App\Models\CreditCard;
 use Illuminate\Http\Request;
 
 /**
@@ -51,16 +54,18 @@ class CreditController extends Controller
      */
     public function index(Request $request)
     {
+        $client_id = $request->client_id;
         return CreditResource::collection(
             Credit::with([
                 'creditType',
                 'supportedAccount',
                 'creditStatus',
                 'userableFrom',
-            ])
-                ->where('userable_type', 'App\Models\Client')
-                ->where('userable_id', $request->client_id)
-                ->paginate()
+            ])->where(function ($q) use ($client_id) {
+                $q->where('userable_type', 'App\Models\Client')->where('userable_id', $client_id);
+            })->orWhere(function ($q) use ($client_id) {
+                $q->where('userable_from_type', 'App\Models\Client')->where('userable_from_id', $client_id);
+            })->paginate()
         );
     }
 
@@ -123,8 +128,6 @@ class CreditController extends Controller
             "credit_before" => $Client->credit,
             "credit_after" => $balance,
             "credit_status_id" => 1,
-            "userable_type" => 'App\Models\Client',
-            "userable_id" => $request->client_id,
             "userable_type" => 'App\Models\Client',
             "userable_id" => $request->client_id,
         ])) {
@@ -214,15 +217,15 @@ class CreditController extends Controller
             "notes" => $request->notes,
             "deposit_or_withdraw" => 0,
             "credit_type_id" => 4,
-            "credit_before" => $From->credit,
-            "credit_after" => $balanceFrom,
+            "credit_before" => $To->credit,
+            "credit_after" => $balanceTo,
             "credit_status_id" => 1,
             "userable_type" => 'App\Models\Client',
-            "userable_id" => $request->client_id,
+            "userable_id" => $To->client_id,
             "userable_from_type" => 'App\Models\Client',
-            "userable_from_id" => $To->client_id,
-            "credit_from_before" => $To->credit,
-            "credit_from_after" => $balanceTo,
+            "userable_from_id" => $From->id,
+            "credit_from_before" => $From->credit,
+            "credit_from_after" => $balanceFrom,
         ])) {
             return response()->json([], 200);
         } else {
@@ -230,6 +233,177 @@ class CreditController extends Controller
                 "message" => "Error Requesting Credit",
                 "errors" => [
                     "to_client_email_or_phone" => [
+                        "Error Requesting Credit",
+                    ]
+                ]
+            ], 422);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *  path="/api/clients/credits/qr/{number}",
+     *  summary="Client Credits Top Up By QR",
+     *  description="Client Credits Top Up By QR",
+     *  operationId="ClientCreditsQR",
+     *  tags={"ClientCredits"},
+     *  security={{"bearerAuth": {}}},
+     *  @OA\Parameter(
+     *     name="number",
+     *     description="QR number",
+     *     required=true,
+     *     in="path",
+     *     @OA\Schema(
+     *         type="integer"
+     *     )
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *  ),
+     *  @OA\Response(
+     *    response=422,
+     *    description="Wrong credentials response",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example=""),
+     *      @OA\Property(property="errors", type="object",
+     *         @OA\Property(property="dynamic-error-keys", type="array",
+     *           @OA\Items(type="string")
+     *         )
+     *       )
+     *     )
+     *  )
+     * )
+     */
+    public function qr(Request $request, $number)
+    {
+        $CreditCard = CreditCard::where('url', url("/api/clients/credits/qr/" . $number))->first();
+        if (!$CreditCard) {
+            return response()->json([
+                "message" => "Wrong QR",
+                "errors" => [
+                    "qr" => [
+                        "Wrong QR",
+                    ]
+                ]
+            ], 422);
+        } else {
+            if ($CreditCard->is_used) {
+                return response()->json([
+                    "message" => "QR Used Before",
+                    "errors" => [
+                        "qr" => [
+                            "QR Used Before",
+                        ]
+                    ]
+                ], 422);
+            }
+        }
+        $Client = Client::where('id', $request->client_id)->first();
+        $balance = $Client->credit + $CreditCard->value;
+        if (Credit::create([
+            "amount" => $CreditCard->value,
+            "notes" => 'QR Top Up',
+            "deposit_or_withdraw" => 0,
+            "credit_type_id" => 2,
+            "credit_before" => $Client->credit,
+            "credit_after" => $balance,
+            "credit_status_id" => 1,
+            "userable_type" => 'App\Models\Client',
+            "userable_id" => $request->client_id,
+        ])) {
+            return response()->json([], 200);
+        } else {
+            return response()->json([
+                "message" => "Error Adding Credit",
+                "errors" => [
+                    "to_client_email_or_phone" => [
+                        "Error Adding Credit",
+                    ]
+                ]
+            ], 422);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *  path="/api/clients/credits/prepaid",
+     *  summary="Client Credits Prepaid Top Up",
+     *  description="Client Credits Prepaid Top Up",
+     *  operationId="ClientCreditsPrepaid",
+     *  tags={"ClientCredits"},
+     *  security={{"bearerAuth": {}}},
+     *  @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *          required={"number"},
+     *         @OA\Property(property="number", type="string", example=""),
+     *       ),
+     *     ),
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *  ),
+     *  @OA\Response(
+     *    response=422,
+     *    description="Wrong credentials response",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example=""),
+     *      @OA\Property(property="errors", type="object",
+     *         @OA\Property(property="dynamic-error-keys", type="array",
+     *           @OA\Items(type="string")
+     *         )
+     *       )
+     *     )
+     *  )
+     * )
+     */
+    public function prepaid(CreditPrepaidRequset $request)
+    {
+        $CreditCard = CreditCard::where('number', $request->number)->first();
+        if (!$CreditCard) {
+            return response()->json([
+                "message" => "Wrong Card Number",
+                "errors" => [
+                    "number" => [
+                        "Wrong Card Number",
+                    ]
+                ]
+            ], 422);
+        } else {
+            if ($CreditCard->is_used) {
+                return response()->json([
+                    "message" => "Card Used Before",
+                    "errors" => [
+                        "number" => [
+                            "Card Used Before",
+                        ]
+                    ]
+                ], 422);
+            }
+        }
+        $Client = Client::where('id', $request->client_id)->first();
+        $balance = $Client->credit + $CreditCard->value;
+        if (Credit::create([
+            "amount" => $CreditCard->value,
+            "notes" => "",
+            "deposit_or_withdraw" => 0,
+            "credit_type_id" => 3,
+            "credit_before" => $Client->credit,
+            "credit_after" => $balance,
+            "credit_status_id" => 1,
+            "userable_type" => 'App\Models\Client',
+            "userable_id" => $request->client_id,
+        ])) {
+            return response()->json([], 200);
+        } else {
+            return response()->json([
+                "message" => "Error Requesting Credit",
+                "errors" => [
+                    "number" => [
                         "Error Requesting Credit",
                     ]
                 ]

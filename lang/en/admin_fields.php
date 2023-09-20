@@ -85,4 +85,5 @@ return [
     'user_from' => 'Sender Name',
     'credit_from_before' => 'Sender Credit Before Operation',
     'credit_from_after' => 'Sender Credit After Operation',
+    'is_used' => 'Used?',
 ];

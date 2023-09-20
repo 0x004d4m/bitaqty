@@ -10,7 +10,6 @@ class CreditCardCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
@@ -25,7 +24,7 @@ class CreditCardCrudController extends CrudController
     {
         $this->crud->column('number')->label(__('admin_fields.number'))->type('text');
         $this->crud->column('value')->label(__('admin_fields.value'))->type('double');
-        $this->crud->column('qr')->label(__('admin_fields.qr'))->type('text');
+        $this->crud->column('is_used')->label(__('admin_fields.is_used'))->type('boolean');
     }
 
     protected function setupCreateOperation()
@@ -36,12 +35,8 @@ class CreditCardCrudController extends CrudController
             "readonly"=>true
         ]);
         $this->crud->field('value')->label(__('admin_fields.value'))->type('double');
-        $this->crud->field('qr')->label(__('admin_fields.qr'))->type('text');
-    }
-
-    protected function setupUpdateOperation()
-    {
-        $this->setupCreateOperation();
+        $this->crud->field('qr')->label(__('admin_fields.qr'))->type('hidden');
+        $this->crud->field('is_used')->label(__('admin_fields.is_used'))->type('boolean');
     }
 
     protected function setupShowOperation()

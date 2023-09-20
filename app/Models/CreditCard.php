@@ -18,5 +18,11 @@ class CreditCard extends Model
         "number",
         "value",
         "qr",
+        "is_used",
     ];
+
+    public function setQrAttribute($value)
+    {
+        return $this->attributes['qr'] = url("/api/clients/credits/qr/". md5($this->attributes['number']));
+    }
 }
