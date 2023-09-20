@@ -24,6 +24,7 @@ class CreditCardCrudController extends CrudController
     {
         $this->crud->column('number')->label(__('admin_fields.number'))->type('text');
         $this->crud->column('value')->label(__('admin_fields.value'))->type('double');
+        $this->crud->column('qr')->label(__('admin_fields.qr'))->type('textarea');
         $this->crud->column('is_used')->label(__('admin_fields.is_used'))->type('boolean');
     }
 
