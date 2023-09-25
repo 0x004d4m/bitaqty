@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dashboard_values', function (Blueprint $table) {
             $table->id();
             $table->json('name');
-            $table->boolean('is_visible');
+            $table->boolean('is_visible')->default(false);;
             $table->timestamps();
             $table->softDeletes();
         });

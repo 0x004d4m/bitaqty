@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\PrepaidCardStockImportRequest;
 use App\Http\Requests\PrepaidCardStockRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
@@ -70,7 +71,7 @@ class PrepaidCardStockCrudController extends CrudController
 
     protected function setupImportOperation()
     {
-        $this->crud->setValidation(PrepaidCardStockRequest::class);
+        $this->crud->setValidation(PrepaidCardStockImportRequest::class);
 
         $this->crud->addField([
             'label' => __('admin_fields.product'),

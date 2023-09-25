@@ -25,7 +25,9 @@ class NotificationRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'title' => 'required',
+            'description' => 'required',
+            'userable_type' => 'required',
         ];
     }
 

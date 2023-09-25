@@ -25,7 +25,10 @@ class CurrencyRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required',
+            'symbol' => 'required',
+            'to_jod' => 'required',
+            'country_id' => 'required',
         ];
     }
 

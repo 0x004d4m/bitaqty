@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->json('title');
             $table->json('description');
-            $table->text('image');
-            $table->json('data');
-            $table->boolean('is_read');
-            $table->morphs('userable');
+            $table->text('image')->nullable();
+            $table->json('data')->default("{}");
+            $table->boolean('is_read')->default(false);;
+            $table->nullableMorphs('userable');
             $table->timestamps();
             $table->softDeletes();
         });

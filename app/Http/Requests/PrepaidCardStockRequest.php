@@ -26,9 +26,7 @@ class PrepaidCardStockRequest extends FormRequest
     {
         return [
             'serial1' => 'required',
-            'serial2' => 'required',
             'number1' => 'required',
-            'number2' => 'required',
             'cvc' => 'required',
             'expiration_date' => 'required',
             'product_id' => 'required',

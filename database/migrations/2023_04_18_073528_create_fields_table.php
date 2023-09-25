@@ -16,7 +16,7 @@ return new class extends Migration
             $table->json('name');
             $table->unsignedBigInteger('field_type_id');
             $table->foreign('field_type_id')->references('id')->on('field_types');
-            $table->boolean('is_confirmed');
+            $table->boolean('is_confirmed')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('maintenances', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(false);;
             $table->timestamps();
             $table->softDeletes();
         });

@@ -25,7 +25,18 @@ class ClientRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+            'password' => 'required',
+            'commercial_name' => 'required',
+            'email' => 'required',
+            'country_id' => 'required',
+            'state_id' => 'required',
+            'currency_id' => 'required',
+            'image' => 'required',
+            'vendor_id' => 'required',
+            'group_id' => 'required',
         ];
     }
 

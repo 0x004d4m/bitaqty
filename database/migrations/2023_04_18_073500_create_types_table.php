@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->json('name');
             $table->text('image');
-            $table->boolean('need_approval');
-            $table->boolean('is_active');
+            $table->boolean('need_approval')->default(false);
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

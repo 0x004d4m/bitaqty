@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('number');
             $table->string('value');
             $table->text('qr');
+            $table->boolean('is_used')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

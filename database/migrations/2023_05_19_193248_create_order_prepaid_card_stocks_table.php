@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('order_prepaid_card_stocks', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_printed');
+            $table->boolean('is_printed')->default(false);;
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders');
             $table->unsignedBigInteger('prepaid_card_stock_id');

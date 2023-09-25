@@ -25,7 +25,12 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required',
+            'image' => 'required',
+            'order' => 'required',
+            'country_id' => 'required',
+            'state_id' => 'required',
+            'type_id' => 'required',
         ];
     }
 

@@ -25,7 +25,12 @@ class IssueRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'description' => 'required',
+            'image' => 'required',
+            'solution' => 'required',
+            'issue_type_id' => 'required',
+            'userable_type' => 'required',
+            'userable' => 'required',
         ];
     }
 

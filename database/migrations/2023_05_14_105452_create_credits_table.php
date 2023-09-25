@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('credits', function (Blueprint $table) {
             $table->id();
             $table->morphs('userable');
-            $table->text('image');
+            $table->text('image')->nullable();
             $table->double('amount')->default(0);
             $table->text('notes')->nullable();
             $table->boolean('deposit_or_withdraw');
@@ -26,6 +26,9 @@ return new class extends Migration
             $table->foreign('credit_status_id')->references('id')->on('credit_statuses');
             $table->unsignedBigInteger('supported_account_id')->nullable();
             $table->foreign('supported_account_id')->references('id')->on('supported_accounts');
+            $table->nullableMorphs('userable_from');
+            $table->double('credit_from_before')->default(0);
+            $table->double('credit_from_after')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('prepaid_card_stocks', function (Blueprint $table) {
             $table->id();
             $table->string('serial1');
-            $table->string('serial2');
+            $table->string('serial2')->nullable();
             $table->integer('number1');
-            $table->integer('number2');
-            $table->string('cvc');
+            $table->integer('number2')->nullable();
+            $table->string('cvc')->nullable();
             $table->date('expiration_date');
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');

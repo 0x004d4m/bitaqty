@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->default('client');
             $table->json('title');
             $table->json('description');
-            $table->string('action');
+            $table->string('action')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -57,7 +57,7 @@ class NotificationCrudController extends CrudController
             'name'        => 'userable_type',
             'label'       => __('admin_fields.userable_type'),
             'type'        => 'select_from_array',
-            'options'     => ['App\Models\Client' => 'Client', 'App\Models\Vendor' => 'Vendor'],
+            'options'     => ['App\Models\Client' => 'Client', 'App\Models\Vendor' =>'Vendor', 'Both' => 'Both'],
             'allows_null' => false,
         ]);
         $this->crud->addField([

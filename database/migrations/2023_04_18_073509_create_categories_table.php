@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->json('name');
             $table->text('image');
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(false);
             $table->integer('order');
             $table->unsignedBigInteger('country_id');
             $table->foreign('country_id')->references('id')->on('countries');

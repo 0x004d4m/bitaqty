@@ -25,7 +25,16 @@ class CreditRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'userable_type' => 'required',
+            'userable' => 'required',
+            'image' => 'required',
+            'amount' => 'required',
+            'notes' => 'required',
+            'deposit_or_withdraw' => 'required',
+            'credit_before' => 'required',
+            'credit_after' => 'required',
+            'credit_type_id' => 'required',
+            'credit_status_id' => 'required',
         ];
     }
 

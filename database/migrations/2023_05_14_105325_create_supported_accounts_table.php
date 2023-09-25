@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('supported_accounts', function (Blueprint $table) {
             $table->id();
             $table->json('name');
-            $table->boolean('is_active');
-            $table->text('image');
+            $table->boolean('is_active')->default(false);
+            $table->text('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -25,7 +25,8 @@ class OrderPrepaidCardStockRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'order_id' => 'required',
+            'prepaid_card_stock_id' => 'required',
         ];
     }
 

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('dept')->default(0);
             $table->string('email');
             $table->string('image')->nullable();
-            $table->boolean('is_blocked')->default(0);
+            $table->boolean('is_blocked')->default(false);
             $table->unsignedBigInteger('country_id');
             $table->foreign('country_id')->references('id')->on('countries');
             $table->unsignedBigInteger('state_id');

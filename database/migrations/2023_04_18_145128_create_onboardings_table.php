@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('onboardings', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->default('client');
             $table->json('title');
             $table->json('description');
             $table->text('image');

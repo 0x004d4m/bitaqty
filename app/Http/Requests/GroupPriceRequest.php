@@ -25,7 +25,9 @@ class GroupPriceRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'group_id' => 'required',
+            'product_id' => 'required',
+            'price' => 'required',
         ];
     }
 
