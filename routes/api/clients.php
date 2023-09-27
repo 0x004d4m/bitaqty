@@ -57,6 +57,7 @@ Route::group([
                 Route::post('/request', [CreditController::class, 'request']);
                 Route::post('/send', [CreditController::class, 'send']);
                 Route::get('/qr/{number}', [CreditController::class, 'qr']);
+                Route::post('/prepaid', [CreditController::class, 'prepaid']);
             });
         });
     });

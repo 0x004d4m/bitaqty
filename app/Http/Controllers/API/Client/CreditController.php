@@ -219,7 +219,7 @@ class CreditController extends Controller
             "credit_type_id" => 4,
             "credit_before" => $To->credit,
             "credit_after" => $balanceTo,
-            "credit_status_id" => 1,
+            "credit_status_id" => 2,
             "userable_type" => 'App\Models\Client',
             "userable_id" => $To->client_id,
             "userable_from_type" => 'App\Models\Client',
@@ -227,6 +227,12 @@ class CreditController extends Controller
             "credit_from_before" => $From->credit,
             "credit_from_after" => $balanceFrom,
         ])) {
+            $To->update([
+                "credit" => $balanceTo,
+            ]);
+            $From->update([
+                "credit" => $balanceFrom,
+            ]);
             return response()->json([], 200);
         } else {
             return response()->json([
@@ -308,10 +314,13 @@ class CreditController extends Controller
             "credit_type_id" => 2,
             "credit_before" => $Client->credit,
             "credit_after" => $balance,
-            "credit_status_id" => 1,
+            "credit_status_id" => 2,
             "userable_type" => 'App\Models\Client',
             "userable_id" => $request->client_id,
         ])) {
+            $Client->update([
+                "credit" => $balance
+            ]);
             return response()->json([], 200);
         } else {
             return response()->json([
@@ -394,10 +403,13 @@ class CreditController extends Controller
             "credit_type_id" => 3,
             "credit_before" => $Client->credit,
             "credit_after" => $balance,
-            "credit_status_id" => 1,
+            "credit_status_id" => 2,
             "userable_type" => 'App\Models\Client',
             "userable_id" => $request->client_id,
         ])) {
+            $Client->update([
+                "credit" => $balance
+            ]);
             return response()->json([], 200);
         } else {
             return response()->json([
