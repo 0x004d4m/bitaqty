@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/set-language/{locale}', [LandingPageController::class, 'setLanguage'])->name('set-language');
+Route::get('/set-currency/{currency}', [LandingPageController::class, 'setCurrency'])->name('set-currency');
 Route::get('/', function () {
     return view('welcome');
 });

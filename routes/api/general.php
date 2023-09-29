@@ -10,5 +10,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/countries', [CountryController::class, 'index']);
 Route::get('/issueTypes', [IssueTypeController::class, 'index']);
 Route::get('/creditTypes', [CreditTypeController::class, 'index']);
-Route::get('/creditStatus', [CreditStatusController::class, 'index']);
+Route::get('/creditStatuses', [CreditStatusController::class, 'index']);
 Route::get('/currencies', [CurrencyController::class, 'index']);

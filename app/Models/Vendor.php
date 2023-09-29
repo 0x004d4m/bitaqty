@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
@@ -112,5 +113,15 @@ class Vendor extends Model
             return url($this->attributes['image']);
         }
         return null;
+    }
+
+    public function getCreditAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setCreditAttribute($value)
+    {
+        return round($this->attributes['credit'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 }

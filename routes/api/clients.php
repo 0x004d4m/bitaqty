@@ -48,17 +48,13 @@ Route::group([
         });
         // Route::get('/prepaid_card', [HomeController::class, 'index']);
         Route::group([
-            "middleware" => "Currency"
+            "prefix" => "credits"
         ], function () {
-            Route::group([
-                "prefix" => "credits"
-            ], function () {
-                Route::get('/', [CreditController::class, 'index']);
-                Route::post('/request', [CreditController::class, 'request']);
-                Route::post('/send', [CreditController::class, 'send']);
-                Route::get('/qr/{number}', [CreditController::class, 'qr']);
-                Route::post('/prepaid', [CreditController::class, 'prepaid']);
-            });
+            Route::get('/', [CreditController::class, 'index']);
+            Route::post('/request', [CreditController::class, 'request']);
+            Route::post('/send', [CreditController::class, 'send']);
+            Route::get('/qr/{number}', [CreditController::class, 'qr']);
+            Route::post('/prepaid', [CreditController::class, 'prepaid']);
         });
     });
 });

@@ -6,6 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Session;
 
 class Order extends Model
 {
@@ -55,5 +56,35 @@ class Order extends Model
     public function orderPrepaidCardStocks()
     {
         return $this->hasMany(OrderPrepaidCardStock::class);
+    }
+
+    public function getPriceAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setPriceAttribute($value)
+    {
+        return round($this->attributes['price'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function getCreditBeforeAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setCreditBeforeAttribute($value)
+    {
+        return round($this->attributes['credit_before'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function getCreditAfterAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setCreditAfterAttribute($value)
+    {
+        return round($this->attributes['credit_after'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 }

@@ -7,6 +7,7 @@ use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
@@ -83,5 +84,45 @@ class Product extends Model
             return url($this->attributes['image']);
         }
         return null;
+    }
+
+    public function getPriceAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setPriceAttribute($value)
+    {
+        return round($this->attributes['price'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function getSuggestedPriceAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setSuggestedPriceAttribute($value)
+    {
+        return round($this->attributes['suggested_price'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function getCostPriceAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setCostPriceAttribute($value)
+    {
+        return round($this->attributes['cost_price'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function getSellingPriceAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setSellingPriceAttribute($value)
+    {
+        return round($this->attributes['selling_price'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 }

@@ -6,6 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
@@ -123,5 +124,55 @@ class Credit extends Model
             return url($this->attributes['image']);
         }
         return null;
+    }
+
+    public function getAmountAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setAmountAttribute($value)
+    {
+        return round($this->attributes['amount'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function getCreditBeforeAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setCreditBeforeAttribute($value)
+    {
+        return round($this->attributes['credit_before'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function getCreditAfterAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setCreditAfterAttribute($value)
+    {
+        return round($this->attributes['credit_after'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function getCreditFromBeforeAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setCreditFromBeforeAttribute($value)
+    {
+        return round($this->attributes['credit_from_before'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function getCreditFromAfterAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setCreditFromAfterAttribute($value)
+    {
+        return round($this->attributes['credit_from_after'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 }

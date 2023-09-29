@@ -6,6 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Session;
 
 class GroupPrice extends Model
 {
@@ -28,5 +29,15 @@ class GroupPrice extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function getPriceAttribute($value)
+    {
+        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function setPriceAttribute($value)
+    {
+        return round($this->attributes['price'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 }
