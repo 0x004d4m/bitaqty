@@ -85,14 +85,6 @@ class VendorCrudController extends CrudController
     {
         $this->crud->setValidation(VendorRequest::class);
 
-        $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
-        $this->crud->field('address')->label(__('admin_fields.address'))->type('textarea');
-        $this->crud->field('phone')->label(__('admin_fields.phone'))->type('text');
-        $this->crud->field('password')->label(__('admin_fields.password'))->type('password');
-        $this->crud->field('credit')->label(__('admin_fields.credit'))->type('double');
-        $this->crud->field('dept')->label(__('admin_fields.dept'))->type('double');
-        $this->crud->field('email')->label(__('admin_fields.email'))->type('email');
-        $this->crud->field('is_blocked')->label(__('admin_fields.is_blocked'))->type('boolean');
         $this->crud->addField([
             'label' => __('admin_fields.country'),
             'type' => "relationship",
@@ -114,6 +106,14 @@ class VendorCrudController extends CrudController
             'dependencies'         => ['country_id'],
             'method'               => 'GET',
         ]);
+        $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
+        $this->crud->field('address')->label(__('admin_fields.address'))->type('textarea');
+        $this->crud->field('phone')->label(__('admin_fields.phone'))->type('text');
+        $this->crud->field('password')->label(__('admin_fields.password'))->type('password');
+        $this->crud->field('credit')->label(__('admin_fields.credit'))->type('double');
+        $this->crud->field('dept')->label(__('admin_fields.dept'))->type('double');
+        $this->crud->field('email')->label(__('admin_fields.email'))->type('email');
+        $this->crud->field('is_blocked')->label(__('admin_fields.is_blocked'))->type('boolean');
         $this->crud->addField([
             'label' => __('admin_fields.currency'),
             'type' => "relationship",

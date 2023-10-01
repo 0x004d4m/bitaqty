@@ -122,6 +122,27 @@ class ClientCrudController extends CrudController
     {
         $this->crud->setValidation(ClientRequest::class);
 
+        $this->crud->addField([
+            'label' => __('admin_fields.country'),
+            'type' => "relationship",
+            'name' => 'country_id',
+            'entity' => 'country',
+            'attribute' => "name",
+            'model' => 'App\Models\Country'
+        ]);
+        $this->crud->addField([
+            'label'                => __('admin_fields.state'),
+            'type'                 => 'select2_from_ajax',
+            'name'                 => 'state_id',
+            'entity'               => 'state',
+            'attribute'            => 'name',
+            'data_source'          => url('admin/States'),
+            'placeholder'          => 'Select a state',
+            'include_all_form_fields' => true,
+            'minimum_input_length' => 0,
+            'dependencies'         => ['country_id'],
+            'method'               => 'GET',
+        ]);
         $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
         $this->crud->field('address')->label(__('admin_fields.address'))->type('textarea');
         $this->crud->field('phone')->label(__('admin_fields.phone'))->type('text');
@@ -148,27 +169,6 @@ class ClientCrudController extends CrudController
             'entity' => 'vendor',
             'attribute' => "name",
             'model' => 'App\Models\Vendor'
-        ]);
-        $this->crud->addField([
-            'label' => __('admin_fields.country'),
-            'type' => "relationship",
-            'name' => 'country_id',
-            'entity' => 'country',
-            'attribute' => "name",
-            'model' => 'App\Models\Country'
-        ]);
-        $this->crud->addField([
-            'label'                => __('admin_fields.state'),
-            'type'                 => 'select2_from_ajax',
-            'name'                 => 'state_id',
-            'entity'               => 'state',
-            'attribute'            => 'name',
-            'data_source'          => url('admin/States'),
-            'placeholder'          => 'Select a state',
-            'include_all_form_fields' => true,
-            'minimum_input_length' => 0,
-            'dependencies'         => ['country_id'],
-            'method'               => 'GET',
         ]);
         $this->crud->addField([
             'label' => __('admin_fields.currency'),

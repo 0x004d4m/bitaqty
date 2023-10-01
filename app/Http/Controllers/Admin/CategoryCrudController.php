@@ -96,9 +96,6 @@ class CategoryCrudController extends CrudController
     {
         $this->crud->setValidation(CategoryRequest::class);
 
-        $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
-        $this->crud->field('image')->label(__('admin_fields.image'))->type('image');
-        $this->crud->field('order')->label(__('admin_fields.order'))->type('number');
         $this->crud->addField([
             'label' => __('admin_fields.country'),
             'type' => "relationship",
@@ -120,7 +117,8 @@ class CategoryCrudController extends CrudController
             'dependencies'         => ['country_id'],
             'method'               => 'GET',
         ]);
-
+        $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
+        $this->crud->field('order')->label(__('admin_fields.order'))->type('number');
         $this->crud->addField([
             'label' => __('admin_fields.type'),
             'type' => "relationship",
@@ -129,6 +127,7 @@ class CategoryCrudController extends CrudController
             'attribute' => "name",
             'model' => 'App\Models\Type'
         ]);
+        $this->crud->field('image')->label(__('admin_fields.image'))->type('image');
         $this->crud->field('is_active')->label(__('admin_fields.is_active'))->type('boolean');
     }
 
