@@ -67,7 +67,6 @@ class ProfileController extends Controller
      *     @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(
-     *         required={"name","address","phone","commercial_name","email","country_id","state_id","currency_id"},
      *         @OA\Property(property="name", type="string", example=""),
      *         @OA\Property(property="address", type="string", example=""),
      *         @OA\Property(property="phone", type="string", example=""),
@@ -100,6 +99,7 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request)
     {
+        // TODO: Edit Image
         if ($request->validated()) {
             $Client = Client::where('id', $request->client_id)->first();
             if ($Client) {

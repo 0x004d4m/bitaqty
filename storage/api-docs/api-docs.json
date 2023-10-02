@@ -1322,16 +1322,6 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "name",
-                                    "address",
-                                    "phone",
-                                    "commercial_name",
-                                    "email",
-                                    "country_id",
-                                    "state_id",
-                                    "currency_id"
-                                ],
                                 "properties": {
                                     "name": {
                                         "type": "string",

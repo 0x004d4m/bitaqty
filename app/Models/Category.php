@@ -49,13 +49,13 @@ class Category extends Model
         }
     }
 
-    // public function getImageAttribute()
-    // {
-    //     if ($this->attributes['image'] != null) {
-    //         return url($this->attributes['image']);
-    //     }
-    //     return null;
-    // }
+    public function getImageAttribute()
+    {
+        if ($this->attributes['image'] != null) {
+            return url($this->attributes['image']);
+        }
+        return null;
+    }
 
     public function country()
     {
