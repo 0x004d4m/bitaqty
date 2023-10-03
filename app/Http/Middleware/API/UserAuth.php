@@ -3,11 +3,12 @@
 namespace App\Http\Middleware\API;
 
 use App\Models\Client;
+use App\Models\Vendor;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClientAuth
+class UserAuth
 {
     /**
      * Handle an incoming request.
@@ -16,7 +17,7 @@ class ClientAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->hasHeader('Authorization')){
+        if ($request->hasHeader('Authorization')) {
             $Client = Client::select('*')
                 ->where('access_token', str_replace('Bearer ', '', $request->header('Authorization')))
                 ->first();
@@ -26,7 +27,17 @@ class ClientAuth
                 $request->merge(['state_id' => $Client->state_id]);
                 return $next($request);
             } else {
-                return response()->json([], 401);
+                $Vendor = Vendor::select('*')
+                    ->where('access_token', str_replace('Bearer ', '', $request->header('Authorization')))
+                    ->first();
+                if ($Vendor) {
+                    $request->merge(['vendor_id' => $Vendor->id]);
+                    $request->merge(['country_id' => $Vendor->country_id]);
+                    $request->merge(['state_id' => $Vendor->state_id]);
+                    return $next($request);
+                } else {
+                    return response()->json([], 401);
+                }
             }
         }
         return response()->json([], 401);

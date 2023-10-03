@@ -18,9 +18,15 @@ Route::get('/creditTypes', [CreditTypeController::class, 'index']);
 Route::get('/creditStatuses', [CreditStatusController::class, 'index']);
 Route::get('/currencies', [CurrencyController::class, 'index']);
 Route::get('/supportedAccounts', [SupportedAccountController::class, 'index']);
-
-Route::get('/types', [TypeController::class, 'index']);
-Route::get('/types/{id}/categories', [CategoryController::class, 'index']);
-Route::get('/categories/{id}/subcategories', [SubcategoryController::class, 'index']);
-Route::get('/subcategories/{id}/products', [ProductController::class, 'index']);
-Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::group(
+    [
+        "middleware" => "UserAuth"
+    ],
+    function () {
+        Route::get('/types', [TypeController::class, 'index']);
+        Route::get('/types/{id}/categories', [CategoryController::class, 'index']);
+        Route::get('/categories/{id}/subcategories', [SubcategoryController::class, 'index']);
+        Route::get('/subcategories/{id}/products', [ProductController::class, 'index']);
+        Route::get('/products/{id}', [ProductController::class, 'show']);
+    }
+);

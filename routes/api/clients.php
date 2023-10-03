@@ -28,7 +28,7 @@ Route::group([
     Route::get('/privacy_policy', [TermsController::class, 'privacy']);
     Route::get('/terms_and_conditions', [TermsController::class, 'terms']);
     Route::group([
-        "middleware" => "ClientAuth"
+        "middleware" => "UserAuth"
     ], function () {
         Route::get('/', [ProfileController::class, 'show']);
         Route::put('/', [ProfileController::class, 'update']);
