@@ -24,7 +24,7 @@ class ProductResource extends JsonResource
             'price' => $this->selling_price,
             'stock' => $this->stock,
             'is_vip' => $this->is_vip,
-            'fields' => FieldResource::collection($this->fields),
+            'fields' => FieldResource::collection($this->subcategory->fields),
         ];
     }
 }
