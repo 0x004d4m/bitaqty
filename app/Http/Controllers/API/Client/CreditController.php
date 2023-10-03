@@ -86,7 +86,6 @@ class CreditController extends Controller
      *         @OA\Property(property="image", type="string", example=""),
      *         @OA\Property(property="amount", type="string", example=""),
      *         @OA\Property(property="notes", type="string", example=""),
-     *         @OA\Property(property="deposit_or_withdraw", type="string", example=""),
      *         @OA\Property(property="supported_account_id", type="string", example=""),
      *       ),
      *     ),
@@ -113,16 +112,12 @@ class CreditController extends Controller
     {
         $Client = Client::where('id', $request->client_id)->first();
         $balance = 0;
-        if ($request->deposit_or_withdraw) {
-            $balance = $Client->credit + $request->amount;
-        } else {
-            $balance = $Client->credit - $request->amount;
-        }
+        $balance = $Client->credit + $request->amount;
         if (Credit::create([
             "image" => $request->image,
             "amount" => $request->amount,
             "notes" => $request->notes,
-            "deposit_or_withdraw" => $request->deposit_or_withdraw,
+            "deposit_or_withdraw" => 1,
             "credit_type_id" => 1,
             "supported_account_id" => $request->supported_account_id,
             "credit_before" => $Client->credit,
