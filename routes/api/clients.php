@@ -40,7 +40,7 @@ Route::group([
             Route::post('/', [OrderController::class, 'store']);
             Route::get('/', [OrderController::class, 'index']);
             Route::get('/{id}', [OrderController::class, 'show']);
-            Route::get('/{id}/products/{id}', [OrderController::class, 'showDetails']);
+            Route::get('/{id}/products/{product_id}', [OrderController::class, 'showDetails']);
         });
         Route::group([
             "prefix" => "notifications"
