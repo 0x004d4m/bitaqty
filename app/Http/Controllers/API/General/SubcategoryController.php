@@ -22,6 +22,7 @@ class SubcategoryController extends Controller
      *  description="Subcategories By Category",
      *  operationId="Subcategories",
      *  tags={"GeneralSubcategories"},
+     *  security={{"bearerAuth": {}}},
      *  @OA\Parameter(
      *     name="id",
      *     description="Category id",

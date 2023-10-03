@@ -22,6 +22,7 @@ class TypeController extends Controller
      *  description="Types",
      *  operationId="Types",
      *  tags={"GeneralTypes"},
+     *  security={{"bearerAuth": {}}},
      *  @OA\Response(
      *    response=200,
      *    description="Success",

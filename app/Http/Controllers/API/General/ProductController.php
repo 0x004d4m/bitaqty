@@ -23,6 +23,7 @@ class ProductController extends Controller
      *  description="Products By Subcategory",
      *  operationId="Products",
      *  tags={"GeneralProducts"},
+     *  security={{"bearerAuth": {}}},
      *  @OA\Parameter(
      *     name="id",
      *     description="Subcategory id",
@@ -67,6 +68,7 @@ class ProductController extends Controller
      *  description="Product Details By id",
      *  operationId="ProductDetails",
      *  tags={"GeneralProducts"},
+     *  security={{"bearerAuth": {}}},
      *  @OA\Parameter(
      *     name="id",
      *     description="Product id",

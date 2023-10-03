@@ -22,6 +22,7 @@ class CategoryController extends Controller
      *  description="Categories By Type",
      *  operationId="Categories",
      *  tags={"GeneralCategories"},
+     *  security={{"bearerAuth": {}}},
      *  @OA\Parameter(
      *     name="id",
      *     description="type id",
