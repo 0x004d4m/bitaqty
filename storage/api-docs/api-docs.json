@@ -1265,37 +1265,29 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": ""
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "image": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": ""
-                                                    },
-                                                    "title": {
-                                                        "type": "string",
-                                                        "example": ""
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": ""
-                                                    },
-                                                    "image": {
-                                                        "type": "string",
-                                                        "example": ""
-                                                    },
-                                                    "data": {
-                                                        "type": "object",
-                                                        "example": []
-                                                    },
-                                                    "is_read": {
-                                                        "type": "string",
-                                                        "example": ""
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                            "type": "object",
+                                            "example": []
+                                        },
+                                        "is_read": {
+                                            "type": "string",
+                                            "example": ""
                                         }
                                     },
                                     "type": "object"
@@ -1600,6 +1592,65 @@
                 }
             }
         },
+        "/api/types/{id}/categories": {
+            "get": {
+                "tags": [
+                    "GeneralCategories"
+                ],
+                "summary": "Categories By Type",
+                "description": "Categories By Type",
+                "operationId": "Categories",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "type id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "order": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/countries": {
             "get": {
                 "tags": [
@@ -1852,6 +1903,214 @@
                 }
             }
         },
+        "/api/subcategories/{id}/products": {
+            "get": {
+                "tags": [
+                    "GeneralProducts"
+                ],
+                "summary": "Products By Subcategory",
+                "description": "Products By Subcategory",
+                "operationId": "Products",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Subcategory id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": ""
+                                                    },
+                                                    "stock": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "is_vip": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "tags": [
+                    "GeneralProducts"
+                ],
+                "summary": "Product Details By id",
+                "description": "Product Details By id",
+                "operationId": "ProductDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": ""
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "unavailable_notes": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "how_to_use": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "image": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": ""
+                                        },
+                                        "stock": {
+                                            "type": "integer",
+                                            "example": ""
+                                        },
+                                        "is_vip": {
+                                            "type": "boolean",
+                                            "example": ""
+                                        },
+                                        "fields": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 0,
+                                                "name": "",
+                                                "field_type": "",
+                                                "is_confirmed": 0
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categories/{id}/subcategories": {
+            "get": {
+                "tags": [
+                    "GeneralSubcategories"
+                ],
+                "summary": "Subcategories By Category",
+                "description": "Subcategories By Category",
+                "operationId": "Subcategories",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/supportedAccounts": {
             "get": {
                 "tags": [
@@ -1881,6 +2140,54 @@
                                                     },
                                                     "image": {
                                                         "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/types": {
+            "get": {
+                "tags": [
+                    "GeneralTypes"
+                ],
+                "summary": "Types",
+                "description": "Types",
+                "operationId": "Types",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "need_approval": {
+                                                        "type": "boolean",
                                                         "example": ""
                                                     }
                                                 },
@@ -2389,8 +2696,24 @@
             "description": "API Endpoints of Client Terms"
         },
         {
+            "name": "GeneralCategories",
+            "description": "API Endpoints of Categories"
+        },
+        {
             "name": "General",
             "description": "API Endpoints of General Info"
+        },
+        {
+            "name": "GeneralProducts",
+            "description": "API Endpoints of Products"
+        },
+        {
+            "name": "GeneralSubcategories",
+            "description": "API Endpoints of Subcategories"
+        },
+        {
+            "name": "GeneralTypes",
+            "description": "API Endpoints of Types"
         },
         {
             "name": "VendorAuth",

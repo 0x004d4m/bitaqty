@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\API\Client\AuthController;
 use App\Http\Controllers\API\Client\CreditController;
-use App\Http\Controllers\API\Client\HomeController;
 use App\Http\Controllers\API\Client\IssueController;
 use App\Http\Controllers\API\Client\NewsController;
 use App\Http\Controllers\API\Client\NotificationController;
 use App\Http\Controllers\API\Client\OnboardingController;
+use App\Http\Controllers\API\Client\OrderController;
 use App\Http\Controllers\API\Client\ProfileController;
 use App\Http\Controllers\API\Client\TermsController;
 use Illuminate\Support\Facades\Route;
@@ -34,17 +34,14 @@ Route::group([
         Route::put('/', [ProfileController::class, 'update']);
         Route::delete('/', [ProfileController::class, 'destroy']);
         Route::post('/changePassword', [ProfileController::class, 'changePassword']);
-        // Route::group([], function () {
-        //     Route::get('/types', [TypeController::class, 'index']);
-        //     Route::get('/types/{id}/categories', [CategoryController::class, 'index']);
-        //     Route::get('/categories/{id}/subcategories', [SubcategoryController::class, 'index']);
-        //     Route::get('/subcategories/{id}/products', [ProductsController::class, 'index']);
-        //     Route::get('/products/{id}', [ProductsController::class, 'show']);
-        //     Route::post('/orders', [OrderController::class, 'store']);
-        //     Route::get('/orders', [OrderController::class, 'index']);
-        //     Route::get('/orders/{id}', [OrderController::class, 'show']);
-        //     Route::get('/orders/{id}/products/{id}', [OrderController::class, 'showDetails']);
-        // });
+        Route::group([
+            "prefix" => "orders"
+        ], function () {
+            Route::post('/', [OrderController::class, 'store']);
+            Route::get('/', [OrderController::class, 'index']);
+            Route::get('/{id}', [OrderController::class, 'show']);
+            Route::get('/{id}/products/{id}', [OrderController::class, 'showDetails']);
+        });
         Route::group([
             "prefix" => "notifications"
         ], function () {

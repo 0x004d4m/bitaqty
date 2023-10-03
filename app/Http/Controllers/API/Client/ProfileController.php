@@ -30,18 +30,12 @@ class ProfileController extends Controller
      *    response=200,
      *    description="Success",
      *    @OA\JsonContent(
-     *      @OA\Property(
-     *          property="data",
-     *          type="array",
-     *          @OA\Items(
-     *              @OA\Property(property="id", type="integer", example=""),
-     *              @OA\Property(property="title", type="string", example=""),
-     *              @OA\Property(property="description", type="string", example=""),
-     *              @OA\Property(property="image", type="string", example=""),
-     *              @OA\Property(property="data", type="object", example={}),
-     *              @OA\Property(property="is_read", type="string", example=""),
-     *          ),
-     *      ),
+     *      @OA\Property(property="id", type="integer", example=""),
+     *      @OA\Property(property="title", type="string", example=""),
+     *      @OA\Property(property="description", type="string", example=""),
+     *      @OA\Property(property="image", type="string", example=""),
+     *      @OA\Property(property="data", type="object", example={}),
+     *      @OA\Property(property="is_read", type="string", example=""),
      *    ),
      *  )
      * )

@@ -22,6 +22,8 @@ class ClientAuth
                 ->first();
             if ($Client) {
                 $request->merge(['client_id' => $Client->id]);
+                $request->merge(['country_id' => $Client->country_id]);
+                $request->merge(['state_id' => $Client->state_id]);
                 return $next($request);
             } else {
                 return response()->json([], 401);
