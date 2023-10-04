@@ -550,7 +550,6 @@
                                     "image",
                                     "amount",
                                     "notes",
-                                    "deposit_or_withdraw",
                                     "supported_account_id"
                                 ],
                                 "properties": {

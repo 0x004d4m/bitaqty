@@ -82,7 +82,7 @@ class CreditController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"image","amount","notes","deposit_or_withdraw","supported_account_id"},
+     *          required={"image","amount","notes","supported_account_id"},
      *         @OA\Property(property="image", type="file", format="file"),
      *         @OA\Property(property="amount", type="string", example=""),
      *         @OA\Property(property="notes", type="string", example=""),
