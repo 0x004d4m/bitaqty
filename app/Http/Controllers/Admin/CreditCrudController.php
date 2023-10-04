@@ -53,7 +53,7 @@ class CreditCrudController extends CrudController
                     0 => __('admin_fields.deposit'),
                     1 => __('admin_fields.withdraw')
                 ]
-            );
+            )->default(0);
         $this->crud->column('credit_before')->label(__('admin_fields.credit_before'))->type('double');
         $this->crud->column('credit_after')->label(__('admin_fields.credit_after'))->type('double');
         $this->crud->addColumn('credit_type_id', [
