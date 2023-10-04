@@ -111,7 +111,6 @@ class CreditController extends Controller
      */
     public function request(CreditRequestRequset $request)
     {
-        dd('hi');
         $Client = Client::where('id', $request->client_id)->first();
         $balance = 0;
         $balance = $Client->credit + $request->amount;
