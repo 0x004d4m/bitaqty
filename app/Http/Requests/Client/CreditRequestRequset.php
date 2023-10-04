@@ -12,7 +12,6 @@ class CreditRequestRequset extends FormRequest
             "image" => 'required',
             "amount" => 'required',
             "notes" => 'required',
-            "deposit_or_withdraw" => 'required',
             "supported_account_id" => 'required',
         ];
     }
