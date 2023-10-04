@@ -117,7 +117,7 @@ class CreditController extends Controller
             "image" => $request->image,
             "amount" => $request->amount,
             "notes" => $request->notes,
-            "deposit_or_withdraw" => 1,
+            "deposit_or_withdraw" => 0,
             "credit_type_id" => 1,
             "supported_account_id" => $request->supported_account_id,
             "credit_before" => $Client->credit,
