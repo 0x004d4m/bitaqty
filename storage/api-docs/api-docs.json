@@ -555,8 +555,8 @@
                                 ],
                                 "properties": {
                                     "image": {
-                                        "type": "string",
-                                        "example": ""
+                                        "type": "file",
+                                        "format": "file"
                                     },
                                     "amount": {
                                         "type": "string",
@@ -1342,6 +1342,10 @@
                                     "currency_id": {
                                         "type": "integer",
                                         "example": ""
+                                    },
+                                    "image": {
+                                        "type": "file",
+                                        "format": "file"
                                     }
                                 },
                                 "type": "object"

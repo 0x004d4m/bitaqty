@@ -69,6 +69,7 @@ class ProfileController extends Controller
      *         @OA\Property(property="country_id", type="integer", example=""),
      *         @OA\Property(property="state_id", type="integer", example=""),
      *         @OA\Property(property="currency_id", type="integer", example=""),
+     *         @OA\Property(property="image", type="file", format="file"),
      *       ),
      *     ),
      *  ),
@@ -93,7 +94,6 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request)
     {
-        // TODO: Edit Image
         if ($request->validated()) {
             $Client = Client::where('id', $request->client_id)->first();
             if ($Client) {

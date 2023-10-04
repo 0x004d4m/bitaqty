@@ -13,6 +13,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             "name" => "sometimes|min:3",
+            "image" => "sometimes",
             "address" => "sometimes|min:3",
             "phone" =>
             [
