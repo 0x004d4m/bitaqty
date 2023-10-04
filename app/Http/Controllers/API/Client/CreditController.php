@@ -126,7 +126,7 @@ class CreditController extends Controller
             "userable_type" => 'App\Models\Client',
             "userable_id" => $request->client_id,
         ])) {
-            return response()->json([], 200);
+            return response()->json(["data"=>[]], 200);
         } else {
             return response()->json([
                 "message" => "Error Requesting Credit",
@@ -228,7 +228,7 @@ class CreditController extends Controller
             $From->update([
                 "credit" => $balanceFrom,
             ]);
-            return response()->json([], 200);
+            return response()->json(["data"=>[]], 200);
         } else {
             return response()->json([
                 "message" => "Error Requesting Credit",
@@ -316,7 +316,7 @@ class CreditController extends Controller
             $Client->update([
                 "credit" => $balance
             ]);
-            return response()->json([], 200);
+            return response()->json(["data"=>[]], 200);
         } else {
             return response()->json([
                 "message" => "Error Adding Credit",
@@ -405,7 +405,7 @@ class CreditController extends Controller
             $Client->update([
                 "credit" => $balance
             ]);
-            return response()->json([], 200);
+            return response()->json(["data"=>[]], 200);
         } else {
             return response()->json([
                 "message" => "Error Requesting Credit",

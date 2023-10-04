@@ -98,7 +98,7 @@ class ProfileController extends Controller
             $Client = Client::where('id', $request->client_id)->first();
             if ($Client) {
                 $Client->update($request->validated());
-                return response()->json([], 200);
+                return response()->json(["data"=>[]], 200);
             }
             return response()->json([
                 "message" => "Wrong Client ID",
@@ -220,6 +220,6 @@ class ProfileController extends Controller
                 'password' => $request->new_password,
             ]);
         }
-        return response()->json([], 200);
+        return response()->json(["data"=>[]], 200);
     }
 }

@@ -376,6 +376,6 @@ class AuthController extends Controller
             'refresh_token' => null,
             'forget_token' => null,
         ]);
-        return response()->json([], 200);
+        return response()->json(["data"=>[]], 200);
     }
 }

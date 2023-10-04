@@ -106,7 +106,7 @@ class IssueController extends Controller
             "userable_type" => 'App\Models\Client',
             "userable_id" => $request->client_id,
         ])){
-            return response()->json([],200);
+            return response()->json(["data" => []], 200);
         }else{
             return response()->json([
                 "message" => "Error Creating Issue",
