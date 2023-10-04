@@ -12,6 +12,7 @@ use App\Models\Client;
 use App\Models\Credit;
 use App\Models\CreditCard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @OA\Tag(
@@ -110,6 +111,7 @@ class CreditController extends Controller
      */
     public function request(CreditRequestRequset $request)
     {
+        Log::debug('hi');
         $Client = Client::where('id', $request->client_id)->first();
         $balance = 0;
         $balance = $Client->credit + $request->amount;
