@@ -98,8 +98,8 @@ class ProductController extends Controller
      */
     public function show(Request $request, $id)
     {
-        return ProductResource::collection(
-            Product::where('subcategory_id',$id)->where('is_active', 1)->get()
+        return new ProductResource(
+            Product::where('subcategory_id',$id)->where('is_active', 1)->first()
         );
     }
 }
