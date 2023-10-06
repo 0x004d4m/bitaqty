@@ -35,7 +35,7 @@ class ProductResource extends JsonResource
             'type' => new TypeResource($this->type),
             'category' => new CategoryResource($this->category),
             'subcategory' => new SubcategoryResource($this->subcategory),
-            'fields' => FieldResource::collection($this->subcategory->fields)->with($this->order_id, $this->id),
+            'fields' => FieldResource::collection($this->subcategory->fields)->additional($this->order_id, $this->id),
         ];
     }
 }
