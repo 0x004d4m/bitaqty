@@ -21,6 +21,7 @@ class OrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $request->add(['field_resource_order_id' => $this->id]);
         return[
             "id" => $this->id,
             "price" => $this->price,
@@ -29,7 +30,7 @@ class OrderResource extends JsonResource
             "type" => new TypeResource($this->type),
             "category" => new CategoryResource($this->product),
             "subcategory" => new SubcategoryResource($this->product),
-            "product" => new ProductResource($this->product, $this->id),
+            "product" => new ProductResource($this->product),
             "order_status" => new OrderStatusResource($this->orderStatus),
         ];
     }

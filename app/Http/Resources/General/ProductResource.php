@@ -21,6 +21,7 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $request->add(['field_resource_product_id' => $this->id]);
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -35,7 +36,7 @@ class ProductResource extends JsonResource
             'type' => new TypeResource($this->type),
             'category' => new CategoryResource($this->category),
             'subcategory' => new SubcategoryResource($this->subcategory),
-            'fields' => FieldResource::collection($this->subcategory->fields)->orderId($this->order_id)->productId($this->id),
+            'fields' => FieldResource::collection($this->subcategory->fields),
         ];
     }
 }
