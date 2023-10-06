@@ -1307,6 +1307,96 @@
                         "bearerAuth": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "ClientOrders"
+                ],
+                "summary": "Client Create Order",
+                "description": "Client Create Order",
+                "operationId": "ClientCreateOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "image",
+                                    "amount",
+                                    "notes",
+                                    "supported_account_id"
+                                ],
+                                "properties": {
+                                    "quantity": {
+                                        "type": "file",
+                                        "format": "file"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "product_id": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "fields": {
+                                        "description": "An array of items",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "answer": {
+                                                    "type": "string"
+                                                },
+                                                "field_id": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/clients": {
@@ -1524,12 +1614,12 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "old_pasword",
+                                    "old_password",
                                     "new_password",
                                     "new_password_confirmed"
                                 ],
                                 "properties": {
-                                    "old_pasword": {
+                                    "old_password": {
                                         "type": "string",
                                         "example": ""
                                     },

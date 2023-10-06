@@ -176,8 +176,8 @@ class ProfileController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"old_pasword","new_password","new_password_confirmed"},
-     *         @OA\Property(property="old_pasword", type="string", example=""),
+     *          required={"old_password","new_password","new_password_confirmed"},
+     *         @OA\Property(property="old_password", type="string", example=""),
      *         @OA\Property(property="new_password", type="string", example=""),
      *         @OA\Property(property="password_confirmed", type="string", example=""),
      *       ),
@@ -215,7 +215,7 @@ class ProfileController extends Controller
                 ]
             ], 422);
         }
-        if (Hash::check($request->old_pasword, $Client->password)) {
+        if (Hash::check($request->old_password, $Client->password)) {
             $Client->update([
                 'password' => $request->new_password,
             ]);
