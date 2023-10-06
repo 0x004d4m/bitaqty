@@ -21,7 +21,7 @@ class OrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $request->add(['field_resource_order_id' => $this->id]);
+        $request->merge(['field_resource_order_id' => $this->id]);
         return[
             "id" => $this->id,
             "price" => $this->price,

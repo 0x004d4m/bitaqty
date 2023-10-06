@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $request->add(['field_resource_product_id' => $this->id]);
+        $request->merge(['field_resource_product_id' => $this->id]);
         return [
             'id' => $this->id,
             'name' => $this->name,
