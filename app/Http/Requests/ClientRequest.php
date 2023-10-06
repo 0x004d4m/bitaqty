@@ -34,9 +34,6 @@ class ClientRequest extends FormRequest
             'country_id' => 'required',
             'state_id' => 'required',
             'currency_id' => 'required',
-            'image' => 'required',
-            'vendor_id' => 'required',
-            'group_id' => 'required',
         ];
     }
 

@@ -30,7 +30,6 @@ class VendorRequest extends FormRequest
             'phone' => 'required',
             'password' => 'required',
             'email' => 'required',
-            'image' => 'required',
             'country_id' => 'required',
             'state_id' => 'required',
             'currency_id' => 'required',
