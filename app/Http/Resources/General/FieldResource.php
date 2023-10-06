@@ -15,7 +15,7 @@ class FieldResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $answer = FieldsAnswer::where('field_id', $this->id)->where('order_id', $this->additional['order_id'])->where('product_id', $this->additional['product_id'])->first();
+        $answer = FieldsAnswer::where('field_id', $this->id)->where('order_id', $this->additional['order_id']??null)->where('product_id', $this->additional['product_id'] ?? null)->first();
         return [
             "id" => $this->id,
             "name" => $this->name,
