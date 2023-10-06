@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_prepaid_card_stocks', function (Blueprint $table) {
+        Schema::create('fields_answers', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_printed')->default(false);
+            $table->unsignedBigInteger('field_id');
+            $table->foreign('field_id')->references('id')->on('fields');
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders');
-            $table->unsignedBigInteger('prepaid_card_stock_id');
-            $table->foreign('prepaid_card_stock_id')->references('id')->on('prepaid_card_stocks');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->string('answer');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_cards');
+        Schema::dropIfExists('fields_answers');
     }
 };

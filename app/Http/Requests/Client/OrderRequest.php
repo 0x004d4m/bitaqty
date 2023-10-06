@@ -12,6 +12,7 @@ class OrderRequest extends FormRequest
             "quantity" => "required",
             "device_name" => "required",
             "product_id" => "required",
+            "fields" => "required",
         ];
     }
 }

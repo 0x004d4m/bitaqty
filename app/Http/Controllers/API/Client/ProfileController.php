@@ -164,7 +164,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Put(
      *  path="/api/clients/changePassword",
      *  summary="Change Password",
      *  description="Change Password Client",

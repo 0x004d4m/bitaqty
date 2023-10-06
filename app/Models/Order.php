@@ -26,6 +26,9 @@ class Order extends Model
         "order_status_id",
         "userable_type",
         "userable_id",
+        "type_id",
+        "category_id",
+        "subcategory_id",
     ];
 
     public function setUserableTypeAttribute($value)
@@ -47,6 +50,21 @@ class Order extends Model
     public function userable()
     {
         return $this->morphTo();
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function subcategory()
+    {
+        return $this->belongsTo(Subcategory::class);
     }
 
     public function product()

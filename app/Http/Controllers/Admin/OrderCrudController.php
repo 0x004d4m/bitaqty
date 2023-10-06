@@ -91,41 +91,6 @@ class OrderCrudController extends CrudController
     protected function setupCreateOperation()
     {
         $this->crud->setValidation(OrderRequest::class);
-
-        $this->crud->addField([   // select_from_array
-            'name'        => 'userable_type',
-            'label'       => __('admin_fields.userable_type'),
-            'type'        => 'select_from_array',
-            'options'     => ['App\Models\Client' => 'Client', 'App\Models\Vendor' => 'Vendor'],
-            'allows_null' => false,
-        ]);
-        $this->crud->addField([
-            'label'                => __('admin_fields.user'),
-            'type'                 => 'select2_from_ajax',
-            'name'                 => 'userable',
-            'entity'               => 'userable',
-            'attribute'            => 'name',
-            'data_source'          => url('admin/Users'),
-            'placeholder'          => 'Select a User',
-            'include_all_form_fields' => true,
-            'minimum_input_length' => 0,
-            'dependencies'         => ['userable_type'],
-            'method'               => 'GET',
-        ]);
-        $this->crud->field('quantity')->label(__('admin_fields.quantity'))->type('number');
-        $this->crud->field('device_name')->label(__('admin_fields.device_name'))->type('text');
-        $this->crud->field('price')->label(__('admin_fields.price'))->type('double');
-        $this->crud->field('profit')->label(__('admin_fields.profit'))->type('number');
-        $this->crud->field('credit_before')->label(__('admin_fields.credit_before'))->type('double');
-        $this->crud->field('credit_after')->label(__('admin_fields.credit_after'))->type('double');
-        $this->crud->addField([
-            'label' => __('admin_fields.product'),
-            'type' => "relationship",
-            'name' => 'product_id',
-            'entity' => 'product',
-            'attribute' => "name",
-            'model' => 'App\Models\Product'
-        ]);
         $this->crud->addField([
             'label' => __('admin_fields.order_status'),
             'type' => "relationship",

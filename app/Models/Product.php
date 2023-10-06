@@ -40,9 +40,15 @@ class Product extends Model
         'stock_limit',
         'is_active',
         'is_vip',
+        'type_id',
         'category_id',
         'subcategory_id',
     ];
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
 
     public function category()
     {

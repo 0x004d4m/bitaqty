@@ -25,15 +25,6 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'userable_type' => 'required',
-            'userable' => 'required',
-            'quantity' => 'required',
-            'device_name' => 'required',
-            'price' => 'required',
-            'profit' => 'required',
-            'credit_before' => 'required',
-            'credit_after' => 'required',
-            'product_id' => 'required',
             'order_status_id' => 'required',
         ];
     }

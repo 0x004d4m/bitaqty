@@ -33,7 +33,7 @@ Route::group([
         Route::get('/', [ProfileController::class, 'show']);
         Route::put('/', [ProfileController::class, 'update']);
         Route::delete('/', [ProfileController::class, 'destroy']);
-        Route::post('/changePassword', [ProfileController::class, 'changePassword']);
+        Route::put('/changePassword', [ProfileController::class, 'changePassword']);
         Route::group([
             "prefix" => "orders"
         ], function () {
