@@ -13,7 +13,7 @@ class FieldsAnswer extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'fields_answer';
+    protected $table = 'fields_answers';
     protected $fillable = [
         'answer',
         'field_id',
