@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -138,7 +137,6 @@ class Client extends Model
 
     public function getCreditAttribute($value)
     {
-        Log::debug("hi: ". Currency::where('id', Session::get('currency'))->first()->to_jod);
         return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
