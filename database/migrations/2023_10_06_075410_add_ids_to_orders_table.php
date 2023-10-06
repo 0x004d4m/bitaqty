@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('type_id')->default(1);
             $table->foreign('type_id')->references('id')->on('types');
         });
         Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('type_id')->default(1);
             $table->foreign('type_id')->references('id')->on('types');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->default(1);
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->unsignedBigInteger('subcategory_id');
+            $table->unsignedBigInteger('subcategory_id')->default(1);
             $table->foreign('subcategory_id')->references('id')->on('subcategories');
         });
     }
