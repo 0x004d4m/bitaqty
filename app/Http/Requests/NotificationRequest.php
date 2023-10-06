@@ -27,7 +27,6 @@ class NotificationRequest extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'userable_type' => 'required',
         ];
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\NotificationCrudController;
 use Illuminate\Support\Facades\Route;
 
 // --------------------------
@@ -49,6 +50,7 @@ Route::group([
     Route::crud('issue-type', 'IssueTypeCrudController');
     Route::crud('issue', 'IssueCrudController');
     Route::crud('notification', 'NotificationCrudController');
+    Route::get('notification/{id}/send', [NotificationCrudController::class, 'send']);
     Route::crud('order-status', 'OrderStatusCrudController');
     Route::crud('order', 'OrderCrudController');
     Route::crud('order-prepaid-card-stock', 'OrderPrepaidCardStockCrudController');

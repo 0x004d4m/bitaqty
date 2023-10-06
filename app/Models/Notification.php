@@ -31,6 +31,7 @@ class Notification extends Model
         "is_read",
         "userable_type",
         "userable_id",
+        "is_sent",
     ];
 
     public function setUserableTypeAttribute()

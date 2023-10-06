@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\General\NotificationResource;
 use App\Models\Notification;
+use App\Models\UserNotification;
 use Illuminate\Http\Request;
 
 /**
@@ -47,7 +48,7 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
         return NotificationResource::collection(
-            Notification::where('userable_type', 'App\Models\Client')
+            UserNotification::where('userable_type', 'App\Models\Client')
                 ->where('userable_id', $request->client_id)
                 ->paginate()
         );
@@ -91,7 +92,7 @@ class NotificationController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $Notification = Notification::where('id', $id)->first();
+        $Notification = UserNotification::where('id', $id)->first();
         if($Notification){
             $Notification->delete();
             return response([], 200);
@@ -144,7 +145,7 @@ class NotificationController extends Controller
      */
     public function read(Request $request, $id)
     {
-        $Notification = Notification::where('id', $id)->first();
+        $Notification = UserNotification::where('id', $id)->first();
         if($Notification){
             $Notification->update([
                 'is_read'=>1

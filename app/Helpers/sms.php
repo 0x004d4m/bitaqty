@@ -29,18 +29,32 @@ function sendOTPSMS($phonenumber, $otp_code)
     echo $response;
 }
 
-function sendFCM($fcm, $body)
+function sendFCM($fcm, $title, $body, $image)
 {
     $url = 'https://fcm.googleapis.com/fcm/send';
-    $fields = array(
-        'registration_ids' => array(
-            $fcm
-        ),
-        'notification' => array(
-            "title" => "Bitaqty - بطاقتي",
-            "body" => $body
-        )
-    );
+
+    if($image){
+        $fields = array(
+            'registration_ids' => array(
+                $fcm
+            ),
+            'notification' => array(
+                "title" => $title,
+                "body" => $body,
+                "image" => $image
+            )
+        );
+    }else{
+        $fields = array(
+            'registration_ids' => array(
+                $fcm
+            ),
+            'notification' => array(
+                "title" => $title,
+                "body" => $body
+            )
+        );
+    }
     $fields = json_encode($fields);
 
     $headers = array(
