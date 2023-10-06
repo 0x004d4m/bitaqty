@@ -94,7 +94,7 @@ class Product extends Model
 
     public function getPriceAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setPriceAttribute($value)
@@ -104,7 +104,7 @@ class Product extends Model
 
     public function getSuggestedPriceAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setSuggestedPriceAttribute($value)
@@ -114,7 +114,7 @@ class Product extends Model
 
     public function getCostPriceAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setCostPriceAttribute($value)
@@ -124,7 +124,7 @@ class Product extends Model
 
     public function getSellingPriceAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setSellingPriceAttribute($value)

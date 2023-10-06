@@ -84,7 +84,7 @@ class Order extends Model
 
     public function getPriceAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setPriceAttribute($value)
@@ -94,7 +94,7 @@ class Order extends Model
 
     public function getCreditBeforeAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setCreditBeforeAttribute($value)
@@ -104,7 +104,7 @@ class Order extends Model
 
     public function getCreditAfterAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setCreditAfterAttribute($value)

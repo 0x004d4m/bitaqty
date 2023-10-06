@@ -137,7 +137,7 @@ class Client extends Model
 
     public function getCreditAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setCreditAttribute($value)

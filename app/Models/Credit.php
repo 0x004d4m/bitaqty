@@ -131,7 +131,7 @@ class Credit extends Model
 
     public function getAmountAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setAmountAttribute($value)
@@ -141,7 +141,7 @@ class Credit extends Model
 
     public function getCreditBeforeAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setCreditBeforeAttribute($value)
@@ -151,7 +151,7 @@ class Credit extends Model
 
     public function getCreditAfterAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setCreditAfterAttribute($value)
@@ -161,7 +161,7 @@ class Credit extends Model
 
     public function getCreditFromBeforeAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setCreditFromBeforeAttribute($value)
@@ -171,7 +171,7 @@ class Credit extends Model
 
     public function getCreditFromAfterAttribute($value)
     {
-        return round($value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+        return round($value / Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
     public function setCreditFromAfterAttribute($value)
