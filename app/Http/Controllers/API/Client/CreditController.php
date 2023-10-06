@@ -111,29 +111,40 @@ class CreditController extends Controller
      */
     public function request(CreditRequestRequset $request)
     {
-        $Client = Client::where('id', $request->client_id)->first();
-        $balance = 0;
-        $balance = $Client->credit + $request->amount;
-        if (Credit::create([
-            "image" => $request->image,
-            "amount" => $request->amount,
-            "notes" => $request->notes,
-            "deposit_or_withdraw" => 0,
-            "credit_type_id" => 1,
-            "supported_account_id" => $request->supported_account_id,
-            "credit_before" => $Client->credit,
-            "credit_after" => $balance,
-            "credit_status_id" => 1,
-            "userable_type" => 'App\Models\Client',
-            "userable_id" => $request->client_id,
-        ])) {
-            return response()->json(["data"=>[]], 200);
+        if(Credit::where("userable_type", 'App\Models\Client')->where("userable_id", $request->client_id)->where('credit_status_id', 1)->where('credit_type_id', 1)->count() == 0){
+            $Client = Client::where('id', $request->client_id)->first();
+            $balance = 0;
+            $balance = $Client->credit + $request->amount;
+            if (Credit::create([
+                "image" => $request->image,
+                "amount" => $request->amount,
+                "notes" => $request->notes,
+                "deposit_or_withdraw" => 0,
+                "credit_type_id" => 1,
+                "supported_account_id" => $request->supported_account_id,
+                "credit_before" => $Client->credit,
+                "credit_after" => $balance,
+                "credit_status_id" => 1,
+                "userable_type" => 'App\Models\Client',
+                "userable_id" => $request->client_id,
+            ])) {
+                return response()->json(["data"=>[]], 200);
+            } else {
+                return response()->json([
+                    "message" => "Error Requesting Credit",
+                    "errors" => [
+                        "amount" => [
+                            "Error Requesting Credit",
+                        ]
+                    ]
+                ], 422);
+            }
         } else {
             return response()->json([
-                "message" => "Error Requesting Credit",
+                "message" => "Cant Request Credit, There is 1 pending request already",
                 "errors" => [
                     "amount" => [
-                        "Error Requesting Credit",
+                        "Cant request credit, There is 1 pending request already",
                     ]
                 ]
             ], 422);
