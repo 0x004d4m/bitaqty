@@ -29,7 +29,7 @@ class OrderResource extends JsonResource
             "type" => new TypeResource($this->type),
             "category" => new CategoryResource($this->product),
             "subcategory" => new SubcategoryResource($this->product),
-            "product" => new ProductResource($this->product),
+            "product" => new ProductResource($this->product, $this->id),
             "order_status" => new OrderStatusResource($this->orderStatus),
         ];
     }
