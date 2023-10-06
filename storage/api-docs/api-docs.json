@@ -1268,15 +1268,11 @@
                                                         "type": "integer",
                                                         "example": ""
                                                     },
-                                                    "category": {
+                                                    "price": {
                                                         "type": "integer",
                                                         "example": ""
                                                     },
-                                                    "subcategory": {
-                                                        "type": "string",
-                                                        "example": ""
-                                                    },
-                                                    "image": {
+                                                    "device_name": {
                                                         "type": "string",
                                                         "example": ""
                                                     },
@@ -1284,11 +1280,76 @@
                                                         "type": "string",
                                                         "example": ""
                                                     },
+                                                    "type": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "image": "",
+                                                            "need_approval": ""
+                                                        }
+                                                    },
+                                                    "category": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "image": "",
+                                                            "order": ""
+                                                        }
+                                                    },
+                                                    "subcategory": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "image": ""
+                                                        }
+                                                    },
                                                     "order_status": {
                                                         "type": "object",
                                                         "example": {
                                                             "id": "",
                                                             "name": ""
+                                                        }
+                                                    },
+                                                    "product": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "description": "",
+                                                            "unavailable_notes": "",
+                                                            "how_to_use": "",
+                                                            "image": "",
+                                                            "suggested_price": "",
+                                                            "price": "",
+                                                            "stock": "",
+                                                            "is_vip": "",
+                                                            "type": {
+                                                                "id": "",
+                                                                "name": "",
+                                                                "image": "",
+                                                                "need_approval": ""
+                                                            },
+                                                            "category": {
+                                                                "id": "",
+                                                                "name": "",
+                                                                "image": "",
+                                                                "order": ""
+                                                            },
+                                                            "subcategory": {
+                                                                "id": "",
+                                                                "name": "",
+                                                                "image": ""
+                                                            },
+                                                            "fields": {
+                                                                "id": "",
+                                                                "name": "",
+                                                                "field_type": "",
+                                                                "is_confirmed": "",
+                                                                "answer": ""
+                                                            }
                                                         }
                                                     }
                                                 },
