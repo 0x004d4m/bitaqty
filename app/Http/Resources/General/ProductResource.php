@@ -25,7 +25,7 @@ class ProductResource extends JsonResource
             'price' => $this->selling_price,
             'stock' => $this->stock,
             'is_vip' => $this->is_vip,
-            'type' => new TypeResource($this->type),
+            'type' => new TypeResource($this->category->type),
             'category' => new CategoryResource($this->category),
             'subcategory' => new SubcategoryResource($this->subcategory),
             'fields' => FieldResource::collection($this->subcategory->fields),
