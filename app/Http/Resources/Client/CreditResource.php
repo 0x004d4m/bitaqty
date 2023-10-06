@@ -22,6 +22,7 @@ class CreditResource extends JsonResource
             "image" => $this->image,
             "amount" => $this->amount,
             "notes" => $this->notes,
+            "created_at" => $this->created_at,
             "deposit_or_withdraw" => $this->deposit_or_withdraw,
             "credit_status" =>  new CreditStatusResource($this->creditStatus),
             "credit_type" =>  new CreditTypeResource($this->creditType),
