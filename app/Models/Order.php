@@ -28,14 +28,20 @@ class Order extends Model
         "userable_id",
     ];
 
-    public function setUserableTypeAttribute()
+    public function setUserableTypeAttribute($value)
     {
-        $this->attributes["userable_type"] = request("userable_type");
+        if (request("userable_type")) {
+            $this->attributes["userable_type"] = request("userable_type");
+        }
+        $this->attributes["userable_type"] = $value;
     }
 
-    public function setUserableIdAttribute()
+    public function setUserableIdAttribute($value)
     {
-        $this->attributes["userable_id"] = request("userable");
+        if (request("userable")) {
+            $this->attributes["userable_id"] = request("userable");
+        }
+        $this->attributes["userable_id"] = $value;
     }
 
     public function userable()
