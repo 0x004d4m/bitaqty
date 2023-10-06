@@ -31,13 +31,7 @@ class ProfileUpdateRequest extends FormRequest
                     $query->where('country_id', Client::where('id', request('client_id'))->first()->country_id);
                 })
             ],
-            'currency_id' =>
-            [
-                'sometimes',
-                Rule::exists('currencies', 'id')->where(function ($query) {
-                    $query->where('country_id', Client::where('id', request('client_id'))->first()->country_id);
-                })
-            ],
+            'currency_id' => "sometimes|exists:currencies,id",
         ];
     }
 }

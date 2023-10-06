@@ -178,4 +178,22 @@ class Credit extends Model
     {
         return round($this->attributes['credit_from_after'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
+
+    // public static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::updating(function ($model) {
+    //         $original_credit_status_id = $model->getOriginal()['credit_status_id'];
+    //         if($original_credit_status_id != $model->credit_status_id){
+    //             if($model->userable_type == 'App\Models\Client'){
+    //                 $Client = Client::where('id', $model->userable_id)->first();
+    //                 $model->credit_before;
+    //                 $model->credit_after;
+    //             }else if('App\Models\Vendor'){
+
+    //             }
+    //         }
+    //     });
+    // }
 }
