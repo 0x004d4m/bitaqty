@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources\General;
 
-use App\Http\Requests\CategoryRequest;
-use App\Http\Requests\SubcategoryRequest;
-use App\Http\Requests\TypeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,9 +25,9 @@ class ProductResource extends JsonResource
             'price' => $this->selling_price,
             'stock' => $this->stock,
             'is_vip' => $this->is_vip,
-            'type' => new TypeRequest($this->type),
-            'category' => new CategoryRequest($this->category),
-            'subcategory' => new SubcategoryRequest($this->subcategory),
+            'type' => new TypeResource($this->type),
+            'category' => new CategoryResource($this->category),
+            'subcategory' => new SubcategoryResource($this->subcategory),
             'fields' => FieldResource::collection($this->subcategory->fields),
         ];
     }
