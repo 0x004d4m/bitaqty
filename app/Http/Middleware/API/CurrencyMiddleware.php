@@ -19,7 +19,7 @@ class CurrencyMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Log::debug('hi');
+        Log::debug('hi'.json_encode($request));
         if($request->has('client_id')){
             $Currency = Currency::where('id', Client::where('id', $request->client_id)->first()->currency_id)->first();
         }else {
