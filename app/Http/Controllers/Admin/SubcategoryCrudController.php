@@ -6,7 +6,7 @@ use App\Http\Requests\SubcategoryRequest;
 use App\Models\Subcategory;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\Widget;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class SubcategoryCrudController extends CrudController
 {

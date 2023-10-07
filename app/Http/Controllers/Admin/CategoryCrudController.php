@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class CategoryCrudController extends CrudController
 {

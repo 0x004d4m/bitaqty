@@ -6,7 +6,7 @@ use App\Http\Requests\ClientRequest;
 use App\Models\Client;
 use App\Models\Vendor;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class ClientCrudController extends CrudController
 {
