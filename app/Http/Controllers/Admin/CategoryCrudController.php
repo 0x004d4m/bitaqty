@@ -147,6 +147,10 @@ class CategoryCrudController extends CrudController
 
         $options = Category::query();
 
+        if (isset($form['type_id'])) {
+            $options = $options->where('type_id', $form['type_id']);
+        }
+
         if (isset($form['category_id'])) {
             $options = $options->where('category_id', $form['category_id']);
         }

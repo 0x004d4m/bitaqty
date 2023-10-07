@@ -35,6 +35,22 @@ class ProductCrudController extends CrudController
         $this->crud->column('stock_limit')->label(__('admin_fields.stock_limit'))->type('number');
         $this->crud->column('is_active')->label(__('admin_fields.is_active'))->type('boolean');
         $this->crud->column('is_vip')->label(__('admin_fields.is_vip'))->type('boolean');
+        $this->crud->addColumn('type_id', [
+            'label' => __('admin_fields.type'),
+            'type' => "select",
+            'name' => 'type_id',
+            'entity' => 'type',
+            'attribute' => "name",
+            'model' => 'App\Models\Type'
+        ]);
+        $this->crud->setColumnDetails('type_id', [
+            'label' => __('admin_fields.type'),
+            'type' => "select",
+            'name' => 'type_id',
+            'entity' => 'type',
+            'attribute' => "name",
+            'model' => 'App\Models\Type'
+        ]);
         $this->crud->addColumn('category_id', [
             'label' => __('admin_fields.category'),
             'type' => "select",
@@ -74,12 +90,26 @@ class ProductCrudController extends CrudController
         $this->crud->setValidation(ProductRequest::class);
 
         $this->crud->addField([
-            'label' => __('admin_fields.category'),
+            'label' => __('admin_fields.type'),
             'type' => "relationship",
-            'name' => 'category_id',
-            'entity' => 'category',
+            'name' => 'type_id',
+            'entity' => 'type',
             'attribute' => "name",
-            'model' => 'App\Models\Category'
+            'model' => 'App\Models\Type'
+        ]);
+
+        $this->crud->addField([
+            'label'                => __('admin_fields.category'),
+            'type'                 => 'select2_from_ajax',
+            'name'                 => 'category_id',
+            'entity'               => 'category',
+            'attribute'            => 'name',
+            'data_source'          => url('admin/Categories'),
+            'placeholder'          => 'Select a Category',
+            'include_all_form_fields' => true,
+            'minimum_input_length' => 0,
+            'dependencies'         => ['type_id'],
+            'method'               => 'GET',
         ]);
 
         $this->crud->addField([
