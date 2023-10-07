@@ -6,6 +6,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CategoryCrudController extends CrudController
 {
@@ -156,7 +157,8 @@ class CategoryCrudController extends CrudController
         }
 
         $results = $options->paginate(100);
-
+        Log::debug($options);
+        Log::debug($results);
         return $results;
     }
 }
