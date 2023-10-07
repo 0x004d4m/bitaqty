@@ -159,6 +159,7 @@ class CategoryCrudController extends CrudController
         $results = $options->paginate(100);
         Log::debug(json_encode($options));
         Log::debug(json_encode($results));
+        Log::debug(json_encode($results)['data']);
         return $results;
     }
 }
