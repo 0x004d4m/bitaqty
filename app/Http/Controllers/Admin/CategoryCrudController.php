@@ -151,10 +151,6 @@ class CategoryCrudController extends CrudController
             $options = $options->where('type_id', $form['type_id']);
         }
 
-        if (isset($form['category_id'])) {
-            $options = $options->where('category_id', $form['category_id']);
-        }
-
         if($request->has('term')){
             $options = $options->where('name', 'like', '%' . $request->input('term') . '%');
         }
