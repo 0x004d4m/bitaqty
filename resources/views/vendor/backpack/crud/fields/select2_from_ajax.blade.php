@@ -97,7 +97,6 @@
 <!-- include field specific select2 js-->
 @push('crud_fields_scripts')
 <script>
-    console.log("hi");
     function camelToUnderscore(key) {
         var result = key.replace( /([A-Z])/g, " $1" );
         return result.split(' ').join('_').toLowerCase();
@@ -200,16 +199,17 @@
 
         // if we have selected options here we are on a repeatable field, we need to fetch the options with the keys
         // we have stored from the field and append those options in the select.
-        console.log(element);
-        console.log($selectedOptions);
+        if (typeof $selectedOptions !== typeof undefined &&
+            $selectedOptions !== false &&
+            $selectedOptions != '' &&
+            $selectedOptions != null &&
+            $selectedOptions != [])
+        {
             var optionsForSelect = [];
             select2AjaxFetchSelectedEntry(element).then(function(result) {
-                console.log(result);
                 result.forEach(function(item) {
                     $itemText = item[$fieldAttribute];
-                    console.log($itemText);
                     $itemValue = item[$connectedEntityKeyName];
-                    console.log($itemValue);
                     //add current key to be selected later.
                     optionsForSelect.push($itemValue);
 
@@ -220,7 +220,7 @@
                 // set the option keys as selected.
                 $(element).val(optionsForSelect);
             });
-        
+        }
 
         // if any dependencies have been declared
         // when one of those dependencies changes value
