@@ -201,6 +201,7 @@
         // if we have selected options here we are on a repeatable field, we need to fetch the options with the keys
         // we have stored from the field and append those options in the select.
         console.log(element);
+        console.log($selectedOptions);
         console.log((typeof $selectedOptions !== typeof undefined &&
             $selectedOptions !== false &&
             $selectedOptions != '' &&
