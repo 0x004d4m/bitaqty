@@ -103,7 +103,7 @@ class ProductCrudController extends CrudController
             'type'                 => 'select2_from_ajax',
             'name'                 => 'category_id',
             'entity'               => 'category',
-            'attribute'            => 'name.'.app()->getLocale(),
+            'attribute'            => 'name',
             'data_source'          => url('admin/Categories'),
             'placeholder'          => 'Select a Category',
             'include_all_form_fields' => true,
