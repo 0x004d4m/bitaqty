@@ -202,17 +202,6 @@
         // we have stored from the field and append those options in the select.
         console.log(element);
         console.log($selectedOptions);
-        console.log((typeof $selectedOptions !== typeof undefined &&
-            $selectedOptions !== false &&
-            $selectedOptions != '' &&
-            $selectedOptions != null &&
-            $selectedOptions != []));
-        if (typeof $selectedOptions !== typeof undefined &&
-            $selectedOptions !== false &&
-            $selectedOptions != '' &&
-            $selectedOptions != null &&
-            $selectedOptions != [])
-        {
             var optionsForSelect = [];
             select2AjaxFetchSelectedEntry(element).then(function(result) {
                 console.log(result);
@@ -231,7 +220,7 @@
                 // set the option keys as selected.
                 $(element).val(optionsForSelect);
             });
-        }
+        
 
         // if any dependencies have been declared
         // when one of those dependencies changes value
