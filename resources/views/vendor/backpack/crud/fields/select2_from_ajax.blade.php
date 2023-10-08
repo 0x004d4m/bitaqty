@@ -206,7 +206,9 @@
             $selectedOptions != [])
         {
             var optionsForSelect = [];
+            console.log(element);
             select2AjaxFetchSelectedEntry(element).then(function(result) {
+                console.log(result);
                 result.forEach(function(item) {
                     $itemText = item[$fieldAttribute];
                     console.log($itemText);
