@@ -153,8 +153,10 @@ class CategoryCrudController extends CrudController
         }
 
         if($request->has('term')){
+            Log::debug($form['term']);
             $options = $options->where('name', 'like', '%' . $request->input('term') . '%');
         }
+        Log::debug($options);
 
         $results = $options->paginate(100);
         return $results;
