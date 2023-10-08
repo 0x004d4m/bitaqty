@@ -200,6 +200,12 @@
 
         // if we have selected options here we are on a repeatable field, we need to fetch the options with the keys
         // we have stored from the field and append those options in the select.
+        console.log(element);
+        console.log((typeof $selectedOptions !== typeof undefined &&
+            $selectedOptions !== false &&
+            $selectedOptions != '' &&
+            $selectedOptions != null &&
+            $selectedOptions != []));
         if (typeof $selectedOptions !== typeof undefined &&
             $selectedOptions !== false &&
             $selectedOptions != '' &&
@@ -207,7 +213,6 @@
             $selectedOptions != [])
         {
             var optionsForSelect = [];
-            console.log(element);
             select2AjaxFetchSelectedEntry(element).then(function(result) {
                 console.log(result);
                 result.forEach(function(item) {
