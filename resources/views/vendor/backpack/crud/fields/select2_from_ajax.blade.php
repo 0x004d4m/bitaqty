@@ -97,6 +97,7 @@
 <!-- include field specific select2 js-->
 @push('crud_fields_scripts')
 <script>
+    console.log("hi");
     function camelToUnderscore(key) {
         var result = key.replace( /([A-Z])/g, " $1" );
         return result.split(' ').join('_').toLowerCase();
