@@ -148,17 +148,14 @@ class CategoryCrudController extends CrudController
 
         $options = Category::query();
         if (isset($form['type_id'])) {
-            Log::debug($form['type_id']);
             $options = $options->where('type_id', $form['type_id']);
         }
 
         if($request->has('term')){
-            Log::debug($form['term']);
             $options = $options->where('name', 'like', '%' . $request->input('term') . '%');
         }
 
         $results = $options->paginate(100);
-        Log::debug($results);
         return $results;
     }
 }
