@@ -156,9 +156,9 @@ class CategoryCrudController extends CrudController
             Log::debug($form['term']);
             $options = $options->where('name', 'like', '%' . $request->input('term') . '%');
         }
-        Log::debug($options);
 
         $results = $options->paginate(100);
+        Log::debug($results);
         return $results;
     }
 }
