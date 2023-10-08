@@ -209,7 +209,9 @@
             select2AjaxFetchSelectedEntry(element).then(function(result) {
                 result.forEach(function(item) {
                     $itemText = item[$fieldAttribute];
+                    console.log($itemText);
                     $itemValue = item[$connectedEntityKeyName];
+                    console.log($itemValue);
                     //add current key to be selected later.
                     optionsForSelect.push($itemValue);
 
