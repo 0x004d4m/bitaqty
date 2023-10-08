@@ -147,8 +147,8 @@ class CategoryCrudController extends CrudController
         $form = backpack_form_input();
 
         $options = Category::query();
-
         if (isset($form['type_id'])) {
+            Log::debug($form['type_id']);
             $options = $options->where('type_id', $form['type_id']);
         }
 
@@ -157,9 +157,6 @@ class CategoryCrudController extends CrudController
         }
 
         $results = $options->paginate(100);
-        Log::debug(json_encode($options));
-        Log::debug(json_encode($results));
-        Log::debug(json_encode($results['data']));
         return $results;
     }
 }
