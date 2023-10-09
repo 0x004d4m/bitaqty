@@ -4,12 +4,16 @@ namespace App\Http\Controllers\API\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\OrderRequest;
+use App\Http\Requests\Client\OrderUploadRequest;
 use App\Http\Resources\Client\OrderResource;
 use App\Models\Client;
 use App\Models\FieldsAnswer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @OA\Tag(
@@ -74,10 +78,10 @@ class OrderController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"image","amount","notes","supported_account_id"},
-     *         @OA\Property(property="quantity", type="file", format="file"),
+     *          required={"quantity","device_name","product_id","fields"},
+     *         @OA\Property(property="quantity", type="integer", example=""),
      *         @OA\Property(property="device_name", type="string", example=""),
-     *         @OA\Property(property="product_id", type="string", example=""),
+     *         @OA\Property(property="product_id", type="integer", example=""),
      *         @OA\Property(
      *           property="fields",
      *           type="array",
@@ -85,7 +89,7 @@ class OrderController extends Controller
      *           @OA\Items(
      *             type="object",
      *             @OA\Property(property="answer", type="string"),
-     *             @OA\Property(property="field_id", type="string")
+     *             @OA\Property(property="field_id", type="integer")
      *           )
      *         )
      *       ),
@@ -168,5 +172,55 @@ class OrderController extends Controller
                 ]
             ], 422);
         }
+    }
+
+    /**
+     * @OA\Put(
+     *  path="/api/clients/orders/upload",
+     *  summary="Client Order Upload Image",
+     *  description="Client Order Upload Image",
+     *  operationId="ClientOrderUploadImage",
+     *  tags={"ClientOrders"},
+     *  security={{"bearerAuth": {}}},
+     *  @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *          required={"image"},
+     *         @OA\Property(property="image", type="file", format="file"),
+     *       ),
+     *     ),
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="image_path", type="string", example="")
+     *    )
+     *  ),
+     *  @OA\Response(
+     *    response=422,
+     *    description="Wrong credentials response",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example=""),
+     *      @OA\Property(property="errors", type="object",
+     *         @OA\Property(property="dynamic-error-keys", type="array",
+     *           @OA\Items(type="string")
+     *         )
+     *       )
+     *     )
+     *  )
+     * )
+     */
+    public function upload(OrderUploadRequest $request)
+    {
+        $value = $request->image;
+        $destination_path = "public/uploads";
+        $image = Image::make($value)->encode('png', 90);
+        $filename = md5($value . time()) . '.png';
+        Storage::put($destination_path . '/' . $filename, $image->stream());
+        $public_destination_path = Str::replaceFirst('public/', 'storage/', $destination_path);
+        return response()->json(["data" => ['image_path'=> ($public_destination_path . '/' . $filename)]], 200);
     }
 }

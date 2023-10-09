@@ -1382,22 +1382,22 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "image",
-                                    "amount",
-                                    "notes",
-                                    "supported_account_id"
+                                    "quantity",
+                                    "device_name",
+                                    "product_id",
+                                    "fields"
                                 ],
                                 "properties": {
                                     "quantity": {
-                                        "type": "file",
-                                        "format": "file"
+                                        "type": "integer",
+                                        "example": ""
                                     },
                                     "device_name": {
                                         "type": "string",
                                         "example": ""
                                     },
                                     "product_id": {
-                                        "type": "string",
+                                        "type": "integer",
                                         "example": ""
                                     },
                                     "fields": {
@@ -1409,7 +1409,7 @@
                                                     "type": "string"
                                                 },
                                                 "field_id": {
-                                                    "type": "string"
+                                                    "type": "integer"
                                                 }
                                             },
                                             "type": "object"
@@ -1424,6 +1424,85 @@
                 "responses": {
                     "200": {
                         "description": "Success"
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/orders/upload": {
+            "put": {
+                "tags": [
+                    "ClientOrders"
+                ],
+                "summary": "Client Order Upload Image",
+                "description": "Client Order Upload Image",
+                "operationId": "ClientOrderUploadImage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "image"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "type": "file",
+                                        "format": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "image_path": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "422": {
                         "description": "Wrong credentials response",
