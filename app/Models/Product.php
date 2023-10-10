@@ -20,12 +20,14 @@ class Product extends Model
     use HasTranslations;
 
     protected $table = 'products';
+
     protected $translatable = [
         'name',
         'description',
         'unavailable_notes',
         'how_to_use',
     ];
+
     protected $fillable = [
         'name',
         'description',
@@ -64,6 +66,11 @@ class Product extends Model
     {
         return $this->belongsToMany(Field::class, 'product_fields');
     }
+
+    // public function prepaidCardStocks()
+    // {
+    //     return $this->hasMany(PrepaidCardStock::class);
+    // }
 
     public function setImageAttribute($value)
     {

@@ -39,6 +39,7 @@ Route::group([
         ], function () {
             Route::post('/', [OrderController::class, 'store']);
             Route::get('/', [OrderController::class, 'index']);
+            Route::put('/upload', [OrderController::class, 'upload']);
             Route::get('/{id}', [OrderController::class, 'show']);
             Route::get('/{id}/products/{product_id}', [OrderController::class, 'showDetails']);
         });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\General;
 
+use App\Models\PrepaidCardStock;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +23,9 @@ class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
         $request->merge(['field_resource_product_id' => $this->id]);
+        // if($request->has('field_resource_order_id') && $this->type_id == 1){
+        //     $PrepaidCardStock = PrepaidCardStock::where('product_id', $this->id)->get();
+        // }
         return [
             'id' => $this->id,
             'name' => $this->name,
