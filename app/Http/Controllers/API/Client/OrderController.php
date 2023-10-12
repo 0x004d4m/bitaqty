@@ -127,7 +127,14 @@ class OrderController extends Controller
         $Client = Client::where("id", $request->client_id)->first();
         $Product = Product::where("id", $request->product_id)->first();
         if($Product){
-            if($Client->credit >= $Product->selling_price){
+            if($Product->type_id == 1){
+                $price = $Product->selling_price * $request->quantity;
+                $cost_price = $Product->cost_price * $request->quantity;
+            }else{
+                $price = $Product->selling_price;
+                $cost_price = $Product->cost_price;
+            }
+            if($Client->credit >= $price){
                 if($Product->type_id == 1){
                     if($Product->stock_limit < $request->quantity){
                         return response()->json([
@@ -139,7 +146,7 @@ class OrderController extends Controller
                             ]
                         ], 422);
                     }
-                    if(PrepaidCardStock::doesnthave('orderPrepaidCardStocks')->where('product_id', $Product->product_id)->count() < $request->quantity){
+                    if(PrepaidCardStock::doesnthave('orderPrepaidCardStock')->where('product_id', $Product->product_id)->count() < $request->quantity){
                         return response()->json([
                             "message" => "Cannot Buy More Than $request->quantity",
                             "errors" => [
@@ -157,10 +164,10 @@ class OrderController extends Controller
                     "type_id" => $Product->type_id,
                     "category_id" => $Product->category_id,
                     "subcategory_id" => $Product->subcategory_id,
-                    "price" => $Product->selling_price,
-                    "profit" => ($Product->selling_price - $Product->cost_price),
+                    "price" => $price,
+                    "profit" => ($price - $cost_price),
                     "credit_before" => $Client->credit,
-                    "credit_after" => ($Client->credit - $Product->selling_price),
+                    "credit_after" => ($Client->credit - $price),
                     "order_status_id" => 1,
                     "userable_type" => 'App\Models\Client',
                     "userable_id" => $request->client_id,
@@ -180,10 +187,13 @@ class OrderController extends Controller
                             OrderPrepaidCardStock::create([
                                 "is_printed" => $request->is_printed,
                                 "order_id" => $Order->id,
-                                "prepaid_card_stock_id" => PrepaidCardStock::doesnthave('orderPrepaidCardStocks')->where('product_id', $Order->product_id)->orderBy('expiration_date')->first()->id,
+                                "prepaid_card_stock_id" => PrepaidCardStock::doesnthave('orderPrepaidCardStock')->where('product_id', $Order->product_id)->orderBy('expiration_date')->first()->id,
                             ]);
                         }
                     }
+                    $Client->update([
+                        "credit" => ($Client->credit - $price)
+                    ]);
                     return response()->json(["data" => []], 200);
                 }else{
                     return response()->json([
