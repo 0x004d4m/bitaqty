@@ -76,9 +76,9 @@ class AuthController extends Controller
     {
         $Client = Client::create($request->input());
         if ($Client) {
-            $accessToken = $Client->createToken('ClientOtpToken')->accessToken;
-            Log::debug($accessToken);
-            $ClientOtpToken = PersonalAccessToken::where('token', $accessToken)->first();
+            $plainTextToken = $Client->createToken('ClientOtpToken')->plainTextToken;
+            $plainTextToken = explode('|', $plainTextToken)[0];
+            $ClientOtpToken = PersonalAccessToken::where('id', $plainTextToken)->first();
             $ClientOtpToken->update([
                 "code" => 1234
             ]);
@@ -94,7 +94,7 @@ class AuthController extends Controller
             // }
             return response()->json([
                 "data"=>[
-                    "otp_token" => $accessToken,
+                    "otp_token" => $plainTextToken,
                 ]
             ], 200);
         } else {
@@ -166,8 +166,9 @@ class AuthController extends Controller
             }
         }
         if (Hash::check($request->password, $Client->password)) {
-            $accessToken = $Client->createToken('ClientOtpToken')->accessToken;
-            $ClientOtpToken = PersonalAccessToken::where('token', $accessToken)->first();
+            $plainTextToken = $Client->createToken('ClientOtpToken')->plainTextToken;
+            $plainTextToken = explode('|', $plainTextToken)[0];
+            $ClientOtpToken = PersonalAccessToken::where('id', $plainTextToken)->first();
             $ClientOtpToken->update([
                 "code" => 1234
             ]);
@@ -183,7 +184,7 @@ class AuthController extends Controller
             // }
             return response()->json([
                 "data" => [
-                    "otp_token" => $accessToken,
+                    "otp_token" => $plainTextToken,
                 ]
             ], 200);
         }
@@ -249,16 +250,20 @@ class AuthController extends Controller
             $Client = Client::where('id', $ClientOtpToken->tokenable_id)->first();
             if ($Client) {
                 $access_token_expiry = Carbon::now()->addDays(10);
-                $ClientAccessToken = $Client->createToken('ClientAccessToken', ["*"], $access_token_expiry)->accessToken;
-                $ClientRefreshToken = $Client->createToken('ClientRefreshToken')->accessToken;
+                $ClientAccessToken = $Client->createToken('ClientAccessToken', ["*"], $access_token_expiry)->plainTextToken;
+                $ClientAccessToken = explode('|', $ClientAccessToken)[0];
+                $ClientAccessToken = PersonalAccessToken::where('id', $ClientAccessToken)->first();
+                $ClientRefreshToken = $Client->createToken('ClientRefreshToken')->plainTextToken;
+                $ClientRefreshToken = explode('|', $ClientRefreshToken)[0];
+                $ClientRefreshToken = PersonalAccessToken::where('id', $ClientRefreshToken)->first();
                 $ClientOtpToken->delete();
                 $Client->update([
                     "is_phone_verified" => true,
                 ]);
                 return response()->json([
                     "data" => [
-                        "access_token" => $ClientAccessToken,
-                        "refresh_token" => $ClientRefreshToken,
+                        "access_token" => $ClientAccessToken->token,
+                        "refresh_token" => $ClientRefreshToken->token,
                         "access_token_expiry" => $access_token_expiry,
                     ]
                 ], 200);
@@ -338,13 +343,15 @@ class AuthController extends Controller
                 ], 422);
             }
         }
-        $ClientForgetToken = $Client->createToken('ClientForgetToken')->accessToken;
+        $ClientForgetToken = $Client->createToken('ClientForgetToken')->plainTextToken;
+        $ClientForgetToken = explode('|', $ClientForgetToken)[0];
+        $ClientForgetToken = PersonalAccessToken::where('id', $ClientForgetToken)->first();
         // if(env('APP_ENV')=='production'){
         //     Mail::to($Client->email)->send(new RegisterMail());
         // }
         return response()->json([
             "data"=>[
-                "token" => $ClientForgetToken,
+                "token" => $ClientForgetToken->token,
             ]
         ], 200);
     }
