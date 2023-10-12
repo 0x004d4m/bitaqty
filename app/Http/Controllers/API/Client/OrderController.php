@@ -136,7 +136,7 @@ class OrderController extends Controller
             }
             if($Client->credit >= $price){
                 if($Product->type_id == 1){
-                    if($Product->stock_limit < $request->quantity){
+                    if($Product->stock_limit <= $request->quantity){
                         return response()->json([
                             "message" => "Cannot Buy More Than $Product->stock_limit",
                             "errors" => [
@@ -146,7 +146,7 @@ class OrderController extends Controller
                             ]
                         ], 422);
                     }
-                    if(PrepaidCardStock::doesnthave('orderPrepaidCardStock')->where('product_id', $Product->product_id)->count() < $request->quantity){
+                    if(PrepaidCardStock::doesnthave('orderPrepaidCardStock')->where('product_id', $Product->product_id)->count() >= $request->quantity){
                         return response()->json([
                             "message" => "Cannot Buy More Than $request->quantity",
                             "errors" => [
