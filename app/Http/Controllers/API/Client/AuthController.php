@@ -13,6 +13,7 @@ use App\Models\Client;
 use App\Models\PersonalAccessToken;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 /**
@@ -76,6 +77,7 @@ class AuthController extends Controller
         $Client = Client::create($request->input());
         if ($Client) {
             $plainTextToken = $Client->createToken('ClientOtpToken')->plainTextToken;
+            Log::debug($plainTextToken);
             $ClientOtpToken = PersonalAccessToken::where('token', $plainTextToken)->first();
             $ClientOtpToken->update([
                 "code" => 1234
