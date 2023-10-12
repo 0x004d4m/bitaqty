@@ -14,6 +14,7 @@ use App\Models\OrderPrepaidCardStock;
 use App\Models\PrepaidCardStock;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
@@ -136,6 +137,8 @@ class OrderController extends Controller
             }
             if($Client->credit >= $price){
                 if($Product->type_id == 1){
+                    Log::debug($request->quantity);
+                    Log::debug($Product->stock_limit);
                     if($Product->stock_limit <= $request->quantity){
                         return response()->json([
                             "message" => "Cannot Buy More Than $Product->stock_limit",
@@ -147,6 +150,7 @@ class OrderController extends Controller
                         ], 422);
                     }
                     $PrepaidCardStockCount = PrepaidCardStock::doesnthave('orderPrepaidCardStock')->where('product_id', $Product->product_id)->count();
+                    Log::debug($PrepaidCardStockCount);
                     if($request->quantity <= $PrepaidCardStockCount){
                         return response()->json([
                             "message" => "Cannot Buy More Than " . $PrepaidCardStockCount,
