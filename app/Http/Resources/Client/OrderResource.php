@@ -31,7 +31,7 @@ class OrderResource extends JsonResource
             "subcategory" => new SubcategoryResource($this->product),
             "order_status" => new OrderStatusResource($this->orderStatus),
             "product" => new ProductResource($this->product),
-            "prepaid_cards" => PrepaidCardResource::collect($this->orderPrepaidCardStocks),
+            "prepaid_cards" => PrepaidCardResource::collection($this->orderPrepaidCardStocks),
         ];
     }
 }
