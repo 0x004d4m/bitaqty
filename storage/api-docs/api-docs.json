@@ -1351,6 +1351,21 @@
                                                                 "answer": ""
                                                             }
                                                         }
+                                                    },
+                                                    "prepaid_cards": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "example": {
+                                                                "id": "",
+                                                                "serial1": "",
+                                                                "serial2": "",
+                                                                "number1": "",
+                                                                "number2": "",
+                                                                "cvc": "",
+                                                                "expiration_date": "",
+                                                                "is_printed": ""
+                                                            }
+                                                        }
                                                     }
                                                 },
                                                 "type": "object"
@@ -1398,6 +1413,10 @@
                                     },
                                     "product_id": {
                                         "type": "integer",
+                                        "example": ""
+                                    },
+                                    "is_printed": {
+                                        "type": "boolean",
                                         "example": ""
                                     },
                                     "fields": {
@@ -1503,6 +1522,74 @@
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/clients/orders/print": {
+            "put": {
+                "tags": [
+                    "ClientOrders"
+                ],
+                "summary": "Client Order Print Card",
+                "description": "Client Order Print Card",
+                "operationId": "ClientOrderPrintCard",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "card_ids"
+                                ],
+                                "properties": {
+                                    "card_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     },
                     "422": {
                         "description": "Wrong credentials response",

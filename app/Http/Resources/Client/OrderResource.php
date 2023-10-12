@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources\Client;
 
-use App\Http\Requests\ProductRequest;
 use App\Http\Resources\General\CategoryResource;
 use App\Http\Resources\General\OrderStatusResource;
+use App\Http\Resources\General\PrepaidCardResource;
 use App\Http\Resources\General\ProductResource;
-use App\Http\Resources\General\ProductsResource;
 use App\Http\Resources\General\SubcategoryResource;
 use App\Http\Resources\General\TypeResource;
 use Illuminate\Http\Request;
@@ -32,6 +31,7 @@ class OrderResource extends JsonResource
             "subcategory" => new SubcategoryResource($this->product),
             "order_status" => new OrderStatusResource($this->orderStatus),
             "product" => new ProductResource($this->product),
+            "prepaid_cards" => PrepaidCardResource::collect($this->orderPrepaidCardStocks),
         ];
     }
 }

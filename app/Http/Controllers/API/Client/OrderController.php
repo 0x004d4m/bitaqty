@@ -5,10 +5,13 @@ namespace App\Http\Controllers\API\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\OrderRequest;
 use App\Http\Requests\Client\OrderUploadRequest;
+use App\Http\Requests\General\PrepaidCardPrintRequest;
 use App\Http\Resources\Client\OrderResource;
 use App\Models\Client;
 use App\Models\FieldsAnswer;
 use App\Models\Order;
+use App\Models\OrderPrepaidCardStock;
+use App\Models\PrepaidCardStock;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -50,6 +53,11 @@ class OrderController extends Controller
      *              @OA\Property(property="product", type="object",
      *                  example={"id":"","name":"","description":"","unavailable_notes":"","how_to_use":"","image":"","suggested_price":"","price":"","stock":"","is_vip":"","type":{"id":"","name":"","image":"","need_approval":""},"category":{"id":"","name":"","image":"","order":""},"subcategory":{"id":"","name":"","image":""},"fields":{"id":"","name":"","field_type":"","is_confirmed":"","answer":""}}
      *              ),
+     *              @OA\Property(property="prepaid_cards", type="array",
+     *                  @OA\Items(
+     *                    example={"id":"","serial1":"","serial2":"","number1":"","number2":"","cvc":"","expiration_date":"","is_printed":""}
+     *                  )
+     *              ),
      *          ),
      *      ),
      *    ),
@@ -82,6 +90,7 @@ class OrderController extends Controller
      *         @OA\Property(property="quantity", type="integer", example=""),
      *         @OA\Property(property="device_name", type="string", example=""),
      *         @OA\Property(property="product_id", type="integer", example=""),
+     *         @OA\Property(property="is_printed", type="boolean", example=""),
      *         @OA\Property(
      *           property="fields",
      *           type="array",
@@ -119,6 +128,28 @@ class OrderController extends Controller
         $Product = Product::where("id", $request->product_id)->first();
         if($Product){
             if($Client->credit >= $Product->selling_price){
+                if($Product->type_id == 1){
+                    if($Product->stock_limit < $request->quantity){
+                        return response()->json([
+                            "message" => "Cannot Buy More Than $Product->stock_limit",
+                            "errors" => [
+                                "product_id" => [
+                                    "Cannot Buy More Than $Product->stock_limit",
+                                ]
+                            ]
+                        ], 422);
+                    }
+                    if(PrepaidCardStock::doesnthave('orderPrepaidCardStocks')->where('product_id', $Product->product_id)->count() < $request->quantity){
+                        return response()->json([
+                            "message" => "Cannot Buy More Than $request->quantity",
+                            "errors" => [
+                                "product_id" => [
+                                    "Cannot Buy More Than $request->quantity",
+                                ]
+                            ]
+                        ], 422);
+                    }
+                }
                 if($Order = Order::create([
                     "quantity" => $request->quantity,
                     "device_name" => $request->device_name,
@@ -141,6 +172,15 @@ class OrderController extends Controller
                                 'field_id' => $request->field_id,
                                 'order_id' => $Order->id,
                                 'product_id' => $Order->product_id,
+                            ]);
+                        }
+                    }
+                    if($Order->type_id == 1){
+                        for ($i=0; $i < $request->quantity; $i++) {
+                            OrderPrepaidCardStock::create([
+                                "is_printed" => $request->is_printed,
+                                "order_id" => $Order->id,
+                                "prepaid_card_stock_id" => PrepaidCardStock::doesnthave('orderPrepaidCardStocks')->where('product_id', $Order->product_id)->orderBy('expiration_date')->first()->id,
                             ]);
                         }
                     }
@@ -225,5 +265,52 @@ class OrderController extends Controller
         Storage::put($destination_path . '/' . $filename, $image->stream());
         $public_destination_path = Str::replaceFirst('public/', 'storage/', $destination_path);
         return response()->json(["data" => ['image_path'=> ($public_destination_path . '/' . $filename)]], 200);
+    }
+
+    /**
+     * @OA\Put(
+     *  path="/api/clients/orders/print",
+     *  summary="Client Order Print Card",
+     *  description="Client Order Print Card",
+     *  operationId="ClientOrderPrintCard",
+     *  tags={"ClientOrders"},
+     *  security={{"bearerAuth": {}}},
+     *  @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *          required={"card_ids"},
+     *          @OA\Property(property="card_ids", type="array", @OA\Items(type="integer")),
+     *       ),
+     *     ),
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *  ),
+     *  @OA\Response(
+     *    response=422,
+     *    description="Wrong credentials response",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example=""),
+     *      @OA\Property(property="errors", type="object",
+     *         @OA\Property(property="dynamic-error-keys", type="array",
+     *           @OA\Items(type="string")
+     *         )
+     *       )
+     *     )
+     *  )
+     * )
+     */
+    public function print(PrepaidCardPrintRequest $request)
+    {
+        foreach ($request->card_ids as $id) {
+            $OrderPrepaidCardStock = OrderPrepaidCardStock::where('id', $id)->first();
+            $OrderPrepaidCardStock->update([
+                'is_printed' => 1
+            ]);
+        }
+        return response()->json(["data" => []], 200);
     }
 }

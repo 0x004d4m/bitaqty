@@ -28,4 +28,9 @@ class PrepaidCardStock extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function orderPrepaidCardStock()
+    {
+        return $this->hasOne(OrderPrepaidCardStock::class);
+    }
 }

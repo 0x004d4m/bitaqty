@@ -67,10 +67,10 @@ class Product extends Model
         return $this->belongsToMany(Field::class, 'product_fields');
     }
 
-    // public function prepaidCardStocks()
-    // {
-    //     return $this->hasMany(PrepaidCardStock::class);
-    // }
+    public function prepaidCardStocks()
+    {
+        return $this->hasMany(PrepaidCardStock::class);
+    }
 
     public function setImageAttribute($value)
     {
