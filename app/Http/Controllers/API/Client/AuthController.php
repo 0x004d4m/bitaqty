@@ -94,7 +94,7 @@ class AuthController extends Controller
             // }
             return response()->json([
                 "data"=>[
-                    "otp_token" => $plainTextToken,
+                    "otp_token" => $ClientOtpToken->token,
                 ]
             ], 200);
         } else {
@@ -184,7 +184,7 @@ class AuthController extends Controller
             // }
             return response()->json([
                 "data" => [
-                    "otp_token" => $plainTextToken,
+                    "otp_token" => $ClientOtpToken->token,
                 ]
             ], 200);
         }
