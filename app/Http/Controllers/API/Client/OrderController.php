@@ -187,7 +187,7 @@ class OrderController extends Controller
                     if($Order->type_id == 1){
                         for ($i=0; $i < $request->quantity; $i++) {
                             OrderPrepaidCardStock::create([
-                                "is_printed" => $request->is_printed?1:0,
+                                "is_printed" => $request->is_printed== "false"?0:1,
                                 "order_id" => $Order->id,
                                 "prepaid_card_stock_id" => PrepaidCardStock::doesnthave('orderPrepaidCardStock')->where('product_id', $Order->product_id)->orderBy('expiration_date')->first()->id,
                             ]);
