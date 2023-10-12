@@ -76,9 +76,9 @@ class AuthController extends Controller
     {
         $Client = Client::create($request->input());
         if ($Client) {
-            $plainTextToken = $Client->createToken('ClientOtpToken')->plainTextToken;
-            Log::debug($plainTextToken);
-            $ClientOtpToken = PersonalAccessToken::where('token', $plainTextToken)->first();
+            $accessToken = $Client->createToken('ClientOtpToken')->accessToken;
+            Log::debug($accessToken);
+            $ClientOtpToken = PersonalAccessToken::where('token', $accessToken)->first();
             $ClientOtpToken->update([
                 "code" => 1234
             ]);
@@ -94,7 +94,7 @@ class AuthController extends Controller
             // }
             return response()->json([
                 "data"=>[
-                    "otp_token" => $plainTextToken,
+                    "otp_token" => $accessToken,
                 ]
             ], 200);
         } else {
@@ -166,8 +166,8 @@ class AuthController extends Controller
             }
         }
         if (Hash::check($request->password, $Client->password)) {
-            $plainTextToken = $Client->createToken('ClientOtpToken')->plainTextToken;
-            $ClientOtpToken = PersonalAccessToken::where('token', $plainTextToken)->first();
+            $accessToken = $Client->createToken('ClientOtpToken')->accessToken;
+            $ClientOtpToken = PersonalAccessToken::where('token', $accessToken)->first();
             $ClientOtpToken->update([
                 "code" => 1234
             ]);
@@ -183,7 +183,7 @@ class AuthController extends Controller
             // }
             return response()->json([
                 "data" => [
-                    "otp_token" => $plainTextToken,
+                    "otp_token" => $accessToken,
                 ]
             ], 200);
         }
@@ -249,8 +249,8 @@ class AuthController extends Controller
             $Client = Client::where('id', $ClientOtpToken->tokenable_id)->first();
             if ($Client) {
                 $access_token_expiry = Carbon::now()->addDays(10);
-                $ClientAccessToken = $Client->createToken('ClientAccessToken', ["*"], $access_token_expiry)->plainTextToken;
-                $ClientRefreshToken = $Client->createToken('ClientRefreshToken')->plainTextToken;
+                $ClientAccessToken = $Client->createToken('ClientAccessToken', ["*"], $access_token_expiry)->accessToken;
+                $ClientRefreshToken = $Client->createToken('ClientRefreshToken')->accessToken;
                 $ClientOtpToken->delete();
                 $Client->update([
                     "is_phone_verified" => true,
@@ -338,7 +338,7 @@ class AuthController extends Controller
                 ], 422);
             }
         }
-        $ClientForgetToken = $Client->createToken('ClientForgetToken')->plainTextToken;
+        $ClientForgetToken = $Client->createToken('ClientForgetToken')->accessToken;
         // if(env('APP_ENV')=='production'){
         //     Mail::to($Client->email)->send(new RegisterMail());
         // }

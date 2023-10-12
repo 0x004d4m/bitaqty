@@ -73,7 +73,7 @@ class AuthController extends Controller
         $Vendor = Vendor::create($request->input());
         if ($Vendor) {
             $Vendor->update([
-                'otp_token' => $Vendor->createToken('VendorOtpToken')->plainTextToken,
+                'otp_token' => $Vendor->createToken('VendorOtpToken')->accessToken,
                 'otp_code' => 1234,
             ]);
             // if(env('APP_ENV')=='production'){
@@ -153,7 +153,7 @@ class AuthController extends Controller
         if (Hash::check($request->password, $Vendor->password)) {
             $Vendor->update([
                 'fcm_token' => $request->fcm_token,
-                'otp_token' => $Vendor->createToken('VendorOtpToken')->plainTextToken,
+                'otp_token' => $Vendor->createToken('VendorOtpToken')->accessToken,
                 'otp_code' => 1234,
             ]);
             // if(env('APP_ENV')=='production'){
@@ -223,8 +223,8 @@ class AuthController extends Controller
                 'otp_token' => null,
                 'otp_code' => null,
                 "is_phone_verified" => true,
-                "access_token" => $Vendor->createToken('VendorAccessToken', ["*"], $access_token_expiry)->plainTextToken,
-                "refresh_token" => $Vendor->createToken('VendorRefreshToken')->plainTextToken,
+                "access_token" => $Vendor->createToken('VendorAccessToken', ["*"], $access_token_expiry)->accessToken,
+                "refresh_token" => $Vendor->createToken('VendorRefreshToken')->accessToken,
             ]);
             return response()->json([
                 "access_token" => $Vendor->access_token,
@@ -298,7 +298,7 @@ class AuthController extends Controller
             }
         }
         $Vendor->update([
-            'forget_token' => $Vendor->createToken('VendorForgetToken')->plainTextToken,
+            'forget_token' => $Vendor->createToken('VendorForgetToken')->accessToken,
         ]);
         // if(env('APP_ENV')=='production'){
         //     Mail::to($Vendor->email)->send(new RegisterMail());
