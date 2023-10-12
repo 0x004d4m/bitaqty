@@ -71,7 +71,7 @@ class PrepaidCardStockCrudController extends CrudController
 
     protected function setupImportOperation()
     {
-        $this->crud->setValidation(PrepaidCardStockImportRequest::class);
+        // $this->crud->setValidation(PrepaidCardStockImportRequest::class);
 
         $this->crud->addField([
             'label' => __('admin_fields.product'),
