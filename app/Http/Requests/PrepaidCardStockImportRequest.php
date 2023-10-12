@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class PrepaidCardStockImportRequest extends FormRequest
 {
@@ -24,6 +25,7 @@ class PrepaidCardStockImportRequest extends FormRequest
      */
     public function rules()
     {
+        Log::debug('Update');
         return [
             'product_id' => 'required',
             'excel' => 'required',

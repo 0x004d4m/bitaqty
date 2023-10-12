@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class PrepaidCardStockRequest extends FormRequest
 {
@@ -24,6 +25,7 @@ class PrepaidCardStockRequest extends FormRequest
      */
     public function rules()
     {
+        Log::debug('Create');
         return [
             'serial1' => 'required',
             'number1' => 'required',
