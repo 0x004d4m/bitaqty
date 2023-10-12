@@ -45,12 +45,6 @@ class Client extends Model
         "can_give_credit",
         "vendor_id",
         "group_id",
-        "fcm_token",
-        "otp_token",
-        "otp_code",
-        "access_token",
-        "refresh_token",
-        "forget_token",
         "is_email_verified",
         "is_phone_verified",
     ];

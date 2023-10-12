@@ -10,6 +10,7 @@ use App\Http\Requests\Client\Auth\RegisterRequest;
 use App\Http\Requests\Client\Auth\ResetPasswordRequest;
 use App\Mail\Client\RegisterMail;
 use App\Models\Client;
+use App\Models\PersonalAccessToken;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -74,16 +75,24 @@ class AuthController extends Controller
     {
         $Client = Client::create($request->input());
         if ($Client) {
-            $Client->update([
-                'otp_token' => $Client->createToken('ClientOtpToken')->plainTextToken,
-                'otp_code' => 1234,
+            $plainTextToken = $Client->createToken('ClientOtpToken')->plainTextToken;
+            $ClientOtpToken = PersonalAccessToken::where('token', $plainTextToken)->first();
+            $ClientOtpToken->update([
+                "code" => 1234
+            ]);
+            $ClientFcmToken = PersonalAccessToken::create([
+                "tokenable_type" => 'App\Models\Client',
+                "tokenable_id" => $Client->id,
+                "name" => 'ClientFcmToken',
+                "token" => $request->fcm_token,
+                "abilities" => '["*"]',
             ]);
             // if(env('APP_ENV')=='production'){
             //     Mail::to($Client->email)->send(new RegisterMail());
             // }
             return response()->json([
                 "data"=>[
-                    "otp_token" => $Client->otp_token,
+                    "otp_token" => $plainTextToken,
                 ]
             ], 200);
         } else {
@@ -155,17 +164,24 @@ class AuthController extends Controller
             }
         }
         if (Hash::check($request->password, $Client->password)) {
-            $Client->update([
-                'fcm_token' => $request->fcm_token,
-                'otp_token' => $Client->createToken('ClientOtpToken')->plainTextToken,
-                'otp_code' => 1234,
+            $plainTextToken = $Client->createToken('ClientOtpToken')->plainTextToken;
+            $ClientOtpToken = PersonalAccessToken::where('token', $plainTextToken)->first();
+            $ClientOtpToken->update([
+                "code" => 1234
+            ]);
+            $ClientFcmToken = PersonalAccessToken::create([
+                "tokenable_type" => 'App\Models\Client',
+                "tokenable_id" => $Client->id,
+                "name" => 'ClientFcmToken',
+                "token" => $request->fcm_token,
+                "abilities" => '["*"]',
             ]);
             // if(env('APP_ENV')=='production'){
             //     Mail::to($Client->email)->send(new RegisterMail());
             // }
             return response()->json([
                 "data" => [
-                    "otp_token" => $Client->otp_token,
+                    "otp_token" => $plainTextToken,
                 ]
             ], 200);
         }
@@ -222,23 +238,38 @@ class AuthController extends Controller
      */
     public function otp(OtpRequest $request)
     {
-        $Client = Client::where('otp_token', $request->otp_token)->where('otp_code', $request->code)->first();
-        if ($Client) {
-            $access_token_expiry = Carbon::now()->addDays(10);
-            $Client->update([
-                'otp_token' => null,
-                'otp_code' => null,
-                "is_phone_verified" => true,
-                "access_token" => $Client->createToken('ClientAccessToken', ["*"], $access_token_expiry)->plainTextToken,
-                "refresh_token" => $Client->createToken('ClientRefreshToken')->plainTextToken,
-            ]);
-            return response()->json([
-                "data" => [
-                "access_token" => $Client->access_token,
-                "refresh_token" => $Client->refresh_token,
-                "access_token_expiry" => $access_token_expiry,
-                ]
-            ], 200);
+        $ClientOtpToken = PersonalAccessToken::where('name', 'ClientOtpToken')
+        ->where("tokenable_type", 'App\Models\Client')
+        ->where('token', $request->otp_token)
+        ->where('code', $request->code)
+        ->first();
+        if($ClientOtpToken){
+            $Client = Client::where('id', $ClientOtpToken->tokenable_id)->first();
+            if ($Client) {
+                $access_token_expiry = Carbon::now()->addDays(10);
+                $ClientAccessToken = $Client->createToken('ClientAccessToken', ["*"], $access_token_expiry)->plainTextToken;
+                $ClientRefreshToken = $Client->createToken('ClientRefreshToken')->plainTextToken;
+                $ClientOtpToken->delete();
+                $Client->update([
+                    "is_phone_verified" => true,
+                ]);
+                return response()->json([
+                    "data" => [
+                        "access_token" => $ClientAccessToken,
+                        "refresh_token" => $ClientRefreshToken,
+                        "access_token_expiry" => $access_token_expiry,
+                    ]
+                ], 200);
+            } else {
+                return response()->json([
+                    "message" => "Wrong Code",
+                    "errors" => [
+                        "otp" => [
+                            "Wrong Code",
+                        ]
+                    ]
+                ], 422);
+            }
         } else {
             return response()->json([
                 "message" => "Wrong Code",
@@ -305,15 +336,13 @@ class AuthController extends Controller
                 ], 422);
             }
         }
-        $Client->update([
-            'forget_token' => $Client->createToken('ClientForgetToken')->plainTextToken,
-        ]);
+        $ClientForgetToken = $Client->createToken('ClientForgetToken')->plainTextToken;
         // if(env('APP_ENV')=='production'){
         //     Mail::to($Client->email)->send(new RegisterMail());
         // }
         return response()->json([
             "data"=>[
-                "token" => $Client->forget_token,
+                "token" => $ClientForgetToken,
             ]
         ], 200);
     }
@@ -357,8 +386,27 @@ class AuthController extends Controller
      */
     public function reset(ResetPasswordRequest $request)
     {
-        $Client = Client::where('forget_token', $request->forget_token)->first();
-        if (!$Client) {
+        $ClientForgetToken = PersonalAccessToken::where('name', 'ClientForgetToken')
+        ->where("tokenable_type", 'App\Models\Client')
+        ->where('token', $request->token)
+        ->first();
+        if($ClientForgetToken){
+            $Client = Client::where('id', $ClientForgetToken->tokenable_id)->first();
+            if (!$Client) {
+                return response()->json([
+                    "message" => "Wrong Token",
+                    "errors" => [
+                        "forget_token" => [
+                            "Wrong Token",
+                        ]
+                    ]
+                ], 422);
+            }
+            $Client->update([
+                'password' => $request->password,
+            ]);
+            return response()->json(["data"=>[]], 200);
+        } else {
             return response()->json([
                 "message" => "Wrong Token",
                 "errors" => [
@@ -368,14 +416,5 @@ class AuthController extends Controller
                 ]
             ], 422);
         }
-        $Client->update([
-            'password' => $request->password,
-            'otp_token' => null,
-            'otp_code' => null,
-            'access_token' => null,
-            'refresh_token' => null,
-            'forget_token' => null,
-        ]);
-        return response()->json(["data"=>[]], 200);
     }
 }

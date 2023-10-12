@@ -38,12 +38,6 @@ class Vendor extends Model
         "country_id",
         "state_id",
         "currency_id",
-        "fcm_token",
-        "otp_token",
-        "otp_code",
-        "access_token",
-        "refresh_token",
-        "forget_token",
         "is_email_verified",
         "is_phone_verified",
     ];

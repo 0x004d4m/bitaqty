@@ -9,8 +9,9 @@ class ChangePasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "old_password"=>"required",
-            "new_password"=> "required|confirmed|not_in:".request('old_pasword'),
+            "old_password" => "required",
+            "new_password" => "required|confirmed|not_in:".request('old_pasword'),
+            "remove_all_users_tokens" => "required",
         ];
     }
 }

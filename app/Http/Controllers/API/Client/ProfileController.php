@@ -7,6 +7,7 @@ use App\Http\Requests\Client\ChangePasswordRequest;
 use App\Http\Requests\Client\ProfileUpdateRequest;
 use App\Http\Resources\Client\ClientResource;
 use App\Models\Client;
+use App\Models\PersonalAccessToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -219,6 +220,15 @@ class ProfileController extends Controller
             $Client->update([
                 'password' => $request->new_password,
             ]);
+        }
+
+        if ($request->remove_all_users_tokens == "true") {
+            $ClientTokens = PersonalAccessToken::where("tokenable_type", 'App\Models\Client')
+            ->where('token', '!=', str_replace('Bearer ', '', $request->header('Authorization')))
+            ->first();
+            foreach ($ClientTokens as $key => $ClientToken) {
+                $ClientToken->delete();
+            }
         }
         return response()->json(["data"=>[]], 200);
     }

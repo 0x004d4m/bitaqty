@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\NotificationRequest;
 use App\Models\Client;
 use App\Models\Notification;
+use App\Models\PersonalAccessToken;
 use App\Models\UserNotification;
 use App\Models\Vendor;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -115,7 +116,10 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => $Notification->userable_type,
                                 "userable_id" => $Notification->userable_id,
                             ])){
-                                sendFCM($Client->fcm_token, $Notification->title, $Notification->description, $Notification->image);
+                                $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
+                                foreach($ClientFcmTokens as $ClientFcmToken){
+                                    sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
+                                }
                             }else{
                                 return ["message" => __('admin.sent_error_message')];
                             }
@@ -137,7 +141,10 @@ class NotificationCrudController extends CrudController
                                     "userable_type" => $Notification->userable_type,
                                     "userable_id" => $Client->id,
                                 ])) {
-                                    sendFCM($Client->fcm_token, $Notification->title, $Notification->description, $Notification->image);
+                                    $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
+                                    foreach ($ClientFcmTokens as $ClientFcmToken) {
+                                        sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
+                                    }
                                 }
                             }
                         } else {
@@ -159,7 +166,10 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => $Notification->userable_type,
                                 "userable_id" => $Notification->userable_id,
                             ])) {
-                                sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
+                                $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
+                                foreach ($VendorFcmTokens as $VendorFcmToken) {
+                                    sendFCM($VendorFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
+                                }
                             } else {
                                 return ["message" => __('admin.sent_error_message')];
                             }
@@ -181,7 +191,10 @@ class NotificationCrudController extends CrudController
                                     "userable_type" => $Notification->userable_type,
                                     "userable_id" => $Vendor->id,
                                 ])) {
-                                    sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
+                                    $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
+                                    foreach ($VendorFcmTokens as $VendorFcmToken) {
+                                        sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
+                                    }
                                 }
                             }
                         } else {
@@ -203,7 +216,10 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => 'App\Models\Client',
                                 "userable_id" => $Client->id,
                             ])) {
-                                sendFCM($Client->fcm_token, $Notification->title, $Notification->description, $Notification->image);
+                                $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
+                                foreach ($ClientFcmTokens as $ClientFcmToken) {
+                                    sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
+                                }
                             }
                         }
                     }
@@ -219,7 +235,10 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => 'App\Models\Vendor',
                                 "userable_id" => $Vendor->id,
                             ])) {
-                                sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
+                                $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
+                                foreach ($VendorFcmTokens as $VendorFcmToken) {
+                                    sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
+                                }
                             }
                         }
                     }
