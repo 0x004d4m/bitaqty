@@ -82,18 +82,20 @@ class AuthController extends Controller
             $ClientOtpToken->update([
                 "code" => 1234
             ]);
-            $ClientFcmToken = PersonalAccessToken::create([
-                "tokenable_type" => 'App\Models\Client',
-                "tokenable_id" => $Client->id,
-                "name" => 'ClientFcmToken',
-                "token" => $request->fcm_token,
-                "abilities" => '["*"]',
-            ]);
+            if (PersonalAccessToken::where("token", $request->fcm_token)->count() == 0) {
+                $ClientFcmToken = PersonalAccessToken::create([
+                    "tokenable_type" => 'App\Models\Client',
+                    "tokenable_id" => $Client->id,
+                    "name" => 'ClientFcmToken',
+                    "token" => $request->fcm_token,
+                    "abilities" => '["*"]',
+                ]);
+            }
             // if(env('APP_ENV')=='production'){
             //     Mail::to($Client->email)->send(new RegisterMail());
             // }
             return response()->json([
-                "data"=>[
+                "data" => [
                     "otp_token" => $ClientOtpToken->token,
                 ]
             ], 200);
@@ -172,13 +174,15 @@ class AuthController extends Controller
             $ClientOtpToken->update([
                 "code" => 1234
             ]);
-            $ClientFcmToken = PersonalAccessToken::create([
-                "tokenable_type" => 'App\Models\Client',
-                "tokenable_id" => $Client->id,
-                "name" => 'ClientFcmToken',
-                "token" => $request->fcm_token,
-                "abilities" => '["*"]',
-            ]);
+            if (PersonalAccessToken::where("token", $request->fcm_token)->count() == 0) {
+                $ClientFcmToken = PersonalAccessToken::create([
+                    "tokenable_type" => 'App\Models\Client',
+                    "tokenable_id" => $Client->id,
+                    "name" => 'ClientFcmToken',
+                    "token" => $request->fcm_token,
+                    "abilities" => '["*"]',
+                ]);
+            }
             // if(env('APP_ENV')=='production'){
             //     Mail::to($Client->email)->send(new RegisterMail());
             // }
@@ -242,11 +246,11 @@ class AuthController extends Controller
     public function otp(OtpRequest $request)
     {
         $ClientOtpToken = PersonalAccessToken::where('name', 'ClientOtpToken')
-        ->where("tokenable_type", 'App\Models\Client')
-        ->where('token', $request->otp_token)
-        ->where('code', $request->code)
-        ->first();
-        if($ClientOtpToken){
+            ->where("tokenable_type", 'App\Models\Client')
+            ->where('token', $request->otp_token)
+            ->where('code', $request->code)
+            ->first();
+        if ($ClientOtpToken) {
             $Client = Client::where('id', $ClientOtpToken->tokenable_id)->first();
             if ($Client) {
                 $access_token_expiry = Carbon::now()->addDays(10);
@@ -350,7 +354,7 @@ class AuthController extends Controller
         //     Mail::to($Client->email)->send(new RegisterMail());
         // }
         return response()->json([
-            "data"=>[
+            "data" => [
                 "token" => $ClientForgetToken->token,
             ]
         ], 200);
@@ -396,10 +400,10 @@ class AuthController extends Controller
     public function reset(ResetPasswordRequest $request)
     {
         $ClientForgetToken = PersonalAccessToken::where('name', 'ClientForgetToken')
-        ->where("tokenable_type", 'App\Models\Client')
-        ->where('token', $request->token)
-        ->first();
-        if($ClientForgetToken){
+            ->where("tokenable_type", 'App\Models\Client')
+            ->where('token', $request->token)
+            ->first();
+        if ($ClientForgetToken) {
             $Client = Client::where('id', $ClientForgetToken->tokenable_id)->first();
             if (!$Client) {
                 return response()->json([
@@ -414,7 +418,7 @@ class AuthController extends Controller
             $Client->update([
                 'password' => $request->password,
             ]);
-            return response()->json(["data"=>[]], 200);
+            return response()->json(["data" => []], 200);
         } else {
             return response()->json([
                 "message" => "Wrong Token",
