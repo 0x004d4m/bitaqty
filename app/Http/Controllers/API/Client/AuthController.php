@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Auth\ForgetPasswordRequest;
 use App\Http\Requests\Client\Auth\LoginRequest;
 use App\Http\Requests\Client\Auth\OtpRequest;
+use App\Http\Requests\Client\Auth\RefreshTokenRequest;
 use App\Http\Requests\Client\Auth\RegisterRequest;
 use App\Http\Requests\Client\Auth\ResetPasswordRequest;
+use App\Http\Requests\ClientAuthRefreshTokenRequest;
 use App\Mail\Client\RegisterMail;
 use App\Models\Client;
 use App\Models\PersonalAccessToken;
@@ -424,6 +426,92 @@ class AuthController extends Controller
                 "message" => "Wrong Token",
                 "errors" => [
                     "forget_token" => [
+                        "Wrong Token",
+                    ]
+                ]
+            ], 422);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *  path="/api/clients/auth/refresh",
+     *  summary="refresh",
+     *  description="Client Refresh Token",
+     *  operationId="ClientRefreshToken",
+     *  tags={"ClientAuth"},
+     *  @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *          required={"refresh_token"},
+     *         @OA\Property(property="refresh_token", type="string", example=""),
+     *       ),
+     *     ),
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="access_token", type="string", example=""),
+     *      @OA\Property(property="refresh_token", type="string", example=""),
+     *      @OA\Property(property="access_token_expiry", type="string", example=""),
+     *    )
+     *  ),
+     *  @OA\Response(
+     *    response=422,
+     *    description="Wrong credentials response",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example=""),
+     *      @OA\Property(property="errors", type="object",
+     *         @OA\Property(property="dynamic-error-keys", type="array",
+     *           @OA\Items(type="string")
+     *         )
+     *       )
+     *     )
+     *  )
+     * )
+     */
+    public function refresh(RefreshTokenRequest $request)
+    {
+        $ClientRefreshToken = PersonalAccessToken::where('name', 'ClientRefreshToken')
+        ->where("tokenable_type", 'App\Models\Client')
+        ->where('token', $request->refresh_token)
+        ->first();
+        if ($ClientRefreshToken) {
+            $Client = Client::where('id', $ClientRefreshToken->tokenable_id)->first();
+            if ($Client) {
+                $access_token_expiry = Carbon::now()->addDays(10);
+                $ClientAccessToken = $Client->createToken('ClientAccessToken', ["*"], $access_token_expiry)->plainTextToken;
+                $ClientAccessToken = explode('|', $ClientAccessToken)[0];
+                $ClientAccessToken = PersonalAccessToken::where('id', $ClientAccessToken)->first();
+                $ClientRefreshToken = $Client->createToken('ClientRefreshToken')->plainTextToken;
+                $ClientRefreshToken = explode('|', $ClientRefreshToken)[0];
+                $ClientRefreshToken = PersonalAccessToken::where('id', $ClientRefreshToken)->first();
+                $ClientRefreshToken->delete();
+                return response()->json([
+                    "data" => [
+                        "access_token" => $ClientAccessToken->token,
+                        "refresh_token" => $ClientRefreshToken->token,
+                        "access_token_expiry" => $access_token_expiry,
+                    ]
+                ], 200);
+            } else {
+                return response()->json([
+                    "message" => "Wrong Token",
+                    "errors" => [
+                        "refresh_token" => [
+                            "Wrong Token",
+                        ]
+                    ]
+                ], 422);
+            }
+        } else {
+            return response()->json([
+                "message" => "Wrong Token",
+                "errors" => [
+                    "refresh_token" => [
                         "Wrong Token",
                     ]
                 ]

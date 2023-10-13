@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Currency;
 use App\Models\PersonalAccessToken;
 use App\Models\Vendor;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -18,6 +19,7 @@ class UserAuth
         $ClientAccessToken = PersonalAccessToken::where('name', 'ClientAccessToken')
             ->where("tokenable_type", 'App\Models\Client')
             ->where('token', $AuthorizationHeader)
+            ->where('expires_at', '<=', Carbon::now())
             ->first();
         if (!$ClientAccessToken) {
             return false;
@@ -40,6 +42,7 @@ class UserAuth
         $VendorAccessToken = PersonalAccessToken::where('name', 'VendorAccessToken')
             ->where("tokenable_type", 'App\Models\Vendor')
             ->where('token', $AuthorizationHeader)
+            ->where('expires_at', '<=', Carbon::now())
             ->first();
         if (!$VendorAccessToken) {
             return false;
