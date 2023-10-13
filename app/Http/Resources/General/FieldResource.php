@@ -21,7 +21,7 @@ class FieldResource extends JsonResource
             "name" => $this->name,
             "field_type" => $this->fieldType->name,
             "is_confirmed" => $this->is_confirmed,
-            "answer" => $answer? $answer->answer : '-',
+            "answer" => $answer? ($answer->field->field_type_id==4?url($answer->answer):$answer->answer) : '-',
         ];
     }
 }
