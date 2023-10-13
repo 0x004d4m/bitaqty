@@ -175,7 +175,7 @@ class OrderController extends Controller
                     "userable_id" => $request->client_id,
                 ])){
                     if(count(json_decode($request->fields)) > 0){
-                        foreach($request->fields as $answer){
+                        foreach(json_decode($request->fields) as $answer){
                             FieldsAnswer::create([
                                 'answer' => $answer->answer,
                                 'field_id' => $request->field_id,
