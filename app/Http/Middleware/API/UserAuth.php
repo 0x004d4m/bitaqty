@@ -9,7 +9,6 @@ use App\Models\Vendor;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,22 +16,11 @@ class UserAuth
 {
     private function checkIfClient($AuthorizationHeader)
     {
-        Log::debug(Carbon::now());
         $ClientAccessToken = PersonalAccessToken::where('name', 'ClientAccessToken')
-        ->where("tokenable_type", 'App\Models\Client')
-        ->where('token', $AuthorizationHeader)
-        ->where('expires_at', '<=', Carbon::now())
-        ->first();
-        Log::debug(PersonalAccessToken::where('name', 'ClientAccessToken')
             ->where("tokenable_type", 'App\Models\Client')
             ->where('token', $AuthorizationHeader)
-            ->where('expires_at', '<=', Carbon::now())
-            ->toSql());
-        Log::debug(PersonalAccessToken::where('name', 'ClientAccessToken')
-            ->where("tokenable_type", 'App\Models\Client')
-            ->where('token', $AuthorizationHeader)
-            ->where('expires_at', '<=', Carbon::now())
-            ->getBindings());
+            ->where('expires_at', '>=', Carbon::now())
+            ->first();
         if (!$ClientAccessToken) {
             return false;
         }
@@ -54,7 +42,7 @@ class UserAuth
         $VendorAccessToken = PersonalAccessToken::where('name', 'VendorAccessToken')
             ->where("tokenable_type", 'App\Models\Vendor')
             ->where('token', $AuthorizationHeader)
-            ->where('expires_at', '<=', Carbon::now())
+            ->where('expires_at', '>=', Carbon::now())
             ->first();
         if (!$VendorAccessToken) {
             return false;
