@@ -176,10 +176,9 @@ class OrderController extends Controller
                 ])){
                     if(count(json_decode($request->fields)) > 0){
                         foreach(json_decode($request->fields) as $answer){
-                            Log::debug($answer);
                             FieldsAnswer::create([
                                 'answer' => $answer->answer,
-                                'field_id' => $request->field_id,
+                                'field_id' => $answer->field_id,
                                 'order_id' => $Order->id,
                                 'product_id' => $Order->product_id,
                             ]);
