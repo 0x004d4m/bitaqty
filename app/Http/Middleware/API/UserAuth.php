@@ -9,6 +9,7 @@ use App\Models\Vendor;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,11 +17,22 @@ class UserAuth
 {
     private function checkIfClient($AuthorizationHeader)
     {
+        Log::debug(Carbon::now());
         $ClientAccessToken = PersonalAccessToken::where('name', 'ClientAccessToken')
+        ->where("tokenable_type", 'App\Models\Client')
+        ->where('token', $AuthorizationHeader)
+        ->where('expires_at', '<=', Carbon::now())
+        ->first();
+        Log::debug(PersonalAccessToken::where('name', 'ClientAccessToken')
             ->where("tokenable_type", 'App\Models\Client')
             ->where('token', $AuthorizationHeader)
             ->where('expires_at', '<=', Carbon::now())
-            ->first();
+            ->toSql());
+        Log::debug(PersonalAccessToken::where('name', 'ClientAccessToken')
+            ->where("tokenable_type", 'App\Models\Client')
+            ->where('token', $AuthorizationHeader)
+            ->where('expires_at', '<=', Carbon::now())
+            ->getBindings());
         if (!$ClientAccessToken) {
             return false;
         }
