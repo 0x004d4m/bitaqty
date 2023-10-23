@@ -228,7 +228,7 @@ class CreditController extends Controller
             "credit_after" => $balanceTo,
             "credit_status_id" => 2,
             "userable_type" => 'App\Models\Client',
-            "userable_id" => $To->client_id,
+            "userable_id" => $To->id,
             "userable_from_type" => 'App\Models\Client',
             "userable_from_id" => $From->id,
             "credit_from_before" => $From->credit,

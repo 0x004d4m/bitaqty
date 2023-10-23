@@ -93,9 +93,12 @@ class AuthController extends Controller
                     "abilities" => '["*"]',
                 ]);
             }
-            // if(env('APP_ENV')=='production'){
-            //     Mail::to($Client->email)->send(new RegisterMail());
-            // }
+            if(env('APP_ENV')=='production'){
+                $plainTextToken = $Client->createToken('ClientVerifyEmailToken')->plainTextToken;
+                $plainTextToken = explode('|', $plainTextToken)[0];
+                $ClientVerifyEmailToken = PersonalAccessToken::where('id', $plainTextToken)->first();
+                Mail::to($Client->email)->send(new RegisterMail($ClientVerifyEmailToken->token, $Client->id));
+            }
             return response()->json([
                 "data" => [
                     "otp_token" => $ClientOtpToken->token,

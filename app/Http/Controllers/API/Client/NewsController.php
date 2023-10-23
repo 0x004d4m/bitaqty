@@ -32,8 +32,7 @@ class NewsController extends Controller
      *          type="array",
      *          @OA\Items(
      *              @OA\Property(property="id", type="integer", example=""),
-     *              @OA\Property(property="title", type="string", example=""),
-     *              @OA\Property(property="description", type="string", example=""),
+     *              @OA\Property(property="image", type="string", example=""),
      *              @OA\Property(property="action", type="string", example=""),
      *          ),
      *      ),

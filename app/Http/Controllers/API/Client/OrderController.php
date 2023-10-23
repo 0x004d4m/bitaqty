@@ -196,7 +196,12 @@ class OrderController extends Controller
                     $Client->update([
                         "credit" => ($Client->credit - $price)
                     ]);
-                    return response()->json(["data" => []], 200);
+                    return response()->json(["data" => new OrderResource(
+                        Order::where('userable_type', 'App\Models\Client')
+                            ->where('userable_id', $request->client_id)
+                            ->where('id', $Order->id)
+                            ->first()
+                    )], 200);
                 }else{
                     return response()->json([
                         "message" => "SQL Error",

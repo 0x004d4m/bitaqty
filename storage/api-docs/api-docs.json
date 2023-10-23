@@ -1037,6 +1037,34 @@
                 ]
             }
         },
+        "/api/clients/maintenance": {
+            "get": {
+                "tags": [
+                    "ClientMaintenance"
+                ],
+                "summary": "Maintenance",
+                "description": "Client Maintenance",
+                "operationId": "ClientMaintenance",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "is_active": {
+                                            "type": "boolean",
+                                            "example": 0
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/clients/news": {
             "get": {
                 "tags": [
@@ -2052,6 +2080,26 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/clients/verifyEmail": {
+            "get": {
+                "tags": [
+                    "VerifyEmail"
+                ],
+                "summary": "Issues",
+                "description": "Client Send Verify Email",
+                "operationId": "SendVerifyEmail",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/types/{id}/categories": {
@@ -3163,6 +3211,10 @@
             "description": "API Endpoints of Clients Issues"
         },
         {
+            "name": "ClientMaintenance",
+            "description": "API Endpoints of Clients Maintenance"
+        },
+        {
             "name": "ClientNews",
             "description": "API Endpoints of Client News"
         },
@@ -3185,6 +3237,10 @@
         {
             "name": "ClientTerms",
             "description": "API Endpoints of Client Terms"
+        },
+        {
+            "name": "ClientVerifyEmail",
+            "description": "API Endpoints of Clients Verify Email"
         },
         {
             "name": "GeneralCategories",

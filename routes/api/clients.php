@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Client\AuthController;
 use App\Http\Controllers\API\Client\CreditController;
 use App\Http\Controllers\API\Client\IssueController;
+use App\Http\Controllers\API\Client\MaintenanceController;
 use App\Http\Controllers\API\Client\NewsController;
 use App\Http\Controllers\API\Client\NotificationController;
 use App\Http\Controllers\API\Client\OnboardingController;
@@ -23,6 +24,7 @@ Route::group([
         Route::post('forget', [AuthController::class, 'forget']);
         Route::post('reset', [AuthController::class, 'reset']);
     });
+    Route::get('/maintenance', [MaintenanceController::class, 'index']);
     Route::get('/news', [NewsController::class, 'index']);
     Route::get('/onboarding', [OnboardingController::class, 'index']);
     Route::get('/privacy_policy', [TermsController::class, 'privacy']);
@@ -31,6 +33,7 @@ Route::group([
         "middleware" => "UserAuth"
     ], function () {
         Route::get('/', [ProfileController::class, 'show']);
+        Route::get('/verifyEmail', [ProfileController::class, 'verifyEmail']);
         Route::put('/', [ProfileController::class, 'update']);
         Route::delete('/', [ProfileController::class, 'destroy']);
         Route::put('/changePassword', [ProfileController::class, 'changePassword']);
