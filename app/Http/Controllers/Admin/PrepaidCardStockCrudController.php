@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\PrepaidCardStockImportRequest;
+// use App\Http\Requests\PrepaidCardStockImportRequest;
 use App\Http\Requests\PrepaidCardStockRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
@@ -13,7 +13,7 @@ class PrepaidCardStockCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \App\Http\Controllers\Admin\Operations\ImportOperation;
+    // use \App\Http\Controllers\Admin\Operations\ImportOperation;
 
     public function setup()
     {
@@ -69,20 +69,20 @@ class PrepaidCardStockCrudController extends CrudController
         ]);
     }
 
-    protected function setupImportOperation()
-    {
-        // $this->crud->setValidation(PrepaidCardStockImportRequest::class);
+    // protected function setupImportOperation()
+    // {
+    //     // $this->crud->setValidation(PrepaidCardStockImportRequest::class);
 
-        $this->crud->addField([
-            'label' => __('admin_fields.product'),
-            'type' => "relationship",
-            'name' => 'product_id',
-            'entity' => 'product',
-            'attribute' => "name",
-            'model' => 'App\Models\Product'
-        ]);
-        $this->crud->field('excel')->label(__('admin_fields.excel'))->type('upload');
-    }
+    //     $this->crud->addField([
+    //         'label' => __('admin_fields.product'),
+    //         'type' => "relationship",
+    //         'name' => 'product_id',
+    //         'entity' => 'product',
+    //         'attribute' => "name",
+    //         'model' => 'App\Models\Product'
+    //     ]);
+    //     $this->crud->field('excel')->label(__('admin_fields.excel'))->type('upload');
+    // }
 
     protected function setupUpdateOperation()
     {
