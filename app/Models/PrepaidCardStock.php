@@ -33,4 +33,14 @@ class PrepaidCardStock extends Model
     {
         return $this->hasOne(OrderPrepaidCardStock::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($model) {
+            $Product = Product::where('id', $model->product_id)->first();
+            $Product->update(["stock" => ($Product->stock+1)]);
+        });
+    }
 }

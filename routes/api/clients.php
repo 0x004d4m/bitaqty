@@ -10,6 +10,7 @@ use App\Http\Controllers\API\Client\OnboardingController;
 use App\Http\Controllers\API\Client\OrderController;
 use App\Http\Controllers\API\Client\ProfileController;
 use App\Http\Controllers\API\Client\TermsController;
+use App\Http\Controllers\API\Client\VerifyEmail;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -33,7 +34,7 @@ Route::group([
         "middleware" => "UserAuth"
     ], function () {
         Route::get('/', [ProfileController::class, 'show']);
-        Route::get('/verifyEmail', [ProfileController::class, 'verifyEmail']);
+        Route::get('/verifyEmail', [VerifyEmail::class, 'send']);
         Route::put('/', [ProfileController::class, 'update']);
         Route::delete('/', [ProfileController::class, 'destroy']);
         Route::put('/changePassword', [ProfileController::class, 'changePassword']);
