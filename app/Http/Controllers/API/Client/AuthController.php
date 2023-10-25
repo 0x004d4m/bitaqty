@@ -406,7 +406,7 @@ class AuthController extends Controller
     {
         $ClientForgetToken = PersonalAccessToken::where('name', 'ClientForgetToken')
             ->where("tokenable_type", 'App\Models\Client')
-            ->where('token', $request->token)
+            ->where('token', $request->forget_token)
             ->first();
         if ($ClientForgetToken) {
             $Client = Client::where('id', $ClientForgetToken->tokenable_id)->first();
