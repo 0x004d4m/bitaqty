@@ -29,4 +29,14 @@ class OrderPrepaidCardStock extends Model
     {
         return $this->belongsTo(PrepaidCardStock::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($model) {
+            $Product = Product::where('id', $model->order->product_id)->first();
+            $Product->update(["stock" => ($Product->stock - 1)]);
+        });
+    }
 }

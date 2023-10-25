@@ -205,20 +205,20 @@ class CreditController extends Controller
                 ], 422);
             }
         }
-        $balanceTo = 0;
-        if ($request->deposit_or_withdraw) {
-            $balanceTo = $To->credit + $request->amount;
-        } else {
-            $balanceTo = $To->credit - $request->amount;
-        }
-
         $From = Client::where('id', $request->client_id)->first();
-        $balanceFrom = 0;
-        if ($request->deposit_or_withdraw) {
-            $balanceFrom = $From->credit - $request->amount;
-        } else {
-            $balanceFrom = $From->credit + $request->amount;
+        if($From->credit < $request->amount) {
+            return response()->json([
+                "message" => "Balance Not Enough",
+                "amount" => [
+                    "to_client_email_or_phone" => [
+                        "Balance Not Enough",
+                    ]
+                ]
+            ], 422);
         }
+        
+        $balanceTo = $To->credit + $request->amount;
+        $balanceFrom = $From->credit - $request->amount;
         if (Credit::create([
             "amount" => $request->amount,
             "notes" => $request->notes,

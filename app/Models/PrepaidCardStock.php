@@ -40,7 +40,12 @@ class PrepaidCardStock extends Model
 
         static::created(function ($model) {
             $Product = Product::where('id', $model->product_id)->first();
-            $Product->update(["stock" => ($Product->stock+1)]);
+            $Product->update(["stock" => ($Product->stock + 1)]);
+        });
+
+        static::deleted(function ($model) {
+            $Product = Product::where('id', $model->product_id)->first();
+            $Product->update(["stock" => ($Product->stock - 1)]);
         });
     }
 }
