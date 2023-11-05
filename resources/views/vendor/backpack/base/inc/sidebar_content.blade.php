@@ -30,6 +30,7 @@
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('supported-account') }}">{{ __('sidebar.supported_accounts') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('issue-type') }}">{{ __('sidebar.issue_types') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('credit-type') }}">{{ __('sidebar.credit_types') }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('in-app-message') }}"><i class="nav-icon la la-question"></i> In app messages</a></li>
     </ul>
 </li>
 

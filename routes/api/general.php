@@ -5,6 +5,7 @@ use App\Http\Controllers\API\General\CountryController;
 use App\Http\Controllers\API\General\CreditStatusController;
 use App\Http\Controllers\API\General\CreditTypeController;
 use App\Http\Controllers\API\General\CurrencyController;
+use App\Http\Controllers\API\General\InAppMessageController;
 use App\Http\Controllers\API\General\IssueTypeController;
 use App\Http\Controllers\API\General\ProductController;
 use App\Http\Controllers\API\General\SubcategoryController;
@@ -18,6 +19,7 @@ Route::get('/creditTypes', [CreditTypeController::class, 'index']);
 Route::get('/creditStatuses', [CreditStatusController::class, 'index']);
 Route::get('/currencies', [CurrencyController::class, 'index']);
 Route::get('/supportedAccounts', [SupportedAccountController::class, 'index']);
+Route::get('/inAppMessages', [InAppMessageController::class, 'index']);
 Route::group(
     [
         "middleware" => "UserAuth"

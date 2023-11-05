@@ -11,24 +11,24 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 
-class Type extends Model
+class InAppMessage extends Model
 {
     use CrudTrait;
     use HasFactory;
     use SoftDeletes;
     use HasTranslations;
 
-    protected $table = 'types';
-    protected $fillable = [
-        'name',
-        'image',
-        'need_approval',
-        'need_approval_message',
-        'is_active',
-    ];
+    protected $table = 'in_app_messages';
     protected $translatable = [
-        'name',
-        'need_approval_message',
+        'title',
+        'description',
+    ];
+    protected $fillable = [
+        'type',
+        'title',
+        'description',
+        'image',
+        'action',
     ];
 
     public function setImageAttribute($value)
