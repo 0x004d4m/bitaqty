@@ -26,6 +26,12 @@ class ProductResource extends JsonResource
         // if($request->has('field_resource_order_id') && $this->type_id == 1){
         //     $PrepaidCardStock = PrepaidCardStock::where('product_id', $this->id)->get();
         // }
+        $limit = $this->stock;
+        if($this->stock_limit > 0){
+            if($this->stock > $this->stock_limit){
+                $limit = $this->stock_limit;
+            }
+        }
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -35,7 +41,7 @@ class ProductResource extends JsonResource
             'image' => $this->image,
             'suggested_price' => $this->suggested_price,
             'price' => $this->selling_price,
-            'stock' => $this->stock,
+            'stock' => $limit,
             'is_vip' => $this->is_vip,
             'type' => new TypeResource($this->type),
             'category' => new CategoryResource($this->category),

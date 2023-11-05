@@ -14,13 +14,19 @@ class ProductsResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $limit = $this->stock;
+        if ($this->stock_limit > 0) {
+            if ($this->stock > $this->stock_limit) {
+                $limit = $this->stock_limit;
+            }
+        }
         return [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'image' => $this->image,
             'price' => $this->selling_price,
-            'stock' => $this->stock,
+            'stock' => $limit,
             'is_vip' => $this->is_vip,
         ];
     }
