@@ -35,7 +35,7 @@ class InAppMessageController extends Controller
      *  )
      * )
      */
-    public function index(Request $request, $id)
+    public function index(Request $request)
     {
         return InAppMessageResource::collection(
             InAppMessage::where('type', 'Client')->get()
