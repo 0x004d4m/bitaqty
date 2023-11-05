@@ -35,6 +35,7 @@ class TypeController extends Controller
      *              @OA\Property(property="name", type="string", example=""),
      *              @OA\Property(property="image", type="string", example=""),
      *              @OA\Property(property="need_approval", type="boolean", example=""),
+     *              @OA\Property(property="need_approval_message", type="string", example=""),
      *          ),
      *      ),
      *    ),

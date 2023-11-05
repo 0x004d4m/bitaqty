@@ -23,6 +23,7 @@ class Type extends Model
         'name',
         'image',
         'need_approval',
+        'need_approval_message',
         'is_active',
     ];
     protected $translatable = [

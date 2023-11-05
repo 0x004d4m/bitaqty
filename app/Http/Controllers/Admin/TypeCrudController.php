@@ -25,6 +25,7 @@ class TypeCrudController extends CrudController
         $this->crud->column('name')->label(__('admin_fields.name'))->type('text');
         $this->crud->column('image')->label(__('admin_fields.image'))->type('image');
         $this->crud->column('need_approval')->label(__('admin_fields.need_approval'))->type('boolean');
+        $this->crud->column('need_approval_message')->label(__('admin_fields.need_approval_message'))->type('text');
         $this->crud->column('is_active')->label(__('admin_fields.is_active'))->type('boolean');
     }
 
@@ -35,6 +36,7 @@ class TypeCrudController extends CrudController
         $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
         $this->crud->field('image')->label(__('admin_fields.image'))->type('image');
         $this->crud->field('need_approval')->label(__('admin_fields.need_approval'))->type('boolean');
+        $this->crud->field('need_approval_message')->label(__('admin_fields.need_approval_message'))->type('text');
         $this->crud->field('is_active')->label(__('admin_fields.is_active'))->type('boolean');
     }
 

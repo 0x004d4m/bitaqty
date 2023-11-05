@@ -19,6 +19,7 @@ class TypeResource extends JsonResource
             'name'=>$this->name,
             'image'=>$this->image,
             'need_approval'=>$this->need_approval,
+            'need_approval_message'=>$this->need_approval_message,
         ];
     }
 }

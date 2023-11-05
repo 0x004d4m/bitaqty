@@ -47,12 +47,12 @@ class OrderController extends Controller
      *              @OA\Property(property="price", type="integer", example=""),
      *              @OA\Property(property="device_name", type="string", example=""),
      *              @OA\Property(property="created_at", type="string", example=""),
-     *              @OA\Property(property="type", type="object", example={"id":"","name":"","image":"","need_approval":""}),
+     *              @OA\Property(property="type", type="object", example={"id":"","name":"","image":"","need_approval":"","need_approval_message":""}),
      *              @OA\Property(property="category", type="object", example={"id":"","name":"","image":"","order":""}),
      *              @OA\Property(property="subcategory", type="object", example={"id":"","name":"","image":""}),
      *              @OA\Property(property="order_status", type="object", example={"id":"","name":""}),
      *              @OA\Property(property="product", type="object",
-     *                  example={"id":"","name":"","description":"","unavailable_notes":"","how_to_use":"","image":"","suggested_price":"","price":"","stock":"","is_vip":"","type":{"id":"","name":"","image":"","need_approval":""},"category":{"id":"","name":"","image":"","order":""},"subcategory":{"id":"","name":"","image":""},"fields":{"id":"","name":"","field_type":"","is_confirmed":"","answer":""}}
+     *                  example={"id":"","name":"","description":"","unavailable_notes":"","how_to_use":"","image":"","suggested_price":"","price":"","stock":"","is_vip":"","type":{"id":"","name":"","image":"","need_approval":"","need_approval_message":""},"category":{"id":"","name":"","image":"","order":""},"subcategory":{"id":"","name":"","image":""},"fields":{"id":"","name":"","field_type":"","is_confirmed":"","answer":""}}
      *              ),
      *              @OA\Property(property="prepaid_cards", type="array",
      *                  @OA\Items(

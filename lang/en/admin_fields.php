@@ -41,6 +41,7 @@ return [
     'issue_type' => 'Issue Type',
     'name' => 'Name',
     'need_approval' => 'Need Approval',
+    'need_approval_message' => 'The message that appear in case order needs approval',
     'notes' => 'Notes',
     'number' => 'Number',
     'number1' => 'Number 1',

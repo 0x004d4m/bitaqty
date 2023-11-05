@@ -1088,11 +1088,7 @@
                                                         "type": "integer",
                                                         "example": ""
                                                     },
-                                                    "title": {
-                                                        "type": "string",
-                                                        "example": ""
-                                                    },
-                                                    "description": {
+                                                    "image": {
                                                         "type": "string",
                                                         "example": ""
                                                     },
@@ -1396,7 +1392,8 @@
                                                             "id": "",
                                                             "name": "",
                                                             "image": "",
-                                                            "need_approval": ""
+                                                            "need_approval": "",
+                                                            "need_approval_message": ""
                                                         }
                                                     },
                                                     "category": {
@@ -1440,7 +1437,8 @@
                                                                 "id": "",
                                                                 "name": "",
                                                                 "image": "",
-                                                                "need_approval": ""
+                                                                "need_approval": "",
+                                                                "need_approval_message": ""
                                                             },
                                                             "category": {
                                                                 "id": "",
@@ -2718,6 +2716,10 @@
                                                     },
                                                     "need_approval": {
                                                         "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "need_approval_message": {
+                                                        "type": "string",
                                                         "example": ""
                                                     }
                                                 },
