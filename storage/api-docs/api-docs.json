@@ -535,6 +535,45 @@
                 "summary": "Credits",
                 "description": "Client Credits",
                 "operationId": "ClientCredits",
+                "parameters": [
+                    {
+                        "name": "filter[created_at]",
+                        "in": "query",
+                        "description": "Filter credits by created_at date range",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "2018-01-01,2018-12-31"
+                    },
+                    {
+                        "name": "filter[deposit_or_withdraw]",
+                        "in": "query",
+                        "description": "Filter credits by deposit_or_withdraw",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        }
+                    },
+                    {
+                        "name": "filter[credit_type_id]",
+                        "in": "query",
+                        "description": "Filter credits by credit_type_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        }
+                    },
+                    {
+                        "name": "filter[credit_status_id]",
+                        "in": "query",
+                        "description": "Filter credits by credit_status_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -1359,6 +1398,48 @@
                 "summary": "Orders",
                 "description": "Orders",
                 "operationId": "Orders",
+                "parameters": [
+                    {
+                        "name": "filter[category_id]",
+                        "in": "query",
+                        "description": "Filter Orders by category_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[subcategory_id]",
+                        "in": "query",
+                        "description": "Filter Orders by subcategory_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[created_at]",
+                        "in": "query",
+                        "description": "Filter Orders by created_at date range",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "2018-01-01,2018-12-31"
+                    },
+                    {
+                        "name": "filter[order_status_id]",
+                        "in": "query",
+                        "description": "Filter Orders by order_status_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",

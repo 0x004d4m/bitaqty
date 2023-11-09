@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -110,5 +111,10 @@ class Order extends Model
     public function setCreditAfterAttribute($value)
     {
         return round($this->attributes['credit_after'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
+    }
+
+    public function scopeCreatedAt($query, $dates, $date2)
+    {
+        return $query->whereBetween('created_at', [$dates, $date2]);
     }
 }

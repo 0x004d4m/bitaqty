@@ -179,6 +179,11 @@ class Credit extends Model
         return round($this->attributes['credit_from_after'] = $value * Currency::where('id', Session::get('currency'))->first()->to_jod, 3);
     }
 
+    public function scopeCreatedAt($query, $dates, $date2)
+    {
+        return $query->whereBetween('created_at', [$dates, $date2]);
+    }
+
     // public static function boot()
     // {
     //     parent::boot();

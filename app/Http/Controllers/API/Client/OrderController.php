@@ -13,11 +13,14 @@ use App\Models\Order;
 use App\Models\OrderPrepaidCardStock;
 use App\Models\PrepaidCardStock;
 use App\Models\Product;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @OA\Tag(
@@ -35,6 +38,38 @@ class OrderController extends Controller
      *  operationId="Orders",
      *  tags={"ClientOrders"},
      *  security={{"bearerAuth": {}}},
+     *  @OA\Parameter(
+     *    name="filter[category_id]",
+     *    in="query",
+     *    description="Filter Orders by category_id",
+     *    example="1",
+     *    required=false,
+     *    @OA\Schema(type="int")
+     *  ),
+     *  @OA\Parameter(
+     *    name="filter[subcategory_id]",
+     *    in="query",
+     *    description="Filter Orders by subcategory_id",
+     *    example="1",
+     *    required=false,
+     *    @OA\Schema(type="int")
+     *  ),
+     *  @OA\Parameter(
+     *    name="filter[created_at]",
+     *    in="query",
+     *    description="Filter Orders by created_at date range",
+     *    example="2018-01-01,2018-12-31",
+     *    required=false,
+     *    @OA\Schema(type="string")
+     *  ),
+     *  @OA\Parameter(
+     *    name="filter[order_status_id]",
+     *    in="query",
+     *    description="Filter Orders by order_status_id",
+     *    example="1",
+     *    required=false,
+     *    @OA\Schema(type="int")
+     *  ),
      *  @OA\Response(
      *    response=200,
      *    description="Success",
@@ -68,8 +103,15 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         return OrderResource::collection(
-            Order::where('userable_type', 'App\Models\Client')
-            ->where('userable_id', $request->client_id)
+            QueryBuilder::for(Order::class)
+                ->allowedFilters([
+                    AllowedFilter::exact('category_id'),
+                    AllowedFilter::exact('subcategory_id'),
+                    AllowedFilter::exact('order_status_id'),
+                    AllowedFilter::scope('created_at'),
+                ])
+                ->where('userable_type', 'App\Models\Client')
+                ->where('userable_id', $request->client_id)
                 ->paginate()
         );
     }
@@ -127,17 +169,17 @@ class OrderController extends Controller
     {
         $Client = Client::where("id", $request->client_id)->first();
         $Product = Product::where("id", $request->product_id)->first();
-        if($Product){
-            if($Product->type_id == 1){
+        if ($Product) {
+            if ($Product->type_id == 1) {
                 $price = $Product->selling_price * $request->quantity;
                 $cost_price = $Product->cost_price * $request->quantity;
-            }else{
+            } else {
                 $price = $Product->selling_price;
                 $cost_price = $Product->cost_price;
             }
-            if($Client->credit >= $price){
-                if($Product->type_id == 1){
-                    if($Product->stock_limit < $request->quantity){
+            if ($Client->credit >= $price) {
+                if ($Product->type_id == 1) {
+                    if ($Product->stock_limit < $request->quantity) {
                         return response()->json([
                             "message" => "Cannot Buy More Than $Product->stock_limit",
                             "errors" => [
@@ -148,7 +190,7 @@ class OrderController extends Controller
                         ], 422);
                     }
                     $PrepaidCardStockCount = PrepaidCardStock::doesnthave('orderPrepaidCardStock')->where('product_id', $Product->id)->count();
-                    if($request->quantity > $PrepaidCardStockCount){
+                    if ($request->quantity > $PrepaidCardStockCount) {
                         return response()->json([
                             "message" => "Cannot Buy More Than " . $PrepaidCardStockCount,
                             "errors" => [
@@ -159,7 +201,7 @@ class OrderController extends Controller
                         ], 422);
                     }
                 }
-                if($Order = Order::create([
+                if ($Order = Order::create([
                     "quantity" => $request->quantity,
                     "device_name" => $request->device_name,
                     "product_id" => $request->product_id,
@@ -173,9 +215,9 @@ class OrderController extends Controller
                     "order_status_id" => 1,
                     "userable_type" => 'App\Models\Client',
                     "userable_id" => $request->client_id,
-                ])){
-                    if(count(json_decode($request->fields)) > 0){
-                        foreach(json_decode($request->fields) as $answer){
+                ])) {
+                    if (count(json_decode($request->fields)) > 0) {
+                        foreach (json_decode($request->fields) as $answer) {
                             FieldsAnswer::create([
                                 'answer' => $answer->answer,
                                 'field_id' => $answer->field_id,
@@ -184,10 +226,10 @@ class OrderController extends Controller
                             ]);
                         }
                     }
-                    if($Order->type_id == 1){
-                        for ($i=0; $i < $request->quantity; $i++) {
+                    if ($Order->type_id == 1) {
+                        for ($i = 0; $i < $request->quantity; $i++) {
                             OrderPrepaidCardStock::create([
-                                "is_printed" => $request->is_printed== "false"?0:1,
+                                "is_printed" => $request->is_printed == "false" ? 0 : 1,
                                 "order_id" => $Order->id,
                                 "prepaid_card_stock_id" => PrepaidCardStock::doesnthave('orderPrepaidCardStock')->where('product_id', $Order->product_id)->orderBy('expiration_date')->first()->id,
                             ]);
@@ -202,7 +244,7 @@ class OrderController extends Controller
                             ->where('id', $Order->id)
                             ->first()
                     )], 200);
-                }else{
+                } else {
                     return response()->json([
                         "message" => "SQL Error",
                         "errors" => [
@@ -212,7 +254,7 @@ class OrderController extends Controller
                         ]
                     ], 422);
                 }
-            }else{
+            } else {
                 return response()->json([
                     "message" => "Balance is not enough",
                     "errors" => [
@@ -222,7 +264,7 @@ class OrderController extends Controller
                     ]
                 ], 422);
             }
-        }else {
+        } else {
             return response()->json([
                 "message" => "Invaled product id",
                 "errors" => [
@@ -281,7 +323,7 @@ class OrderController extends Controller
         $filename = md5($value . time()) . '.png';
         Storage::put($destination_path . '/' . $filename, $image->stream());
         $public_destination_path = Str::replaceFirst('public/', 'storage/', $destination_path);
-        return response()->json(["data" => ['image_path'=> ($public_destination_path . '/' . $filename)]], 200);
+        return response()->json(["data" => ['image_path' => ($public_destination_path . '/' . $filename)]], 200);
     }
 
     /**

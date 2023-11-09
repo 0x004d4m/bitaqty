@@ -13,6 +13,8 @@ use App\Models\Credit;
 use App\Models\CreditCard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @OA\Tag(
@@ -30,6 +32,35 @@ class CreditController extends Controller
      *  operationId="ClientCredits",
      *  tags={"ClientCredits"},
      *  security={{"bearerAuth": {}}},
+     *  @OA\Parameter(
+     *    name="filter[created_at]",
+     *    in="query",
+     *    description="Filter credits by created_at date range",
+     *    example="2018-01-01,2018-12-31",
+     *    required=false,
+     *    @OA\Schema(type="string")
+     *  ),
+     *  @OA\Parameter(
+     *    name="filter[deposit_or_withdraw]",
+     *    in="query",
+     *    description="Filter credits by deposit_or_withdraw",
+     *    required=false,
+     *    @OA\Schema(type="int")
+     *  ),
+     *  @OA\Parameter(
+     *    name="filter[credit_type_id]",
+     *    in="query",
+     *    description="Filter credits by credit_type_id",
+     *    required=false,
+     *    @OA\Schema(type="int")
+     *  ),
+     *  @OA\Parameter(
+     *    name="filter[credit_status_id]",
+     *    in="query",
+     *    description="Filter credits by credit_status_id",
+     *    required=false,
+     *    @OA\Schema(type="int")
+     *  ),
      *  @OA\Response(
      *    response=200,
      *    description="Success",
@@ -57,16 +88,22 @@ class CreditController extends Controller
     {
         $client_id = $request->client_id;
         return CreditResource::collection(
-            Credit::with([
-                'creditType',
-                'supportedAccount',
-                'creditStatus',
-                'userableFrom',
-            ])->where(function ($q) use ($client_id) {
-                $q->where('userable_type', 'App\Models\Client')->where('userable_id', $client_id);
-            })->orWhere(function ($q) use ($client_id) {
-                $q->where('userable_from_type', 'App\Models\Client')->where('userable_from_id', $client_id);
-            })->paginate()
+            QueryBuilder::for(Credit::class)
+                ->allowedFilters([
+                    AllowedFilter::scope('created_at'),
+                    AllowedFilter::exact('deposit_or_withdraw'),
+                    AllowedFilter::exact('credit_type_id'),
+                    AllowedFilter::exact('credit_status_id'),
+                ])->with([
+                    'creditType',
+                    'supportedAccount',
+                    'creditStatus',
+                    'userableFrom',
+                ])->where(function ($q) use ($client_id) {
+                    $q->where('userable_type', 'App\Models\Client')->where('userable_id', $client_id);
+                })->orWhere(function ($q) use ($client_id) {
+                    $q->where('userable_from_type', 'App\Models\Client')->where('userable_from_id', $client_id);
+                })->paginate()
         );
     }
 
@@ -111,7 +148,7 @@ class CreditController extends Controller
      */
     public function request(CreditRequestRequset $request)
     {
-        if(Credit::where("userable_type", 'App\Models\Client')->where("userable_id", $request->client_id)->where('credit_status_id', 1)->where('credit_type_id', 1)->count() == 0){
+        if (Credit::where("userable_type", 'App\Models\Client')->where("userable_id", $request->client_id)->where('credit_status_id', 1)->where('credit_type_id', 1)->count() == 0) {
             $Client = Client::where('id', $request->client_id)->first();
             $balance = 0;
             $balance = $Client->credit + $request->amount;
@@ -128,7 +165,7 @@ class CreditController extends Controller
                 "userable_type" => 'App\Models\Client',
                 "userable_id" => $request->client_id,
             ])) {
-                return response()->json(["data"=>[]], 200);
+                return response()->json(["data" => []], 200);
             } else {
                 return response()->json([
                     "message" => "Error Requesting Credit",
@@ -206,7 +243,7 @@ class CreditController extends Controller
             }
         }
         $From = Client::where('id', $request->client_id)->first();
-        if($From->credit < $request->amount) {
+        if ($From->credit < $request->amount) {
             return response()->json([
                 "message" => "Balance Not Enough",
                 "amount" => [
@@ -216,7 +253,7 @@ class CreditController extends Controller
                 ]
             ], 422);
         }
-        
+
         $balanceTo = $To->credit + $request->amount;
         $balanceFrom = $From->credit - $request->amount;
         if (Credit::create([
@@ -240,7 +277,7 @@ class CreditController extends Controller
             $From->update([
                 "credit" => $balanceFrom,
             ]);
-            return response()->json(["data"=>[]], 200);
+            return response()->json(["data" => []], 200);
         } else {
             return response()->json([
                 "message" => "Error Requesting Credit",
@@ -328,7 +365,7 @@ class CreditController extends Controller
             $Client->update([
                 "credit" => $balance
             ]);
-            return response()->json(["data"=>[]], 200);
+            return response()->json(["data" => []], 200);
         } else {
             return response()->json([
                 "message" => "Error Adding Credit",
@@ -417,7 +454,7 @@ class CreditController extends Controller
             $Client->update([
                 "credit" => $balance
             ]);
-            return response()->json(["data"=>[]], 200);
+            return response()->json(["data" => []], 200);
         } else {
             return response()->json([
                 "message" => "Error Requesting Credit",
