@@ -31,6 +31,6 @@ class MaintenanceController extends Controller
      * )
      */
     public function index(Request $request){
-        return response()->json(["data"=>["is_active"=>Maintenance::where()->first()->is_active]]);
+        return response()->json(["data"=>["is_active"=>Maintenance::first()->is_active]]);
     }
 }
