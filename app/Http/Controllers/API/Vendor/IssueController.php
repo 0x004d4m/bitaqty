@@ -1,32 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\API\Client;
+namespace App\Http\Controllers\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\General\IssueRequest;
-use App\Http\Resources\General\CountryResource;
 use App\Http\Resources\General\IssueResource;
-use App\Models\Client;
 use App\Models\Issue;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Log;
 
 /**
  * @OA\Tag(
- *     name="ClientIssue",
- *     description="API Endpoints of Clients Issues"
+ *     name="VendorIssue",
+ *     description="API Endpoints of Vendors Issues"
  * )
  */
 class IssueController extends Controller
 {
     /**
      * @OA\Get(
-     *  path="/api/clients/issues",
+     *  path="/api/vendors/issues",
      *  summary="Issues",
-     *  description="Client Issues",
-     *  operationId="ClientIssues",
-     *  tags={"ClientIssue"},
+     *  description="Vendor Issues",
+     *  operationId="VendorIssues",
+     *  tags={"VendorIssue"},
      *  security={{"bearerAuth": {}}},
      *  @OA\Response(
      *    response=200,
@@ -53,19 +49,19 @@ class IssueController extends Controller
     {
         return IssueResource::collection(
             Issue::with(['issueType'])
-            ->where('userable_type', 'App\Models\Client')
-            ->where('userable_id', $request->client_id)
+            ->where('userable_type', 'App\Models\Vendor')
+            ->where('userable_id', $request->vendor_id)
             ->paginate()
         );
     }
 
     /**
      * @OA\Post(
-     *  path="/api/clients/issues",
-     *  summary="Create Client Issue",
-     *  description="Create Client Issue",
-     *  operationId="ClientCreateIssue",
-     *  tags={"ClientIssue"},
+     *  path="/api/vendors/issues",
+     *  summary="Create Vendor Issue",
+     *  description="Create Vendor Issue",
+     *  operationId="VendorCreateIssue",
+     *  tags={"VendorIssue"},
      *  security={{"bearerAuth": {}}},
      *  @OA\RequestBody(
      *     required=true,
@@ -103,8 +99,8 @@ class IssueController extends Controller
             "description" => $request->description,
             "image" => $request->image,
             "issue_type_id" => $request->issue_type_id,
-            "userable_type" => 'App\Models\Client',
-            "userable_id" => $request->client_id,
+            "userable_type" => 'App\Models\Vendor',
+            "userable_id" => $request->vendor_id,
         ])){
             return response()->json(["data" => []], 200);
         }else{

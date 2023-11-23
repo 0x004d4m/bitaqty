@@ -3320,6 +3320,1015 @@
                     }
                 }
             }
+        },
+        "/api/vendors/credits": {
+            "get": {
+                "tags": [
+                    "VendorCredits"
+                ],
+                "summary": "Credits",
+                "description": "Vendor Credits",
+                "operationId": "VendorCredits",
+                "parameters": [
+                    {
+                        "name": "filter[created_at]",
+                        "in": "query",
+                        "description": "Filter credits by created_at date range",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "2018-01-01,2018-12-31"
+                    },
+                    {
+                        "name": "filter[deposit_or_withdraw]",
+                        "in": "query",
+                        "description": "Filter credits by deposit_or_withdraw",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        }
+                    },
+                    {
+                        "name": "filter[credit_type_id]",
+                        "in": "query",
+                        "description": "Filter credits by credit_type_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        }
+                    },
+                    {
+                        "name": "filter[credit_status_id]",
+                        "in": "query",
+                        "description": "Filter credits by credit_status_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "amount": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "notes": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "deposit_or_withdraw": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "credit_type": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": ""
+                                                        }
+                                                    },
+                                                    "supported_account": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "image": ""
+                                                        }
+                                                    },
+                                                    "credit_status": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": ""
+                                                        }
+                                                    },
+                                                    "from": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "name": "",
+                                                            "email": "",
+                                                            "phone": "",
+                                                            "image": ""
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/credits/request": {
+            "post": {
+                "tags": [
+                    "VendorCredits"
+                ],
+                "summary": "Vendor Credits Request",
+                "description": "Vendor Credits Request",
+                "operationId": "VendorCreditsRequest",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "image",
+                                    "amount",
+                                    "notes",
+                                    "supported_account_id"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "type": "file",
+                                        "format": "file"
+                                    },
+                                    "amount": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "supported_account_id": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/issues": {
+            "get": {
+                "tags": [
+                    "VendorIssue"
+                ],
+                "summary": "Issues",
+                "description": "Vendor Issues",
+                "operationId": "VendorIssues",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "solution": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "is_solved": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "is_duplicate": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "issue_type": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": 1,
+                                                            "name": ""
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "VendorIssue"
+                ],
+                "summary": "Create Vendor Issue",
+                "description": "Create Vendor Issue",
+                "operationId": "VendorCreateIssue",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "issue_type_id",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "issue_type_id": {
+                                        "type": "integer",
+                                        "example": ""
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "image": {
+                                        "type": "file",
+                                        "format": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/maintenance": {
+            "get": {
+                "tags": [
+                    "VendorMaintenance"
+                ],
+                "summary": "Maintenance",
+                "description": "Vendor Maintenance",
+                "operationId": "VendorMaintenance",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "is_active": {
+                                            "type": "boolean",
+                                            "example": 0
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/vendors/news": {
+            "get": {
+                "tags": [
+                    "VendorNews"
+                ],
+                "summary": "News",
+                "description": "Vendor News",
+                "operationId": "VendorNews",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "action": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/notifications": {
+            "get": {
+                "tags": [
+                    "VendorNotification"
+                ],
+                "summary": "Notifications",
+                "description": "Vendor Notifications",
+                "operationId": "VendorNotifications",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "data": {
+                                                        "type": "object",
+                                                        "example": []
+                                                    },
+                                                    "is_read": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/notifications/{id}": {
+            "delete": {
+                "tags": [
+                    "VendorNotification"
+                ],
+                "summary": "Notifications",
+                "description": "Vendor Delete Notifications",
+                "operationId": "VendorDeleteNotifications",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "notification id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "VendorNotification"
+                ],
+                "summary": "Notifications",
+                "description": "Vendor Read Notifications",
+                "operationId": "VendorReadNotifications",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "notification id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/onboarding": {
+            "get": {
+                "tags": [
+                    "VendorOnboardings"
+                ],
+                "summary": "Onboarding",
+                "description": "Vendor Onboardings",
+                "operationId": "VendorOnboardings",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/vendors": {
+            "get": {
+                "tags": [
+                    "VendorProfile"
+                ],
+                "summary": "Profile",
+                "description": "Vendor Profile",
+                "operationId": "VendorProfile",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": ""
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "image": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
+                                        },
+                                        "is_read": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "VendorProfile"
+                ],
+                "summary": "Vendor Update profile",
+                "description": "Vendor Update profile",
+                "operationId": "VendorUpdateProfile",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "commercial_name": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "country_id": {
+                                        "type": "integer",
+                                        "example": ""
+                                    },
+                                    "state_id": {
+                                        "type": "integer",
+                                        "example": ""
+                                    },
+                                    "currency_id": {
+                                        "type": "integer",
+                                        "example": ""
+                                    },
+                                    "image": {
+                                        "type": "file",
+                                        "format": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "VendorProfile"
+                ],
+                "summary": "Vendor Delete Profile",
+                "description": "Vendor Delete Profile",
+                "operationId": "VendorDeleteProfile",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/changePassword": {
+            "put": {
+                "tags": [
+                    "VendorProfile"
+                ],
+                "summary": "Vendor Change Password",
+                "description": "Change Password Vendor",
+                "operationId": "VendorPasswordChange",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "old_password",
+                                    "new_password",
+                                    "new_password_confirmed"
+                                ],
+                                "properties": {
+                                    "old_password": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "new_password": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "password_confirmed": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/privacy_policy": {
+            "get": {
+                "tags": [
+                    "VendorTerms"
+                ],
+                "summary": "terms",
+                "description": "Vendor Terms",
+                "operationId": "VendorTerms",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 0,
+                                                "name": "",
+                                                "term": ""
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/vendors/terms_and_conditions": {
+            "get": {
+                "tags": [
+                    "VendorTerms"
+                ],
+                "summary": "Privacy",
+                "description": "Vendor Privacy",
+                "operationId": "VendorPrivacy",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 0,
+                                                "name": "",
+                                                "term": ""
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -3400,6 +4409,38 @@
         {
             "name": "VendorAuth",
             "description": "API Endpoints of Vendor Auth"
+        },
+        {
+            "name": "VendorCredits",
+            "description": "API Endpoints of Vendor Credits"
+        },
+        {
+            "name": "VendorIssue",
+            "description": "API Endpoints of Vendors Issues"
+        },
+        {
+            "name": "VendorMaintenance",
+            "description": "API Endpoints of Vendors Maintenance"
+        },
+        {
+            "name": "VendorNews",
+            "description": "API Endpoints of Vendor News"
+        },
+        {
+            "name": "VendorNotification",
+            "description": "API Endpoints of Vendor Notification"
+        },
+        {
+            "name": "VendorOnboardings",
+            "description": "API Endpoints of Vendor Onboardings"
+        },
+        {
+            "name": "VendorProfile",
+            "description": "API Endpoints of Vendor Profile"
+        },
+        {
+            "name": "VendorTerms",
+            "description": "API Endpoints of Vendor Terms"
         }
     ]
 }

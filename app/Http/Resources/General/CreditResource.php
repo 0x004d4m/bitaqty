@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Client;
+namespace App\Http\Resources\General;
 
 use App\Http\Resources\General\CreditStatusResource;
 use App\Http\Resources\General\CreditTypeResource;

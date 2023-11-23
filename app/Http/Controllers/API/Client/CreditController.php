@@ -4,15 +4,13 @@ namespace App\Http\Controllers\API\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\CreditPrepaidRequset;
-use App\Http\Requests\Client\CreditQrRequest;
-use App\Http\Requests\Client\CreditRequestRequset;
+use App\Http\Requests\General\CreditRequestRequset;
 use App\Http\Requests\Client\CreditSendRequset;
-use App\Http\Resources\Client\CreditResource;
+use App\Http\Resources\General\CreditResource;
 use App\Models\Client;
 use App\Models\Credit;
 use App\Models\CreditCard;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
