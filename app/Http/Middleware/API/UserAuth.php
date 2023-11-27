@@ -9,6 +9,7 @@ use App\Models\Vendor;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -78,6 +79,7 @@ class UserAuth
             }
             $VendorData = $this->checkIfVendor($AuthorizationHeader);
             if ($VendorData != false) {
+                Log::debug($VendorData);
                 $request->merge(['vendor_id' => $VendorData['id']]);
                 $request->merge(['country_id' => $VendorData['country_id']]);
                 $request->merge(['state_id' => $VendorData['state_id']]);

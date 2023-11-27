@@ -68,15 +68,7 @@ class ProfileController extends Controller
      *     @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(
-     *         @OA\Property(property="name", type="string", example=""),
-     *         @OA\Property(property="address", type="string", example=""),
-     *         @OA\Property(property="phone", type="string", example=""),
-     *         @OA\Property(property="commercial_name", type="string", example=""),
-     *         @OA\Property(property="email", type="string", example=""),
-     *         @OA\Property(property="country_id", type="integer", example=""),
-     *         @OA\Property(property="state_id", type="integer", example=""),
      *         @OA\Property(property="currency_id", type="integer", example=""),
-     *         @OA\Property(property="image", type="file", format="file"),
      *       ),
      *     ),
      *  ),
