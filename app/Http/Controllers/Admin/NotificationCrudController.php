@@ -136,8 +136,8 @@ class NotificationCrudController extends CrudController
                         if ($Clients) {
                             foreach ($Clients as $Client) {
                                 if ($UserNotification = UserNotification::create([
-                                    "title" => json_encode($Notification->getTranslations('title')),
-                                    "description" => json_encode($Notification->getTranslations('description')),
+                                    "title" => "",
+                                    "description" => "",
                                     "image" => $Notification->image,
                                     "data" => $Notification->data,
                                     "is_read" => $Notification->is_read,
@@ -163,8 +163,8 @@ class NotificationCrudController extends CrudController
                         $Vendor = Vendor::where('id', $Notification->userable_id)->first();
                         if ($Vendor) {
                             if ($UserNotification = UserNotification::create([
-                                "title" => json_encode($Notification->getTranslations('title')),
-                                "description" => json_encode($Notification->getTranslations('description')),
+                                "title" => "",
+                                "description" => "",
                                 "image" => $Notification->image,
                                 "data" => $Notification->data,
                                 "is_read" => $Notification->is_read,
@@ -190,8 +190,8 @@ class NotificationCrudController extends CrudController
                         if ($Vendors) {
                             foreach ($Vendors as $Vendor) {
                                 if ($UserNotification = UserNotification::create([
-                                    "title" => json_encode($Notification->getTranslations('title')),
-                                    "description" => json_encode($Notification->getTranslations('description')),
+                                    "title" => "",
+                                    "description" => "",
                                     "image" => $Notification->image,
                                     "data" => $Notification->data,
                                     "is_read" => $Notification->is_read,
@@ -217,8 +217,8 @@ class NotificationCrudController extends CrudController
                     if ($Clients) {
                         foreach ($Clients as $Client) {
                             if ($UserNotification = UserNotification::create([
-                                "title" => json_encode($Notification->getTranslations('title')),
-                                "description" => json_encode($Notification->getTranslations('description')),
+                                "title" => "",
+                                "description" => "",
                                 "image" => $Notification->image,
                                 "data" => $Notification->data,
                                 "is_read" => $Notification->is_read,
@@ -238,8 +238,8 @@ class NotificationCrudController extends CrudController
                     if ($Vendors) {
                         foreach ($Vendors as $Vendor) {
                             if ($UserNotification = UserNotification::create([
-                                "title" => json_encode($Notification->getTranslations('title')),
-                                "description" => json_encode($Notification->getTranslations('description')),
+                                "title" => "",
+                                "description" => "",
                                 "image" => $Notification->image,
                                 "data" => $Notification->data,
                                 "is_read" => $Notification->is_read,
