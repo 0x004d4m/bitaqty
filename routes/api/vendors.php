@@ -51,19 +51,20 @@ Route::group([
             "prefix" => "credits"
         ], function () {
             Route::get('/', [CreditController::class, 'index']);
-            // accept, reject client credit
-            // list, register clients
+            // list, accept, reject client credit + add credit to client from vrndor balance
+            // list, register clients + edit groups
             Route::post('/request', [CreditController::class, 'request']);
             Route::get('/qr/{number}', [CreditController::class, 'qr']);
             Route::post('/prepaid', [CreditController::class, 'prepaid']);
         });
+
         // Dashboard:
         // count of clients
         // count of credit requists from clients
         // sum of orders from clients
         // sum of orders profit from clients orders
 
-        // Statistics:
+        // Clients Orders:
         // orders with filters: (category, supcategory, product, created_at between, card number 1, card number 2, client phone, id)
         // display cost price and selling price and diffrence as totals
         // id, user, category, sub, product, prices, card number 1, card number 2, date

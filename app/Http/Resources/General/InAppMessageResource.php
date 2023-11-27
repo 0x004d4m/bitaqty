@@ -20,6 +20,7 @@ class InAppMessageResource extends JsonResource
             'description' => $this->description,
             'image' => $this->image,
             'action' => $this->action,
+            'is_important' => $this->is_important,
         ];
     }
 }

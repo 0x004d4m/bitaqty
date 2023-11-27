@@ -29,6 +29,7 @@ class InAppMessage extends Model
         'description',
         'image',
         'action',
+        'is_important',
     ];
 
     public function setImageAttribute($value)

@@ -87,4 +87,5 @@ return [
     'credit_from_before' => 'رصيد المرسل قبل العملية',
     'credit_from_after' => 'رصيد المرسل بعد العملية',
     'is_used' => 'مستخدمة؟',
+    'is_important' => 'مهمة',
 ];
