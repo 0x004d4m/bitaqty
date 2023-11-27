@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\HasApiTokens;
 
 class Vendor extends Model
 {
@@ -19,6 +20,7 @@ class Vendor extends Model
     use HasFactory;
     use SoftDeletes;
     use HasTranslations;
+    use HasApiTokens;
 
     protected $table = 'vendors';
     protected $translatable = [

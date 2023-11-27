@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Hash;
  *     description="API Endpoints of Vendor Auth"
  * )
  */
-class AuthController extends Controller
+    class AuthController extends Controller
 {
     /**
      * @OA\Post(
