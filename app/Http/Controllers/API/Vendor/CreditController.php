@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\General\CreditPrepaidRequset;
 use App\Http\Requests\General\CreditRequestRequset;
 use App\Http\Resources\General\CreditResource;
 use App\Models\Vendor;
 use App\Models\Credit;
+use App\Models\CreditCard;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -177,6 +179,183 @@ class CreditController extends Controller
                 "errors" => [
                     "amount" => [
                         "Cant request credit, There is 1 pending request already",
+                    ]
+                ]
+            ], 422);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *  path="/api/vendors/credits/qr/{number}",
+     *  summary="Vendor Credits Top Up By QR",
+     *  description="Vendor Credits Top Up By QR",
+     *  operationId="VendorCreditsQR",
+     *  tags={"VendorCredits"},
+     *  security={{"bearerAuth": {}}},
+     *  @OA\Parameter(
+     *     name="number",
+     *     description="QR number",
+     *     required=true,
+     *     in="path",
+     *     @OA\Schema(
+     *         type="integer"
+     *     )
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *  ),
+     *  @OA\Response(
+     *    response=422,
+     *    description="Wrong credentials response",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example=""),
+     *      @OA\Property(property="errors", type="object",
+     *         @OA\Property(property="dynamic-error-keys", type="array",
+     *           @OA\Items(type="string")
+     *         )
+     *       )
+     *     )
+     *  )
+     * )
+     */
+    public function qr(Request $request, $number)
+    {
+        $CreditCard = CreditCard::where('url', url("/api/clients/credits/qr/" . $number))->first();
+        if (!$CreditCard) {
+            return response()->json([
+                "message" => "Wrong QR",
+                "errors" => [
+                    "qr" => [
+                        "Wrong QR",
+                    ]
+                ]
+            ], 422);
+        } else {
+            if ($CreditCard->is_used) {
+                return response()->json([
+                    "message" => "QR Used Before",
+                    "errors" => [
+                        "qr" => [
+                            "QR Used Before",
+                        ]
+                    ]
+                ], 422);
+            }
+        }
+        $Vendor = Vendor::where('id', $request->vendor_id)->first();
+        $balance = $Vendor->credit + $CreditCard->value;
+        if (Credit::create([
+            "amount" => $CreditCard->value,
+            "notes" => 'QR Top Up',
+            "deposit_or_withdraw" => 0,
+            "credit_type_id" => 2,
+            "credit_before" => $Vendor->credit,
+            "credit_after" => $balance,
+            "credit_status_id" => 2,
+            "userable_type" => 'App\Models\Vendor',
+            "userable_id" => $request->vendor_id,
+        ])) {
+            $Vendor->update([
+                "credit" => $balance
+            ]);
+            return response()->json(["data" => []], 200);
+        } else {
+            return response()->json([
+                "message" => "Error Adding Credit",
+                "errors" => [
+                    "to_vendor_email_or_phone" => [
+                        "Error Adding Credit",
+                    ]
+                ]
+            ], 422);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *  path="/api/vendors/credits/prepaid",
+     *  summary="Vendor Credits Prepaid Top Up",
+     *  description="Vendor Credits Prepaid Top Up",
+     *  operationId="VendorCreditsPrepaid",
+     *  tags={"VendorCredits"},
+     *  security={{"bearerAuth": {}}},
+     *  @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *          required={"number"},
+     *         @OA\Property(property="number", type="string", example=""),
+     *       ),
+     *     ),
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *  ),
+     *  @OA\Response(
+     *    response=422,
+     *    description="Wrong credentials response",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example=""),
+     *      @OA\Property(property="errors", type="object",
+     *         @OA\Property(property="dynamic-error-keys", type="array",
+     *           @OA\Items(type="string")
+     *         )
+     *       )
+     *     )
+     *  )
+     * )
+     */
+    public function prepaid(CreditPrepaidRequset $request)
+    {
+        $CreditCard = CreditCard::where('number', $request->number)->first();
+        if (!$CreditCard) {
+            return response()->json([
+                "message" => "Wrong Card Number",
+                "errors" => [
+                    "number" => [
+                        "Wrong Card Number",
+                    ]
+                ]
+            ], 422);
+        } else {
+            if ($CreditCard->is_used) {
+                return response()->json([
+                    "message" => "Card Used Before",
+                    "errors" => [
+                        "number" => [
+                            "Card Used Before",
+                        ]
+                    ]
+                ], 422);
+            }
+        }
+        $Vendor = Vendor::where('id', $request->vendor_id)->first();
+        $balance = $Vendor->credit + $CreditCard->value;
+        if (Credit::create([
+            "amount" => $CreditCard->value,
+            "notes" => "",
+            "deposit_or_withdraw" => 0,
+            "credit_type_id" => 3,
+            "credit_before" => $Vendor->credit,
+            "credit_after" => $balance,
+            "credit_status_id" => 2,
+            "userable_type" => 'App\Models\Vendor',
+            "userable_id" => $request->vendor_id,
+        ])) {
+            $Vendor->update([
+                "credit" => $balance
+            ]);
+            return response()->json(["data" => []], 200);
+        } else {
+            return response()->json([
+                "message" => "Error Requesting Credit",
+                "errors" => [
+                    "number" => [
+                        "Error Requesting Credit",
                     ]
                 ]
             ], 422);

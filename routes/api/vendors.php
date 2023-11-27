@@ -54,6 +54,8 @@ Route::group([
             // accept, reject client credit
             // list, register clients
             Route::post('/request', [CreditController::class, 'request']);
+            Route::get('/qr/{number}', [CreditController::class, 'qr']);
+            Route::post('/prepaid', [CreditController::class, 'prepaid']);
         });
         // Dashboard:
         // count of clients

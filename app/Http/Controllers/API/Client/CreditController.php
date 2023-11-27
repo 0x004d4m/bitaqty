@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\Client;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\CreditPrepaidRequset;
+use App\Http\Requests\General\CreditPrepaidRequset;
 use App\Http\Requests\General\CreditRequestRequset;
 use App\Http\Requests\Client\CreditSendRequset;
 use App\Http\Resources\General\CreditResource;
