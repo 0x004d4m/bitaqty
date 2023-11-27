@@ -2873,125 +2873,6 @@
                 ]
             }
         },
-        "/api/vendors/auth/register": {
-            "post": {
-                "tags": [
-                    "VendorAuth"
-                ],
-                "summary": "Register",
-                "description": "Register Vendor",
-                "operationId": "VendorAuthRegister",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "name",
-                                    "email",
-                                    "phone",
-                                    "password",
-                                    "password_confirmation",
-                                    "address",
-                                    "fcm_token",
-                                    "country_id",
-                                    "state_id",
-                                    "currency_id"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "phone": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "password_confirmation": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "address": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "fcm_token": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "country_id": {
-                                        "type": "integer",
-                                        "example": ""
-                                    },
-                                    "state_id": {
-                                        "type": "integer",
-                                        "example": ""
-                                    },
-                                    "currency_id": {
-                                        "type": "integer",
-                                        "example": ""
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "otp_token": {
-                                            "type": "string",
-                                            "example": ""
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Wrong credentials response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": ""
-                                        },
-                                        "errors": {
-                                            "properties": {
-                                                "dynamic-error-keys": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/vendors/auth/login": {
             "post": {
                 "tags": [
@@ -3013,7 +2894,7 @@
                                 "properties": {
                                     "username": {
                                         "type": "string",
-                                        "example": "email or password"
+                                        "example": ""
                                     },
                                     "password": {
                                         "type": "string",
@@ -3182,7 +3063,7 @@
                                 "properties": {
                                     "username": {
                                         "type": "string",
-                                        "example": "email or password"
+                                        "example": ""
                                     }
                                 },
                                 "type": "object"
@@ -3276,12 +3157,81 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "Success"
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/vendors/auth/refresh": {
+            "post": {
+                "tags": [
+                    "VendorAuth"
+                ],
+                "summary": "refresh",
+                "description": "Vendor Refresh Token",
+                "operationId": "VendorRefreshToken",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "refresh_token"
+                                ],
+                                "properties": {
+                                    "refresh_token": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "refresh_token": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "access_token_expiry": {
                                             "type": "string",
                                             "example": ""
                                         }

@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Requests\Client\Auth;
+namespace App\Http\Requests\General\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ForgetPasswordRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
             'username' => 'required',
+            'password' => 'required',
+            'fcm_token' => 'required',
         ];
     }
 }

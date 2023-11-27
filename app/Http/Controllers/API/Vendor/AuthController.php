@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\API\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Vendor\Auth\ForgetPasswordRequest;
-use App\Http\Requests\Vendor\Auth\LoginRequest;
-use App\Http\Requests\Vendor\Auth\OtpRequest;
-use App\Http\Requests\Vendor\Auth\RegisterRequest;
-use App\Http\Requests\Vendor\Auth\ResetPasswordRequest;
+use App\Http\Requests\General\Auth\RefreshTokenRequest;
+use App\Http\Requests\General\Auth\ForgetPasswordRequest;
+use App\Http\Requests\General\Auth\LoginRequest;
+use App\Http\Requests\General\Auth\OtpRequest;
+use App\Http\Requests\General\Auth\ResetPasswordRequest;
+use App\Models\PersonalAccessToken;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,79 +24,6 @@ class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *  path="/api/vendors/auth/register",
-     *  summary="Register",
-     *  description="Register Vendor",
-     *  operationId="VendorAuthRegister",
-     *  tags={"VendorAuth"},
-     *  @OA\RequestBody(
-     *     required=true,
-     *     @OA\MediaType(
-     *       mediaType="multipart/form-data",
-     *       @OA\Schema(
-     *          required={"name","email","phone","password","password_confirmation","address","fcm_token","country_id","state_id","currency_id"},
-     *         @OA\Property(property="name", type="string", example=""),
-     *         @OA\Property(property="email", type="string", example=""),
-     *         @OA\Property(property="phone", type="string", example=""),
-     *         @OA\Property(property="password", type="string", example=""),
-     *         @OA\Property(property="password_confirmation", type="string", example=""),
-     *         @OA\Property(property="address", type="string", example=""),
-     *         @OA\Property(property="fcm_token", type="string", example=""),
-     *         @OA\Property(property="country_id", type="integer", example=""),
-     *         @OA\Property(property="state_id", type="integer", example=""),
-     *         @OA\Property(property="currency_id", type="integer", example=""),
-     *       ),
-     *     ),
-     *  ),
-     *  @OA\Response(
-     *    response=200,
-     *    description="Success",
-     *    @OA\JsonContent(
-     *      @OA\Property(property="otp_token", type="string", example="")
-     *    )
-     *  ),
-     *  @OA\Response(
-     *    response=422,
-     *    description="Wrong credentials response",
-     *    @OA\JsonContent(
-     *      @OA\Property(property="message", type="string", example=""),
-     *      @OA\Property(property="errors", type="object",
-     *         @OA\Property(property="dynamic-error-keys", type="array",
-     *           @OA\Items(type="string")
-     *         )
-     *       )
-     *     )
-     *  )
-     * )
-     */
-    public function register(RegisterRequest $request)
-    {
-        $Vendor = Vendor::create($request->input());
-        if ($Vendor) {
-            $Vendor->update([
-                'otp_token' => $Vendor->createToken('VendorOtpToken')->plainTextToken,
-                'otp_code' => 1234,
-            ]);
-            // if(env('APP_ENV')=='production'){
-            //     Mail::to($Vendor->email)->send(new RegisterMail());
-            // }
-            return response()->json([
-                "otp_token" => $Vendor->otp_token,
-            ], 200);
-        } else {
-            return response()->json([
-                "message" => "Error Creating Vendor",
-                "errors" => [
-                    "email" => [
-                        "Error Creating Vendor",
-                    ]
-                ]
-            ], 422);
-        }
-    }
-
-    /**
-     * @OA\Post(
      *  path="/api/vendors/auth/login",
      *  summary="Login",
      *  description="Login Vendor",
@@ -107,7 +35,7 @@ class AuthController extends Controller
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
      *          required={"username","password","fcm_token"},
-     *         @OA\Property(property="username", type="string", example="email or password"),
+     *         @OA\Property(property="username", type="string", example=""),
      *         @OA\Property(property="password", type="string", example=""),
      *         @OA\Property(property="fcm_token", type="string", example=""),
      *       ),
@@ -151,22 +79,34 @@ class AuthController extends Controller
             }
         }
         if (Hash::check($request->password, $Vendor->password)) {
-            $Vendor->update([
-                'fcm_token' => $request->fcm_token,
-                'otp_token' => $Vendor->createToken('VendorOtpToken')->plainTextToken,
-                'otp_code' => 1234,
+            $plainTextToken = $Vendor->createToken('VendorOtpToken')->plainTextToken;
+            $plainTextToken = explode('|', $plainTextToken)[0];
+            $VendorOtpToken = PersonalAccessToken::where('id', $plainTextToken)->first();
+            $VendorOtpToken->update([
+                "code" => 1234
             ]);
+            if (PersonalAccessToken::where("token", $request->fcm_token)->count() == 0) {
+                $VendorFcmToken = PersonalAccessToken::create([
+                    "tokenable_type" => 'App\Models\Vendor',
+                    "tokenable_id" => $Vendor->id,
+                    "name" => 'VendorFcmToken',
+                    "token" => $request->fcm_token,
+                    "abilities" => '["*"]',
+                ]);
+            }
             // if(env('APP_ENV')=='production'){
             //     Mail::to($Vendor->email)->send(new RegisterMail());
             // }
             return response()->json([
-                "otp_token" => $Vendor->otp_token,
+                "data" => [
+                    "otp_token" => $VendorOtpToken->token,
+                ]
             ], 200);
         }
         return response()->json([
             "message" => "Wrong Password",
             "errors" => [
-                "username" => [
+                "password" => [
                     "Wrong Password",
                 ]
             ]
@@ -216,21 +156,42 @@ class AuthController extends Controller
      */
     public function otp(OtpRequest $request)
     {
-        $Vendor = Vendor::where('otp_token', $request->otp)->where('otp_code', $request->code)->first();
-        if ($Vendor) {
-            $access_token_expiry = Carbon::now()->addDays(10);
-            $Vendor->update([
-                'otp_token' => null,
-                'otp_code' => null,
-                "is_phone_verified" => true,
-                "access_token" => $Vendor->createToken('VendorAccessToken', ["*"], $access_token_expiry)->plainTextToken,
-                "refresh_token" => $Vendor->createToken('VendorRefreshToken')->plainTextToken,
-            ]);
-            return response()->json([
-                "access_token" => $Vendor->access_token,
-                "refresh_token" => $Vendor->refresh_token,
-                "access_token_expiry" => $access_token_expiry,
-            ], 200);
+        $VendorOtpToken = PersonalAccessToken::where('name', 'VendorOtpToken')
+        ->where("tokenable_type", 'App\Models\Vendor')
+        ->where('token', $request->otp_token)
+            ->where('code', $request->code)
+            ->first();
+        if ($VendorOtpToken) {
+            $Vendor = Vendor::where('id', $VendorOtpToken->tokenable_id)->first();
+            if ($Vendor) {
+                $access_token_expiry = Carbon::now()->addDays(10);
+                $VendorAccessToken = $Vendor->createToken('VendorAccessToken', ["*"], $access_token_expiry)->plainTextToken;
+                $VendorAccessToken = explode('|', $VendorAccessToken)[0];
+                $VendorAccessToken = PersonalAccessToken::where('id', $VendorAccessToken)->first();
+                $VendorRefreshToken = $Vendor->createToken('VendorRefreshToken')->plainTextToken;
+                $VendorRefreshToken = explode('|', $VendorRefreshToken)[0];
+                $VendorRefreshToken = PersonalAccessToken::where('id', $VendorRefreshToken)->first();
+                $VendorOtpToken->delete();
+                $Vendor->update([
+                    "is_phone_verified" => true,
+                ]);
+                return response()->json([
+                    "data" => [
+                        "access_token" => $VendorAccessToken->token,
+                        "refresh_token" => $VendorRefreshToken->token,
+                        "access_token_expiry" => $access_token_expiry,
+                    ]
+                ], 200);
+            } else {
+                return response()->json([
+                    "message" => "Wrong Code",
+                    "errors" => [
+                        "otp" => [
+                            "Wrong Code",
+                        ]
+                    ]
+                ], 422);
+            }
         } else {
             return response()->json([
                 "message" => "Wrong Code",
@@ -256,7 +217,7 @@ class AuthController extends Controller
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
      *          required={"username"},
-     *         @OA\Property(property="username", type="string", example="email or password"),
+     *         @OA\Property(property="username", type="string", example=""),
      *       ),
      *     ),
      *  ),
@@ -297,14 +258,16 @@ class AuthController extends Controller
                 ], 422);
             }
         }
-        $Vendor->update([
-            'forget_token' => $Vendor->createToken('VendorForgetToken')->plainTextToken,
-        ]);
+        $VendorForgetToken = $Vendor->createToken('VendorForgetToken')->plainTextToken;
+        $VendorForgetToken = explode('|', $VendorForgetToken)[0];
+        $VendorForgetToken = PersonalAccessToken::where('id', $VendorForgetToken)->first();
         // if(env('APP_ENV')=='production'){
         //     Mail::to($Vendor->email)->send(new RegisterMail());
         // }
         return response()->json([
-            "token" => $Vendor->forget_token,
+            "data" => [
+                "token" => $VendorForgetToken->token,
+            ]
         ], 200);
     }
 
@@ -330,9 +293,6 @@ class AuthController extends Controller
      *  @OA\Response(
      *    response=200,
      *    description="Success",
-     *    @OA\JsonContent(
-     *      @OA\Property(property="message", type="string", example="")
-     *    )
      *  ),
      *  @OA\Response(
      *    response=422,
@@ -350,8 +310,27 @@ class AuthController extends Controller
      */
     public function reset(ResetPasswordRequest $request)
     {
-        $Vendor = Vendor::where('forget_token', $request->token)->first();
-        if (!$Vendor) {
+        $VendorForgetToken = PersonalAccessToken::where('name', 'VendorForgetToken')
+        ->where("tokenable_type", 'App\Models\Vendor')
+        ->where('token', $request->forget_token)
+            ->first();
+        if ($VendorForgetToken) {
+            $Vendor = Vendor::where('id', $VendorForgetToken->tokenable_id)->first();
+            if (!$Vendor) {
+                return response()->json([
+                    "message" => "Wrong Token",
+                    "errors" => [
+                        "forget_token" => [
+                            "Wrong Token",
+                        ]
+                    ]
+                ], 422);
+            }
+            $Vendor->update([
+                'password' => $request->password,
+            ]);
+            return response()->json(["data" => []], 200);
+        } else {
             return response()->json([
                 "message" => "Wrong Token",
                 "errors" => [
@@ -361,16 +340,91 @@ class AuthController extends Controller
                 ]
             ], 422);
         }
-        $Vendor->update([
-            'password' => $request->password,
-            'otp_token' => null,
-            'otp_code' => null,
-            'access_token' => null,
-            'refresh_token' => null,
-            'forget_token' => null,
-        ]);
-        return response()->json([
-            "message" => "Password Resetted Successfully",
-        ], 200);
+    }
+
+    /**
+     * @OA\Post(
+     *  path="/api/vendors/auth/refresh",
+     *  summary="refresh",
+     *  description="Vendor Refresh Token",
+     *  operationId="VendorRefreshToken",
+     *  tags={"VendorAuth"},
+     *  @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *          required={"refresh_token"},
+     *         @OA\Property(property="refresh_token", type="string", example=""),
+     *       ),
+     *     ),
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="access_token", type="string", example=""),
+     *      @OA\Property(property="refresh_token", type="string", example=""),
+     *      @OA\Property(property="access_token_expiry", type="string", example=""),
+     *    )
+     *  ),
+     *  @OA\Response(
+     *    response=422,
+     *    description="Wrong credentials response",
+     *    @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example=""),
+     *      @OA\Property(property="errors", type="object",
+     *         @OA\Property(property="dynamic-error-keys", type="array",
+     *           @OA\Items(type="string")
+     *         )
+     *       )
+     *     )
+     *  )
+     * )
+     */
+    public function refresh(RefreshTokenRequest $request)
+    {
+        $VendorRefreshToken = PersonalAccessToken::where('name', 'VendorRefreshToken')
+        ->where("tokenable_type", 'App\Models\Vendor')
+        ->where('token', $request->refresh_token)
+            ->first();
+        if ($VendorRefreshToken) {
+            $Vendor = Vendor::where('id', $VendorRefreshToken->tokenable_id)->first();
+            if ($Vendor) {
+                $access_token_expiry = Carbon::now()->addDays(10);
+                $VendorAccessToken = $Vendor->createToken('VendorAccessToken', ["*"], $access_token_expiry)->plainTextToken;
+                $VendorAccessToken = explode('|', $VendorAccessToken)[0];
+                $VendorAccessToken = PersonalAccessToken::where('id', $VendorAccessToken)->first();
+                $VendorRefreshToken = $Vendor->createToken('VendorRefreshToken')->plainTextToken;
+                $VendorRefreshToken = explode('|', $VendorRefreshToken)[0];
+                $VendorRefreshToken = PersonalAccessToken::where('id', $VendorRefreshToken)->first();
+                $VendorRefreshToken->delete();
+                return response()->json([
+                    "data" => [
+                        "access_token" => $VendorAccessToken->token,
+                        "refresh_token" => $VendorRefreshToken->token,
+                        "access_token_expiry" => $access_token_expiry,
+                    ]
+                ], 200);
+            } else {
+                return response()->json([
+                    "message" => "Wrong Token",
+                    "errors" => [
+                        "refresh_token" => [
+                            "Wrong Token",
+                        ]
+                    ]
+                ], 422);
+            }
+        } else {
+            return response()->json([
+                "message" => "Wrong Token",
+                "errors" => [
+                    "refresh_token" => [
+                        "Wrong Token",
+                    ]
+                ]
+            ], 422);
+        }
     }
 }

@@ -3,19 +3,17 @@
 namespace App\Http\Controllers\API\Client;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\Auth\ForgetPasswordRequest;
-use App\Http\Requests\Client\Auth\LoginRequest;
-use App\Http\Requests\Client\Auth\OtpRequest;
-use App\Http\Requests\Client\Auth\RefreshTokenRequest;
+use App\Http\Requests\General\Auth\ForgetPasswordRequest;
+use App\Http\Requests\General\Auth\LoginRequest;
+use App\Http\Requests\General\Auth\OtpRequest;
+use App\Http\Requests\General\Auth\RefreshTokenRequest;
 use App\Http\Requests\Client\Auth\RegisterRequest;
-use App\Http\Requests\Client\Auth\ResetPasswordRequest;
-use App\Http\Requests\ClientAuthRefreshTokenRequest;
+use App\Http\Requests\General\Auth\ResetPasswordRequest;
 use App\Mail\Client\RegisterMail;
 use App\Models\Client;
 use App\Models\PersonalAccessToken;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 /**
