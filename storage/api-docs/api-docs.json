@@ -2500,6 +2500,10 @@
                                                     "action": {
                                                         "type": "string",
                                                         "example": ""
+                                                    },
+                                                    "is_important": {
+                                                        "type": "string",
+                                                        "example": ""
                                                     }
                                                 },
                                                 "type": "object"
@@ -4150,41 +4154,9 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "address": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "phone": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "commercial_name": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "country_id": {
-                                        "type": "integer",
-                                        "example": ""
-                                    },
-                                    "state_id": {
-                                        "type": "integer",
-                                        "example": ""
-                                    },
                                     "currency_id": {
                                         "type": "integer",
                                         "example": ""
-                                    },
-                                    "image": {
-                                        "type": "file",
-                                        "format": "file"
                                     }
                                 },
                                 "type": "object"
