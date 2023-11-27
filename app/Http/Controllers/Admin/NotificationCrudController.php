@@ -10,6 +10,7 @@ use App\Models\UserNotification;
 use App\Models\Vendor;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class NotificationCrudController extends CrudController
 {
@@ -98,158 +99,159 @@ class NotificationCrudController extends CrudController
     public function send(Request $request, $id)
     {
         $Notification = Notification::where('id', $id)->first();
-        if ($Notification) {
-            if ($Notification->is_sent == 1) {
-                return ["message" => __('admin.send_error_already_sent')];
-            }
-            if ($Notification->getTranslation('title', 'ar') && $Notification->getTranslation('title', 'en')) {
-                if ($Notification->userable_type == 'App\Models\Client') {
-                    if ($Notification->userable_id) {
-                        $Client = Client::where('id', $Notification->userable_id)->first();
-                        if($Client){
-                            if(UserNotification::create([
-                                "title" => $Notification->title,
-                                "description" => $Notification->description,
-                                "image" => $Notification->image,
-                                "data" => $Notification->data,
-                                "is_read" => $Notification->is_read,
-                                "userable_type" => $Notification->userable_type,
-                                "userable_id" => $Notification->userable_id,
-                            ])){
-                                $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
-                                foreach($ClientFcmTokens as $ClientFcmToken){
-                                    sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
-                                }
-                            }else{
-                                return ["message" => __('admin.sent_error_message')];
-                            }
-                        }else{
-                            return ["message" => __('admin.sent_error_message')];
-                        }
-                        $Notification->update(["is_sent"=>1]);
-                        return 1;
-                    } else {
-                        $Clients = Client::get();
-                        if ($Clients) {
-                            foreach ($Clients as $Client) {
-                                if (UserNotification::create([
-                                    "title" => $Notification->title,
-                                    "description" => $Notification->description,
-                                    "image" => $Notification->image,
-                                    "data" => $Notification->data,
-                                    "is_read" => $Notification->is_read,
-                                    "userable_type" => $Notification->userable_type,
-                                    "userable_id" => $Client->id,
-                                ])) {
-                                    $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
-                                    foreach ($ClientFcmTokens as $ClientFcmToken) {
-                                        sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
-                                    }
-                                }
-                            }
-                        } else {
-                            return ["message" => __('admin.sent_error_message')];
-                        }
-                        $Notification->update(["is_sent" => 1]);
-                        return 1;
-                    }
-                } elseif ($Notification->userable_type == 'App\Models\Vendor') {
-                    if ($Notification->userable_id) {
-                        $Vendor = Vendor::where('id', $Notification->userable_id)->first();
-                        if ($Vendor) {
-                            if (UserNotification::create([
-                                "title" => $Notification->title,
-                                "description" => $Notification->description,
-                                "image" => $Notification->image,
-                                "data" => $Notification->data,
-                                "is_read" => $Notification->is_read,
-                                "userable_type" => $Notification->userable_type,
-                                "userable_id" => $Notification->userable_id,
-                            ])) {
-                                $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
-                                foreach ($VendorFcmTokens as $VendorFcmToken) {
-                                    sendFCM($VendorFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
-                                }
-                            } else {
-                                return ["message" => __('admin.sent_error_message')];
-                            }
-                        } else {
-                            return ["message" => __('admin.sent_error_message')];
-                        }
-                        $Notification->update(["is_sent" => 1]);
-                        return 1;
-                    } else {
-                        $Vendors = Vendor::get();
-                        if ($Vendors) {
-                            foreach ($Vendors as $Vendor) {
-                                if (UserNotification::create([
-                                    "title" => $Notification->title,
-                                    "description" => $Notification->description,
-                                    "image" => $Notification->image,
-                                    "data" => $Notification->data,
-                                    "is_read" => $Notification->is_read,
-                                    "userable_type" => $Notification->userable_type,
-                                    "userable_id" => $Vendor->id,
-                                ])) {
-                                    $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
-                                    foreach ($VendorFcmTokens as $VendorFcmToken) {
-                                        sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
-                                    }
-                                }
-                            }
-                        } else {
-                            return ["message" => __('admin.sent_error_message')];
-                        }
-                        $Notification->update(["is_sent" => 1]);
-                        return 1;
-                    }
-                } else {
-                    $Clients = Client::get();
-                    if ($Clients) {
-                        foreach ($Clients as $Client) {
-                            if (UserNotification::create([
-                                "title" => $Notification->title,
-                                "description" => $Notification->description,
-                                "image" => $Notification->image,
-                                "data" => $Notification->data,
-                                "is_read" => $Notification->is_read,
-                                "userable_type" => 'App\Models\Client',
-                                "userable_id" => $Client->id,
-                            ])) {
-                                $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
-                                foreach ($ClientFcmTokens as $ClientFcmToken) {
-                                    sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
-                                }
-                            }
-                        }
-                    }
-                    $Vendors = Vendor::get();
-                    if ($Vendors) {
-                        foreach ($Vendors as $Vendor) {
-                            if (UserNotification::create([
-                                "title" => $Notification->title,
-                                "description" => $Notification->description,
-                                "image" => $Notification->image,
-                                "data" => $Notification->data,
-                                "is_read" => $Notification->is_read,
-                                "userable_type" => 'App\Models\Vendor',
-                                "userable_id" => $Vendor->id,
-                            ])) {
-                                $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
-                                foreach ($VendorFcmTokens as $VendorFcmToken) {
-                                    sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
-                                }
-                            }
-                        }
-                    }
-                    $Notification->update(["is_sent" => 1]);
-                    return 1;
-                }
-            } else {
-                return ["message" => __('admin.send_error_translation')];
-            }
-        } else {
-            return ["message" => __('admin.send_error_notification_deleted')];
-        }
+        Log::debug($Notification->getTranslations());
+        // if ($Notification) {
+        //     if ($Notification->is_sent == 1) {
+        //         return ["message" => __('admin.send_error_already_sent')];
+        //     }
+        //     if ($Notification->getTranslation('title', 'ar') && $Notification->getTranslation('title', 'en')) {
+        //         if ($Notification->userable_type == 'App\Models\Client') {
+        //             if ($Notification->userable_id) {
+        //                 $Client = Client::where('id', $Notification->userable_id)->first();
+        //                 if($Client){
+        //                     if(UserNotification::create([
+        //                         "title" => $Notification->title,
+        //                         "description" => $Notification->description,
+        //                         "image" => $Notification->image,
+        //                         "data" => $Notification->data,
+        //                         "is_read" => $Notification->is_read,
+        //                         "userable_type" => $Notification->userable_type,
+        //                         "userable_id" => $Notification->userable_id,
+        //                     ])){
+        //                         $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
+        //                         foreach($ClientFcmTokens as $ClientFcmToken){
+        //                             sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
+        //                         }
+        //                     }else{
+        //                         return ["message" => __('admin.sent_error_message')];
+        //                     }
+        //                 }else{
+        //                     return ["message" => __('admin.sent_error_message')];
+        //                 }
+        //                 $Notification->update(["is_sent"=>1]);
+        //                 return 1;
+        //             } else {
+        //                 $Clients = Client::get();
+        //                 if ($Clients) {
+        //                     foreach ($Clients as $Client) {
+        //                         if (UserNotification::create([
+        //                             "title" => $Notification->title,
+        //                             "description" => $Notification->description,
+        //                             "image" => $Notification->image,
+        //                             "data" => $Notification->data,
+        //                             "is_read" => $Notification->is_read,
+        //                             "userable_type" => $Notification->userable_type,
+        //                             "userable_id" => $Client->id,
+        //                         ])) {
+        //                             $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
+        //                             foreach ($ClientFcmTokens as $ClientFcmToken) {
+        //                                 sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
+        //                             }
+        //                         }
+        //                     }
+        //                 } else {
+        //                     return ["message" => __('admin.sent_error_message')];
+        //                 }
+        //                 $Notification->update(["is_sent" => 1]);
+        //                 return 1;
+        //             }
+        //         } elseif ($Notification->userable_type == 'App\Models\Vendor') {
+        //             if ($Notification->userable_id) {
+        //                 $Vendor = Vendor::where('id', $Notification->userable_id)->first();
+        //                 if ($Vendor) {
+        //                     if (UserNotification::create([
+        //                         "title" => $Notification->title,
+        //                         "description" => $Notification->description,
+        //                         "image" => $Notification->image,
+        //                         "data" => $Notification->data,
+        //                         "is_read" => $Notification->is_read,
+        //                         "userable_type" => $Notification->userable_type,
+        //                         "userable_id" => $Notification->userable_id,
+        //                     ])) {
+        //                         $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
+        //                         foreach ($VendorFcmTokens as $VendorFcmToken) {
+        //                             sendFCM($VendorFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
+        //                         }
+        //                     } else {
+        //                         return ["message" => __('admin.sent_error_message')];
+        //                     }
+        //                 } else {
+        //                     return ["message" => __('admin.sent_error_message')];
+        //                 }
+        //                 $Notification->update(["is_sent" => 1]);
+        //                 return 1;
+        //             } else {
+        //                 $Vendors = Vendor::get();
+        //                 if ($Vendors) {
+        //                     foreach ($Vendors as $Vendor) {
+        //                         if (UserNotification::create([
+        //                             "title" => $Notification->title,
+        //                             "description" => $Notification->description,
+        //                             "image" => $Notification->image,
+        //                             "data" => $Notification->data,
+        //                             "is_read" => $Notification->is_read,
+        //                             "userable_type" => $Notification->userable_type,
+        //                             "userable_id" => $Vendor->id,
+        //                         ])) {
+        //                             $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
+        //                             foreach ($VendorFcmTokens as $VendorFcmToken) {
+        //                                 sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
+        //                             }
+        //                         }
+        //                     }
+        //                 } else {
+        //                     return ["message" => __('admin.sent_error_message')];
+        //                 }
+        //                 $Notification->update(["is_sent" => 1]);
+        //                 return 1;
+        //             }
+        //         } else {
+        //             $Clients = Client::get();
+        //             if ($Clients) {
+        //                 foreach ($Clients as $Client) {
+        //                     if (UserNotification::create([
+        //                         "title" => $Notification->title,
+        //                         "description" => $Notification->description,
+        //                         "image" => $Notification->image,
+        //                         "data" => $Notification->data,
+        //                         "is_read" => $Notification->is_read,
+        //                         "userable_type" => 'App\Models\Client',
+        //                         "userable_id" => $Client->id,
+        //                     ])) {
+        //                         $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
+        //                         foreach ($ClientFcmTokens as $ClientFcmToken) {
+        //                             sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //             $Vendors = Vendor::get();
+        //             if ($Vendors) {
+        //                 foreach ($Vendors as $Vendor) {
+        //                     if (UserNotification::create([
+        //                         "title" => $Notification->title,
+        //                         "description" => $Notification->description,
+        //                         "image" => $Notification->image,
+        //                         "data" => $Notification->data,
+        //                         "is_read" => $Notification->is_read,
+        //                         "userable_type" => 'App\Models\Vendor',
+        //                         "userable_id" => $Vendor->id,
+        //                     ])) {
+        //                         $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
+        //                         foreach ($VendorFcmTokens as $VendorFcmToken) {
+        //                             sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //             $Notification->update(["is_sent" => 1]);
+        //             return 1;
+        //         }
+        //     } else {
+        //         return ["message" => __('admin.send_error_translation')];
+        //     }
+        // } else {
+        //     return ["message" => __('admin.send_error_notification_deleted')];
+        // }
     }
 }
