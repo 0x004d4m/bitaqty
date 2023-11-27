@@ -10,6 +10,7 @@ use App\Models\Vendor;
 use App\Models\Credit;
 use App\Models\CreditCard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -145,6 +146,7 @@ class CreditController extends Controller
      */
     public function request(CreditRequestRequset $request)
     {
+        Log::debug($request->vendor_id);
         if (Credit::where("userable_type", 'App\Models\Vendor')->where("userable_id", $request->vendor_id)->where('credit_status_id', 1)->where('credit_type_id', 1)->count() == 0) {
             $Vendor = Vendor::where('id', $request->vendor_id)->first();
             if($Vendor){
