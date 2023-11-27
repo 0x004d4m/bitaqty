@@ -2032,7 +2032,8 @@
                                 "required": [
                                     "old_password",
                                     "new_password",
-                                    "new_password_confirmation"
+                                    "new_password_confirmation",
+                                    "remove_all_users_tokens"
                                 ],
                                 "properties": {
                                     "old_password": {
@@ -2044,6 +2045,10 @@
                                         "example": ""
                                     },
                                     "new_password_confirmation": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "remove_all_users_tokens": {
                                         "type": "string",
                                         "example": ""
                                     }
@@ -4173,7 +4178,8 @@
                                 "required": [
                                     "old_password",
                                     "new_password",
-                                    "new_password_confirmation"
+                                    "new_password_confirmation",
+                                    "remove_all_users_tokens"
                                 ],
                                 "properties": {
                                     "old_password": {
@@ -4185,6 +4191,10 @@
                                         "example": ""
                                     },
                                     "new_password_confirmation": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "remove_all_users_tokens": {
                                         "type": "string",
                                         "example": ""
                                     }

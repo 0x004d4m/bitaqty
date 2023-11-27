@@ -183,10 +183,11 @@ class ProfileController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"old_password","new_password","new_password_confirmation"},
+     *          required={"old_password","new_password","new_password_confirmation","remove_all_users_tokens"},
      *         @OA\Property(property="old_password", type="string", example=""),
      *         @OA\Property(property="new_password", type="string", example=""),
      *         @OA\Property(property="new_password_confirmation", type="string", example=""),
+     *         @OA\Property(property="remove_all_users_tokens", type="string", example=""),
      *       ),
      *     ),
      *  ),
