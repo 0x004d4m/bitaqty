@@ -108,15 +108,17 @@ class NotificationCrudController extends CrudController
                     if ($Notification->userable_id) {
                         $Client = Client::where('id', $Notification->userable_id)->first();
                         if($Client){
-                            if(UserNotification::create([
-                                "title" => json_encode($Notification->getTranslations('title')),
-                                "description" => json_encode($Notification->getTranslations('description')),
+                            if($UserNotification = UserNotification::create([
+                                "title" => "",
+                                "description" => "",
                                 "image" => $Notification->image,
                                 "data" => $Notification->data,
                                 "is_read" => $Notification->is_read,
                                 "userable_type" => $Notification->userable_type,
                                 "userable_id" => $Notification->userable_id,
                             ])){
+                                $UserNotification->setTranslations('title', $Notification->getTranslations('title'));
+                                $UserNotification->setTranslations('description', $Notification->getTranslations('description'));
                                 $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
                                 foreach($ClientFcmTokens as $ClientFcmToken){
                                     sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
@@ -133,7 +135,7 @@ class NotificationCrudController extends CrudController
                         $Clients = Client::get();
                         if ($Clients) {
                             foreach ($Clients as $Client) {
-                                if (UserNotification::create([
+                                if ($UserNotification = UserNotification::create([
                                     "title" => json_encode($Notification->getTranslations('title')),
                                     "description" => json_encode($Notification->getTranslations('description')),
                                     "image" => $Notification->image,
@@ -142,6 +144,8 @@ class NotificationCrudController extends CrudController
                                     "userable_type" => $Notification->userable_type,
                                     "userable_id" => $Client->id,
                                 ])) {
+                                    $UserNotification->setTranslations('title', $Notification->getTranslations('title'));
+                                    $UserNotification->setTranslations('description', $Notification->getTranslations('description'));
                                     $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
                                     foreach ($ClientFcmTokens as $ClientFcmToken) {
                                         sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
@@ -158,7 +162,7 @@ class NotificationCrudController extends CrudController
                     if ($Notification->userable_id) {
                         $Vendor = Vendor::where('id', $Notification->userable_id)->first();
                         if ($Vendor) {
-                            if (UserNotification::create([
+                            if ($UserNotification = UserNotification::create([
                                 "title" => json_encode($Notification->getTranslations('title')),
                                 "description" => json_encode($Notification->getTranslations('description')),
                                 "image" => $Notification->image,
@@ -167,6 +171,8 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => $Notification->userable_type,
                                 "userable_id" => $Notification->userable_id,
                             ])) {
+                                $UserNotification->setTranslations('title', $Notification->getTranslations('title'));
+                                $UserNotification->setTranslations('description', $Notification->getTranslations('description'));
                                 $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
                                 foreach ($VendorFcmTokens as $VendorFcmToken) {
                                     sendFCM($VendorFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
@@ -183,7 +189,7 @@ class NotificationCrudController extends CrudController
                         $Vendors = Vendor::get();
                         if ($Vendors) {
                             foreach ($Vendors as $Vendor) {
-                                if (UserNotification::create([
+                                if ($UserNotification = UserNotification::create([
                                     "title" => json_encode($Notification->getTranslations('title')),
                                     "description" => json_encode($Notification->getTranslations('description')),
                                     "image" => $Notification->image,
@@ -192,6 +198,8 @@ class NotificationCrudController extends CrudController
                                     "userable_type" => $Notification->userable_type,
                                     "userable_id" => $Vendor->id,
                                 ])) {
+                                    $UserNotification->setTranslations('title', $Notification->getTranslations('title'));
+                                    $UserNotification->setTranslations('description', $Notification->getTranslations('description'));
                                     $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
                                     foreach ($VendorFcmTokens as $VendorFcmToken) {
                                         sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
@@ -208,7 +216,7 @@ class NotificationCrudController extends CrudController
                     $Clients = Client::get();
                     if ($Clients) {
                         foreach ($Clients as $Client) {
-                            if (UserNotification::create([
+                            if ($UserNotification = UserNotification::create([
                                 "title" => json_encode($Notification->getTranslations('title')),
                                 "description" => json_encode($Notification->getTranslations('description')),
                                 "image" => $Notification->image,
@@ -217,6 +225,8 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => 'App\Models\Client',
                                 "userable_id" => $Client->id,
                             ])) {
+                                $UserNotification->setTranslations('title', $Notification->getTranslations('title'));
+                                $UserNotification->setTranslations('description', $Notification->getTranslations('description'));
                                 $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
                                 foreach ($ClientFcmTokens as $ClientFcmToken) {
                                     sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
@@ -227,7 +237,7 @@ class NotificationCrudController extends CrudController
                     $Vendors = Vendor::get();
                     if ($Vendors) {
                         foreach ($Vendors as $Vendor) {
-                            if (UserNotification::create([
+                            if ($UserNotification = UserNotification::create([
                                 "title" => json_encode($Notification->getTranslations('title')),
                                 "description" => json_encode($Notification->getTranslations('description')),
                                 "image" => $Notification->image,
@@ -236,6 +246,8 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => 'App\Models\Vendor',
                                 "userable_id" => $Vendor->id,
                             ])) {
+                                $UserNotification->setTranslations('title', $Notification->getTranslations('title'));
+                                $UserNotification->setTranslations('description', $Notification->getTranslations('description'));
                                 $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
                                 foreach ($VendorFcmTokens as $VendorFcmToken) {
                                     sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
