@@ -3953,11 +3953,19 @@
                                             "type": "integer",
                                             "example": ""
                                         },
-                                        "title": {
+                                        "name": {
                                             "type": "string",
                                             "example": ""
                                         },
-                                        "description": {
+                                        "address": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "email": {
                                             "type": "string",
                                             "example": ""
                                         },
@@ -3965,12 +3973,26 @@
                                             "type": "string",
                                             "example": ""
                                         },
-                                        "data": {
-                                            "type": "object",
-                                            "example": []
+                                        "credit": {
+                                            "type": "number",
+                                            "format": "double",
+                                            "example": ""
                                         },
-                                        "is_read": {
-                                            "type": "string",
+                                        "dept": {
+                                            "type": "number",
+                                            "format": "double",
+                                            "example": ""
+                                        },
+                                        "is_blocked": {
+                                            "type": "boolean",
+                                            "example": ""
+                                        },
+                                        "is_email_verified": {
+                                            "type": "boolean",
+                                            "example": ""
+                                        },
+                                        "is_phone_verified": {
+                                            "type": "boolean",
                                             "example": ""
                                         }
                                     },

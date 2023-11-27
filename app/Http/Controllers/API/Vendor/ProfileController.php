@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\ChangePasswordRequest;
 use App\Http\Requests\Client\ProfileUpdateRequest;
 use App\Http\Resources\Client\VendorResource;
+use App\Http\Resources\Vendor\ProfileResource;
 use App\Models\Vendor;
 use App\Models\PersonalAccessToken;
 use Illuminate\Http\Request;
@@ -32,18 +33,23 @@ class ProfileController extends Controller
      *    description="Success",
      *    @OA\JsonContent(
      *      @OA\Property(property="id", type="integer", example=""),
-     *      @OA\Property(property="title", type="string", example=""),
-     *      @OA\Property(property="description", type="string", example=""),
+     *      @OA\Property(property="name", type="string", example=""),
+     *      @OA\Property(property="address", type="string", example=""),
+     *      @OA\Property(property="phone", type="string", example=""),
+     *      @OA\Property(property="email", type="string", example=""),
      *      @OA\Property(property="image", type="string", example=""),
-     *      @OA\Property(property="data", type="object", example={}),
-     *      @OA\Property(property="is_read", type="string", example=""),
+     *      @OA\Property(property="credit", type="double", example=""),
+     *      @OA\Property(property="dept", type="double", example=""),
+     *      @OA\Property(property="is_blocked", type="boolean", example=""),
+     *      @OA\Property(property="is_email_verified", type="boolean", example=""),
+     *      @OA\Property(property="is_phone_verified", type="boolean", example=""),
      *    ),
      *  )
      * )
      */
     public function show(Request $request)
     {
-        return new VendorResource(
+        return new ProfileResource(
             Vendor::where('id', $request->vendor_id)
                 ->first()
         );

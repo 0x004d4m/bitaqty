@@ -22,20 +22,16 @@ class ProfileResource extends JsonResource
             'name' => $this->name,
             'address' => $this->address,
             'phone' => $this->phone,
-            'password' => $this->password,
-            'commercial_name' => $this->commercial_name,
             'email' => $this->email,
             'image' => $this->image,
             'credit' => $this->credit,
-            'is_approved' => $this->is_approved,
+            'dept' => $this->dept,
             'is_blocked' => $this->is_blocked,
-            'can_give_credit' => $this->can_give_credit,
             'is_email_verified' => $this->is_email_verified,
             'is_phone_verified' => $this->is_phone_verified,
             'country' => new CountryResource($this->country),
             'state' => new StateResource($this->state),
             'currency' => new CurrencyResource($this->currency),
-            'group' => new GroupResource($this->group),
         ];
     }
 }
