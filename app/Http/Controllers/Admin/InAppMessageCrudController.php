@@ -28,6 +28,7 @@ class InAppMessageCrudController extends CrudController
         $this->crud->column('image')->label(__('admin_fields.image'))->type('image');
         $this->crud->column('action')->label(__('admin_fields.action'))->text('text');
         $this->crud->column('is_important')->label(__('admin_fields.is_important'))->type('boolean');
+        $this->crud->column('is_active')->label(__('admin_fields.is_active'))->type('boolean');
     }
 
     protected function setupCreateOperation()
@@ -46,6 +47,7 @@ class InAppMessageCrudController extends CrudController
         $this->crud->field('image')->label(__('admin_fields.image'))->type('image');
         $this->crud->field('action')->label(__('admin_fields.action'))->type('text');
         $this->crud->field('is_important')->label(__('admin_fields.is_important'))->type('boolean');
+        $this->crud->field('is_active')->label(__('admin_fields.is_active'))->type('boolean');
     }
 
     protected function setupUpdateOperation()

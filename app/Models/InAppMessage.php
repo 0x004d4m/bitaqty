@@ -30,6 +30,7 @@ class InAppMessage extends Model
         'image',
         'action',
         'is_important',
+        'is_active',
     ];
 
     public function setImageAttribute($value)
@@ -57,5 +58,21 @@ class InAppMessage extends Model
             return url($this->attributes['image']);
         }
         return null;
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updates(function ($model) {
+            if($model->is_active != $model->getOriginal()['is_active'] && $model->is_active==1){
+                $InAppMessages = InAppMessage::get();
+                foreach ($InAppMessages as $InAppMessage) {
+                    $InAppMessage->update([
+                        'is_active' => 0
+                    ]);
+                }
+            }
+        });
     }
 }

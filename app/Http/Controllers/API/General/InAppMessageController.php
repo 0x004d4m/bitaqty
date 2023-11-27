@@ -29,6 +29,7 @@ class InAppMessageController extends Controller
      *              @OA\Property(property="description", type="string", example=""),
      *              @OA\Property(property="image", type="string", example=""),
      *              @OA\Property(property="action", type="string", example=""),
+     *              @OA\Property(property="is_important", type="string", example=""),
      *          ),
      *      ),
      *    ),
@@ -38,7 +39,7 @@ class InAppMessageController extends Controller
     public function index(Request $request)
     {
         return InAppMessageResource::collection(
-            InAppMessage::where('type', 'Client')->get()
+            InAppMessage::where('type', $request->type)->where('is_active', 1)->limit(1)->get()
         );
     }
 }
