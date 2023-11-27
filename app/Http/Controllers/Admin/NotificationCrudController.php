@@ -117,6 +117,10 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => $Notification->userable_type,
                                 "userable_id" => $Notification->userable_id,
                             ])){
+                                $UserNotification->updateQuietly([
+                                    "title" => $Notification->getTranslations('title'),
+                                    "description" => $Notification->getTranslations('description'),
+                                ]);
                                 $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
                                 foreach($ClientFcmTokens as $ClientFcmToken){
                                     sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
@@ -142,6 +146,10 @@ class NotificationCrudController extends CrudController
                                     "userable_type" => $Notification->userable_type,
                                     "userable_id" => $Client->id,
                                 ])) {
+                                    $UserNotification->updateQuietly([
+                                        "title" => $Notification->getTranslations('title'),
+                                        "description" => $Notification->getTranslations('description'),
+                                    ]);
                                     $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
                                     foreach ($ClientFcmTokens as $ClientFcmToken) {
                                         sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
@@ -167,6 +175,10 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => $Notification->userable_type,
                                 "userable_id" => $Notification->userable_id,
                             ])) {
+                                $UserNotification->updateQuietly([
+                                    "title" => $Notification->getTranslations('title'),
+                                    "description" => $Notification->getTranslations('description'),
+                                ]);
                                 $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
                                 foreach ($VendorFcmTokens as $VendorFcmToken) {
                                     sendFCM($VendorFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
@@ -192,6 +204,10 @@ class NotificationCrudController extends CrudController
                                     "userable_type" => $Notification->userable_type,
                                     "userable_id" => $Vendor->id,
                                 ])) {
+                                    $UserNotification->updateQuietly([
+                                        "title" => $Notification->getTranslations('title'),
+                                        "description" => $Notification->getTranslations('description'),
+                                    ]);
                                     $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
                                     foreach ($VendorFcmTokens as $VendorFcmToken) {
                                         sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
@@ -217,6 +233,10 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => 'App\Models\Client',
                                 "userable_id" => $Client->id,
                             ])) {
+                                $UserNotification->updateQuietly([
+                                    "title" => $Notification->getTranslations('title'),
+                                    "description" => $Notification->getTranslations('description'),
+                                ]);
                                 $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
                                 foreach ($ClientFcmTokens as $ClientFcmToken) {
                                     sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
@@ -236,6 +256,10 @@ class NotificationCrudController extends CrudController
                                 "userable_type" => 'App\Models\Vendor',
                                 "userable_id" => $Vendor->id,
                             ])) {
+                                $UserNotification->updateQuietly([
+                                    "title" => $Notification->getTranslations('title'),
+                                    "description" => $Notification->getTranslations('description'),
+                                ]);
                                 $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
                                 foreach ($VendorFcmTokens as $VendorFcmToken) {
                                     sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
