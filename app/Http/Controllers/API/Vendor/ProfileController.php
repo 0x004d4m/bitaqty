@@ -4,8 +4,7 @@ namespace App\Http\Controllers\API\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\General\ChangePasswordRequest;
-use App\Http\Requests\Client\ProfileUpdateRequest;
-use App\Http\Resources\Client\VendorResource;
+use App\Http\Requests\Vendor\ProfileUpdateRequest;
 use App\Http\Resources\Vendor\ProfileResource;
 use App\Models\Vendor;
 use App\Models\PersonalAccessToken;
