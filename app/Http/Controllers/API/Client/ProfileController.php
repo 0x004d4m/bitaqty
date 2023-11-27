@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\Client;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\ChangePasswordRequest;
+use App\Http\Requests\General\ChangePasswordRequest;
 use App\Http\Requests\Client\ProfileUpdateRequest;
 use App\Http\Resources\Client\ClientResource;
 use App\Models\Client;
@@ -177,10 +177,10 @@ class ProfileController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"old_password","new_password","new_password_confirmed"},
+     *          required={"old_password","new_password","new_password_confirmation"},
      *         @OA\Property(property="old_password", type="string", example=""),
      *         @OA\Property(property="new_password", type="string", example=""),
-     *         @OA\Property(property="password_confirmed", type="string", example=""),
+     *         @OA\Property(property="new_password_confirmation", type="string", example=""),
      *       ),
      *     ),
      *  ),

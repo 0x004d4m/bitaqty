@@ -375,10 +375,10 @@ class AuthController extends Controller
      *     @OA\MediaType(
      *       mediaType="multipart/form-data",
      *       @OA\Schema(
-     *          required={"forget_token","password","password_confirmed"},
+     *          required={"forget_token","password","password_confirmation"},
      *         @OA\Property(property="forget_token", type="string", example=""),
      *         @OA\Property(property="password", type="string", example=""),
-     *         @OA\Property(property="password_confirmed", type="string", example=""),
+     *         @OA\Property(property="password_confirmation", type="string", example=""),
      *       ),
      *     ),
      *  ),
