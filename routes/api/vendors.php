@@ -12,7 +12,7 @@ use App\Http\Controllers\API\Vendor\TermsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    "prefix" => "clients"
+    "prefix" => "vendors"
 ], function () {
     Route::group([
         "prefix" => "auth"
