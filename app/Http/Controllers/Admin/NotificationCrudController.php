@@ -99,7 +99,8 @@ class NotificationCrudController extends CrudController
     public function send(Request $request, $id)
     {
         $Notification = Notification::where('id', $id)->first();
-        Log::debug($Notification->getTranslations());
+        Log::debug($Notification->getTranslations('title'));
+        Log::debug($Notification->getTranslations('description'));
         // if ($Notification) {
         //     if ($Notification->is_sent == 1) {
         //         return ["message" => __('admin.send_error_already_sent')];
