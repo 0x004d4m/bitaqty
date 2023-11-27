@@ -64,7 +64,7 @@ class InAppMessage extends Model
     {
         parent::boot();
 
-        static::updates(function ($model) {
+        static::updating(function ($model) {
             if($model->is_active != $model->getOriginal()['is_active'] && $model->is_active==1){
                 $InAppMessages = InAppMessage::get();
                 foreach ($InAppMessages as $InAppMessage) {
