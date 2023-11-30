@@ -77,4 +77,5 @@ return [
     "send_error_notification_deleted" => "الاشعار محذوف",
     "vendor_profit" => "فائدة التاجر",
     "vendor_profits" => "فوائد التجار",
+    "credit_not_enough" => "الرصيد لا يكفي",
 ];

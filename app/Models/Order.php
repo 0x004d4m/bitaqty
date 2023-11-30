@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -116,5 +117,42 @@ class Order extends Model
     public function scopeCreatedAt($query, $dates, $date2)
     {
         return $query->whereBetween('created_at', [$dates, $date2]);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($model) {
+            if (backpack_user()) {
+                $original_order_status_id = $model->getOriginal()['order_status_id'];
+                if ($original_order_status_id != $model->order_status_id) {
+                    if ($model->order_status_id == 2) {
+                        if ($model->userable_type == Client::class) {
+                            $Client = Client::where('id', $model->userable_id)->first();
+                            $credit_after = $Client->credit - $model->price;
+                            if($credit_after<0){
+                                throw new Exception(__('admin.credit_not_enough'));
+                            }else{
+                                $Client->update([
+                                    "credit" => $credit_after
+                                ]);
+                            }
+                            if($Client->vendor){
+                                $Vendor = Vendor::where('id', $Client->vendor_id)->first();
+                                $Vendor->update([
+                                    "profit" => $Vendor->profit + $model->profit
+                                ]);
+                                VendorProfit::create([
+                                    'vendor_id'=> $Client->vendor_id ,
+                                    'notes' => '+',
+                                    'amount' => $model->profit
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 }

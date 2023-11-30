@@ -77,4 +77,5 @@ return [
     "send_error_notification_deleted" => "Notification deleted",
     "vendor_profit" => "vendor profit",
     "vendor_profits" => "vendor profits",
+    "credit_not_enough" => "Credit Not Enough",
 ];
