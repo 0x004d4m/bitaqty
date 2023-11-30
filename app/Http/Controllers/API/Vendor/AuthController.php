@@ -87,7 +87,7 @@ use Illuminate\Support\Facades\Hash;
             ]);
             if (PersonalAccessToken::where("token", $request->fcm_token)->count() == 0) {
                 $VendorFcmToken = PersonalAccessToken::create([
-                    "tokenable_type" => 'App\Models\Vendor',
+                    "tokenable_type" => Vendor::class,
                     "tokenable_id" => $Vendor->id,
                     "name" => 'VendorFcmToken',
                     "token" => $request->fcm_token,
@@ -157,7 +157,7 @@ use Illuminate\Support\Facades\Hash;
     public function otp(OtpRequest $request)
     {
         $VendorOtpToken = PersonalAccessToken::where('name', 'VendorOtpToken')
-        ->where("tokenable_type", 'App\Models\Vendor')
+        ->where("tokenable_type", Vendor::class)
         ->where('token', $request->otp_token)
             ->where('code', $request->code)
             ->first();
@@ -311,7 +311,7 @@ use Illuminate\Support\Facades\Hash;
     public function reset(ResetPasswordRequest $request)
     {
         $VendorForgetToken = PersonalAccessToken::where('name', 'VendorForgetToken')
-        ->where("tokenable_type", 'App\Models\Vendor')
+        ->where("tokenable_type", Vendor::class)
         ->where('token', $request->forget_token)
             ->first();
         if ($VendorForgetToken) {
@@ -385,7 +385,7 @@ use Illuminate\Support\Facades\Hash;
     public function refresh(RefreshTokenRequest $request)
     {
         $VendorRefreshToken = PersonalAccessToken::where('name', 'VendorRefreshToken')
-        ->where("tokenable_type", 'App\Models\Vendor')
+        ->where("tokenable_type", Vendor::class)
         ->where('token', $request->refresh_token)
             ->first();
         if ($VendorRefreshToken) {

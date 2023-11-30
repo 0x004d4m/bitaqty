@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CreditRequest;
+use App\Http\Requests\UpdateCreditRequest;
+use App\Models\Client;
+use App\Models\Vendor;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 class CreditCrudController extends CrudController
@@ -122,7 +125,7 @@ class CreditCrudController extends CrudController
             'name'        => 'userable_type',
             'label'       => __('admin_fields.userable_type'),
             'type'        => 'select_from_array',
-            'options'     => ['App\Models\Client' => 'Client', 'App\Models\Vendor' => 'Vendor'],
+            'options'     => [Client::class => 'Client', Vendor::class => 'Vendor'],
             'allows_null' => false,
         ]);
         $this->crud->addField([
@@ -180,7 +183,18 @@ class CreditCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+
+        $this->crud->setValidation(UpdateCreditRequest::class);
+
+        $this->crud->field('notes')->label(__('admin_fields.notes'))->type('textarea');
+        $this->crud->addField([
+            'label' => __('admin_fields.credit_status'),
+            'type' => "relationship",
+            'name' => 'credit_status_id',
+            'entity' => 'creditStatus',
+            'attribute' => "name",
+            'model' => 'App\Models\CreditStatus'
+        ]);
     }
 
     protected function setupShowOperation()

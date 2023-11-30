@@ -65,7 +65,7 @@ class NotificationCrudController extends CrudController
             'name'        => 'userable_type',
             'label'       => __('admin_fields.userable_type'),
             'type'        => 'select_from_array',
-            'options'     => ['App\Models\Client' => 'Client', 'App\Models\Vendor' => 'Vendor', null => null],
+            'options'     => [Client::class => 'Client', Vendor::class => 'Vendor', null => null],
             'allows_null' => false,
         ]);
         $this->crud->addField([
@@ -104,7 +104,7 @@ class NotificationCrudController extends CrudController
                 return ["message" => __('admin.send_error_already_sent')];
             }
             if ($Notification->getTranslation('title', 'ar') && $Notification->getTranslation('title', 'en')) {
-                if ($Notification->userable_type == 'App\Models\Client') {
+                if ($Notification->userable_type == Client::class) {
                     if ($Notification->userable_id) {
                         $Client = Client::where('id', $Notification->userable_id)->first();
                         if($Client){
@@ -121,7 +121,7 @@ class NotificationCrudController extends CrudController
                                     "title" => $Notification->getTranslations('title'),
                                     "description" => $Notification->getTranslations('description'),
                                 ]);
-                                $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
+                                $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", Client::class)->where("tokenable_id", $Client->id)->get();
                                 foreach($ClientFcmTokens as $ClientFcmToken){
                                     sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
                                 }
@@ -150,7 +150,7 @@ class NotificationCrudController extends CrudController
                                         "title" => $Notification->getTranslations('title'),
                                         "description" => $Notification->getTranslations('description'),
                                     ]);
-                                    $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
+                                    $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", Client::class)->where("tokenable_id", $Client->id)->get();
                                     foreach ($ClientFcmTokens as $ClientFcmToken) {
                                         sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
                                     }
@@ -162,7 +162,7 @@ class NotificationCrudController extends CrudController
                         $Notification->update(["is_sent" => 1]);
                         return 1;
                     }
-                } elseif ($Notification->userable_type == 'App\Models\Vendor') {
+                } elseif ($Notification->userable_type == Vendor::class) {
                     if ($Notification->userable_id) {
                         $Vendor = Vendor::where('id', $Notification->userable_id)->first();
                         if ($Vendor) {
@@ -179,7 +179,7 @@ class NotificationCrudController extends CrudController
                                     "title" => $Notification->getTranslations('title'),
                                     "description" => $Notification->getTranslations('description'),
                                 ]);
-                                $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
+                                $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", Vendor::class)->where("tokenable_id", $Vendor->id)->get();
                                 foreach ($VendorFcmTokens as $VendorFcmToken) {
                                     sendFCM($VendorFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
                                 }
@@ -208,7 +208,7 @@ class NotificationCrudController extends CrudController
                                         "title" => $Notification->getTranslations('title'),
                                         "description" => $Notification->getTranslations('description'),
                                     ]);
-                                    $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
+                                    $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", Vendor::class)->where("tokenable_id", $Vendor->id)->get();
                                     foreach ($VendorFcmTokens as $VendorFcmToken) {
                                         sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
                                     }
@@ -230,14 +230,14 @@ class NotificationCrudController extends CrudController
                                 "image" => $Notification->image,
                                 "data" => $Notification->data,
                                 "is_read" => $Notification->is_read,
-                                "userable_type" => 'App\Models\Client',
+                                "userable_type" => Client::class,
                                 "userable_id" => $Client->id,
                             ])) {
                                 $UserNotification->updateQuietly([
                                     "title" => $Notification->getTranslations('title'),
                                     "description" => $Notification->getTranslations('description'),
                                 ]);
-                                $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", 'App\Models\Client')->where("tokenable_id", $Client->id)->get();
+                                $ClientFcmTokens = PersonalAccessToken::where("name", 'ClientFcmToken')->where("tokenable_type", Client::class)->where("tokenable_id", $Client->id)->get();
                                 foreach ($ClientFcmTokens as $ClientFcmToken) {
                                     sendFCM($ClientFcmToken->token, $Notification->title, $Notification->description, $Notification->image);
                                 }
@@ -253,14 +253,14 @@ class NotificationCrudController extends CrudController
                                 "image" => $Notification->image,
                                 "data" => $Notification->data,
                                 "is_read" => $Notification->is_read,
-                                "userable_type" => 'App\Models\Vendor',
+                                "userable_type" => Vendor::class,
                                 "userable_id" => $Vendor->id,
                             ])) {
                                 $UserNotification->updateQuietly([
                                     "title" => $Notification->getTranslations('title'),
                                     "description" => $Notification->getTranslations('description'),
                                 ]);
-                                $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", 'App\Models\Vendor')->where("tokenable_id", $Vendor->id)->get();
+                                $VendorFcmTokens = PersonalAccessToken::where("name", 'VendorFcmToken')->where("tokenable_type", Vendor::class)->where("tokenable_id", $Vendor->id)->get();
                                 foreach ($VendorFcmTokens as $VendorFcmToken) {
                                     sendFCM($Vendor->fcm_token, $Notification->title, $Notification->description, $Notification->image);
                                 }

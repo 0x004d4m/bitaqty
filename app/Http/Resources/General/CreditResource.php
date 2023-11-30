@@ -28,6 +28,7 @@ class CreditResource extends JsonResource
             "credit_type" =>  new CreditTypeResource($this->creditType),
             "supported_account" =>  new SupportedAccountResource($this->supportedAccount),
             "from" =>  new CreditFromResource($this->userableFrom),
+            "to" =>  new CreditFromResource($this->userable),
         ];
     }
 }

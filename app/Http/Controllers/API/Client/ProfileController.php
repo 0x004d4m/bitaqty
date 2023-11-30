@@ -224,7 +224,7 @@ class ProfileController extends Controller
         }
 
         if ($request->remove_all_users_tokens == "true") {
-            $ClientTokens = PersonalAccessToken::where("tokenable_type", 'App\Models\Client')
+            $ClientTokens = PersonalAccessToken::where("tokenable_type", Client::class)
             ->where('token', '!=', str_replace('Bearer ', '', $request->header('Authorization')))
             ->first();
             foreach ($ClientTokens as $key => $ClientToken) {

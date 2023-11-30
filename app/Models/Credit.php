@@ -68,7 +68,9 @@ class Credit extends Model
             $this->attributes["userable_from_type"] = request("userable_from_type");
         }
         if($value==null){
-            $this->attributes["userable_from_type"] = User::class;
+            if (backpack_user()) {
+                $this->attributes["userable_from_type"] = User::class;
+            }
         }
         $this->attributes["userable_from_type"] = $value;
     }
@@ -79,7 +81,9 @@ class Credit extends Model
             $this->attributes["userable_from_id"] = request("userable_from");
         }
         if ($value == null) {
-            $this->attributes["userable_from_id"] = backpack_user()->id;
+            if(backpack_user()){
+                $this->attributes["userable_from_id"] = backpack_user()->id;
+            }
         }
         $this->attributes["userable_from_id"] = $value;
     }
@@ -184,21 +188,42 @@ class Credit extends Model
         return $query->whereBetween('created_at', [$dates, $date2]);
     }
 
-    // public static function boot()
-    // {
-    //     parent::boot();
+    public static function boot()
+    {
+        parent::boot();
 
-    //     static::updating(function ($model) {
-    //         $original_credit_status_id = $model->getOriginal()['credit_status_id'];
-    //         if($original_credit_status_id != $model->credit_status_id){
-    //             if($model->userable_type == 'App\Models\Client'){
-    //                 $Client = Client::where('id', $model->userable_id)->first();
-    //                 $model->credit_before;
-    //                 $model->credit_after;
-    //             }else if('App\Models\Vendor'){
+        static::updating(function ($model) {
+            if(backpack_user()){
+                $original_credit_status_id = $model->getOriginal()['credit_status_id'];
+                if($original_credit_status_id != $model->credit_status_id){
+                    if($model->credit_status_id == 2){
+                        if($model->userable_type == Client::class){
+                            $Client = Client::where('id', $model->userable_id)->first();
+                            $model->credit_before = $Client->credit;
+                            $model->credit_after = $Client->credit + $model->amount;
+                            $model->userable_from_type = User::class;
+                            $model->userable_from_id = backpack_user()->id;
+                            $Client->update([
+                                "credit" => $model->credit_after
+                            ]);
+                        }else if($model->userable_type == Vendor::class){
+                            $Vendor = Vendor::where('id', $model->userable_id)->first();
+                            $model->credit_before = $Vendor->credit;
+                            $model->credit_after = $Vendor->credit + $model->amount;
+                            $model->userable_from_type = User::class;
+                            $model->userable_from_id = backpack_user()->id;
+                            $Vendor->update([
+                                "credit" => $model->credit_after
+                            ]);
+                        }
+                    }
 
-    //             }
-    //         }
-    //     });
-    // }
+                    if ($model->credit_status_id == 3) {
+                        $model->userable_from_type = User::class;
+                        $model->userable_from_id = backpack_user()->id;
+                    }
+                }
+            }
+        });
+    }
 }

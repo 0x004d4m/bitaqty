@@ -48,7 +48,7 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
         return NotificationResource::collection(
-            UserNotification::where('userable_type', 'App\Models\Client')
+            UserNotification::where('userable_type', Client::class)
                 ->where('userable_id', $request->client_id)
                 ->paginate()
         );

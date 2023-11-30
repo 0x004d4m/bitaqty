@@ -221,7 +221,7 @@ class ProfileController extends Controller
         }
 
         if ($request->remove_all_users_tokens == "true") {
-            $VendorTokens = PersonalAccessToken::where("tokenable_type", 'App\Models\Vendor')
+            $VendorTokens = PersonalAccessToken::where("tokenable_type", Vendor::class)
             ->where('token', '!=', str_replace('Bearer ', '', $request->header('Authorization')))
             ->first();
             foreach ($VendorTokens as $key => $VendorToken) {

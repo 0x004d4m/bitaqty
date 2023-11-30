@@ -11,6 +11,7 @@ use App\Models\Client;
 use App\Models\Credit;
 use App\Models\CreditCard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -75,7 +76,8 @@ class CreditController extends Controller
      *              @OA\Property(property="credit_type", type="object", example={"id":"","name":""}),
      *              @OA\Property(property="supported_account", type="object", example={"id":"","name":"","image":""}),
      *              @OA\Property(property="credit_status", type="object", example={"id":"","name":""}),
-     *              @OA\Property(property="from", type="object", example={"name":"","email":"","phone":"","image":""}),
+     *              @OA\Property(property="from", type="object", example={"id":"","name":"","email":"","phone":"","image":""}),
+     *              @OA\Property(property="to", type="object", example={"id":"","name":"","email":"","phone":"","image":""}),
      *          ),
      *      ),
      *    ),
@@ -98,9 +100,9 @@ class CreditController extends Controller
                     'creditStatus',
                     'userableFrom',
                 ])->where(function ($q) use ($client_id) {
-                    $q->where('userable_type', 'App\Models\Client')->where('userable_id', $client_id);
+                    $q->where('userable_type', Client::class)->where('userable_id', $client_id);
                 })->orWhere(function ($q) use ($client_id) {
-                    $q->where('userable_from_type', 'App\Models\Client')->where('userable_from_id', $client_id);
+                    $q->where('userable_from_type', Client::class)->where('userable_from_id', $client_id);
                 })->paginate()
         );
     }
@@ -146,10 +148,16 @@ class CreditController extends Controller
      */
     public function request(CreditRequestRequset $request)
     {
-        if (Credit::where("userable_type", 'App\Models\Client')->where("userable_id", $request->client_id)->where('credit_status_id', 1)->where('credit_type_id', 1)->count() == 0) {
+        if (Credit::where("userable_type", Client::class)->where("userable_id", $request->client_id)->where('credit_status_id', 1)->where('credit_type_id', 1)->count() == 0) {
             $Client = Client::where('id', $request->client_id)->first();
             $balance = 0;
             $balance = $Client->credit + $request->amount;
+            $userable_from_type = null;
+            $userable_from_id = null;
+            if($Client->vendor){
+                $userable_from_type = Vendor::class;
+                $userable_from_id = $Client->vendor_id;
+            }
             if (Credit::create([
                 "image" => $request->image,
                 "amount" => $request->amount,
@@ -160,8 +168,10 @@ class CreditController extends Controller
                 "credit_before" => $Client->credit,
                 "credit_after" => $balance,
                 "credit_status_id" => 1,
-                "userable_type" => 'App\Models\Client',
+                "userable_type" => Client::class,
                 "userable_id" => $request->client_id,
+                "userable_from_type" => $userable_from_type,
+                "userable_from_id" => $userable_from_id,
             ])) {
                 return response()->json(["data" => []], 200);
             } else {
@@ -262,9 +272,9 @@ class CreditController extends Controller
             "credit_before" => $To->credit,
             "credit_after" => $balanceTo,
             "credit_status_id" => 2,
-            "userable_type" => 'App\Models\Client',
+            "userable_type" => Client::class,
             "userable_id" => $To->id,
-            "userable_from_type" => 'App\Models\Client',
+            "userable_from_type" => Client::class,
             "userable_from_id" => $From->id,
             "credit_from_before" => $From->credit,
             "credit_from_after" => $balanceFrom,
@@ -357,7 +367,7 @@ class CreditController extends Controller
             "credit_before" => $Client->credit,
             "credit_after" => $balance,
             "credit_status_id" => 2,
-            "userable_type" => 'App\Models\Client',
+            "userable_type" => Client::class,
             "userable_id" => $request->client_id,
         ])) {
             $Client->update([
@@ -446,7 +456,7 @@ class CreditController extends Controller
             "credit_before" => $Client->credit,
             "credit_after" => $balance,
             "credit_status_id" => 2,
-            "userable_type" => 'App\Models\Client',
+            "userable_type" => Client::class,
             "userable_id" => $request->client_id,
         ])) {
             $Client->update([

@@ -110,7 +110,7 @@ class OrderController extends Controller
                     AllowedFilter::exact('order_status_id'),
                     AllowedFilter::scope('created_at'),
                 ])
-                ->where('userable_type', 'App\Models\Client')
+                ->where('userable_type', Client::class)
                 ->where('userable_id', $request->client_id)
                 ->paginate()
         );
@@ -213,7 +213,7 @@ class OrderController extends Controller
                     "credit_before" => $Client->credit,
                     "credit_after" => ($Client->credit - $price),
                     "order_status_id" => 1,
-                    "userable_type" => 'App\Models\Client',
+                    "userable_type" => Client::class,
                     "userable_id" => $request->client_id,
                 ])) {
                     if (count(json_decode($request->fields)) > 0) {
@@ -239,7 +239,7 @@ class OrderController extends Controller
                         "credit" => ($Client->credit - $price)
                     ]);
                     return response()->json(["data" => new OrderResource(
-                        Order::where('userable_type', 'App\Models\Client')
+                        Order::where('userable_type', Client::class)
                             ->where('userable_id', $request->client_id)
                             ->where('id', $Order->id)
                             ->first()

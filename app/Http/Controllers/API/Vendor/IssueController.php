@@ -49,7 +49,7 @@ class IssueController extends Controller
     {
         return IssueResource::collection(
             Issue::with(['issueType'])
-            ->where('userable_type', 'App\Models\Vendor')
+            ->where('userable_type', Vendor::class)
             ->where('userable_id', $request->vendor_id)
             ->paginate()
         );
@@ -99,7 +99,7 @@ class IssueController extends Controller
             "description" => $request->description,
             "image" => $request->image,
             "issue_type_id" => $request->issue_type_id,
-            "userable_type" => 'App\Models\Vendor',
+            "userable_type" => Vendor::class,
             "userable_id" => $request->vendor_id,
         ])){
             return response()->json(["data" => []], 200);

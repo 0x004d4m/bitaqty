@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ClientRequest;
+use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\Vendor;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -182,7 +183,61 @@ class ClientCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        $this->crud->setValidation(UpdateClientRequest::class);
+
+        $this->crud->addField([
+            'label' => __('admin_fields.country'),
+            'type' => "relationship",
+            'name' => 'country_id',
+            'entity' => 'country',
+            'attribute' => "name",
+            'model' => 'App\Models\Country'
+        ]);
+        $this->crud->addField([
+            'label'                => __('admin_fields.state'),
+            'type'                 => 'select2_from_ajax',
+            'name'                 => 'state_id',
+            'entity'               => 'state',
+            'attribute'            => 'name',
+            'data_source'          => url('admin/States'),
+            'placeholder'          => 'Select a state',
+            'include_all_form_fields' => true,
+            'minimum_input_length' => 0,
+            'dependencies'         => ['country_id'],
+            'method'               => 'GET',
+        ]);
+        $this->crud->field('name')->label(__('admin_fields.name'))->type('text');
+        $this->crud->field('address')->label(__('admin_fields.address'))->type('textarea');
+        $this->crud->field('phone')->label(__('admin_fields.phone'))->type('text');
+        $this->crud->field('commercial_name')->label(__('admin_fields.commercial_name'))->type('text');
+        $this->crud->field('email')->label(__('admin_fields.email'))->type('email');
+        $this->crud->field('is_approved')->label(__('admin_fields.is_approved'))->type('boolean');
+        $this->crud->field('is_blocked')->label(__('admin_fields.is_blocked'))->type('boolean');
+        $this->crud->field('can_give_credit')->label(__('admin_fields.can_give_credit'))->type('boolean');
+        $this->crud->addField([
+            'label' => __('admin_fields.group'),
+            'type' => "relationship",
+            'name' => 'group_id',
+            'entity' => 'group',
+            'attribute' => "name",
+            'model' => 'App\Models\Group'
+        ]);
+        $this->crud->addField([
+            'label' => __('admin_fields.vendor'),
+            'type' => "relationship",
+            'name' => 'vendor_id',
+            'entity' => 'vendor',
+            'attribute' => "name",
+            'model' => 'App\Models\Vendor'
+        ]);
+        $this->crud->addField([
+            'label' => __('admin_fields.currency'),
+            'type' => "relationship",
+            'name' => 'currency_id',
+            'entity' => 'currency',
+            'attribute' => "name",
+            'model' => 'App\Models\Currency'
+        ]);
     }
 
     protected function setupShowOperation()
@@ -195,10 +250,10 @@ class ClientCrudController extends CrudController
         $form = backpack_form_input();
 
         $options = [];
-        if (isset($form['userable_type']) && $form['userable_type']== "App\Models\Client") {
+        if (isset($form['userable_type']) && $form['userable_type']== Client::class) {
             $options = Client::paginate(10000);
         }
-        if (isset($form['userable_type']) && $form['userable_type']== "App\Models\Vendor") {
+        if (isset($form['userable_type']) && $form['userable_type']== Vendor::class) {
             $options = Vendor::paginate(10000);
         }
 

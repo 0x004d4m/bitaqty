@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\IssueRequest;
+use App\Models\Client;
+use App\Models\Vendor;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 class IssueCrudController extends CrudController
@@ -75,7 +77,7 @@ class IssueCrudController extends CrudController
             'name'        => 'userable_type',
             'label'       => __('admin_fields.userable_type'),
             'type'        => 'select_from_array',
-            'options'     => ['App\Models\Client' => 'Client', 'App\Models\Vendor' => 'Vendor'],
+            'options'     => [Client::class => 'Client', Vendor::class => 'Vendor'],
             'allows_null' => false,
         ]);
         $this->crud->addField([

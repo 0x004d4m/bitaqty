@@ -630,6 +630,17 @@
                                                     "from": {
                                                         "type": "object",
                                                         "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "email": "",
+                                                            "phone": "",
+                                                            "image": ""
+                                                        }
+                                                    },
+                                                    "to": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
                                                             "name": "",
                                                             "email": "",
                                                             "phone": "",
@@ -3280,6 +3291,663 @@
                 }
             }
         },
+        "/api/vendors/clients": {
+            "get": {
+                "tags": [
+                    "VendorClients"
+                ],
+                "summary": "Vendor Clients",
+                "description": "Vendor Clients",
+                "operationId": "VendorClients",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "address": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "commercial_name": {
+                                                        "type": "object",
+                                                        "example": []
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "credit": {
+                                                        "type": "number",
+                                                        "format": "double",
+                                                        "example": ""
+                                                    },
+                                                    "is_approved": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "is_blocked": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "can_give_credit": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "is_email_verified": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "is_phone_verified": {
+                                                        "type": "boolean",
+                                                        "example": ""
+                                                    },
+                                                    "country": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "code": ""
+                                                        }
+                                                    },
+                                                    "state": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": ""
+                                                        }
+                                                    },
+                                                    "currency": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "symbol": "",
+                                                            "to_jod": ""
+                                                        }
+                                                    },
+                                                    "group": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": ""
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/clients_credits": {
+            "get": {
+                "tags": [
+                    "VendorClientsCredits"
+                ],
+                "summary": "Vendor Clients Credits",
+                "description": "Vendor Clients Credits",
+                "operationId": "VendorClientsCredits",
+                "parameters": [
+                    {
+                        "name": "filter[category_id]",
+                        "in": "query",
+                        "description": "Filter Credits by category_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[subcategory_id]",
+                        "in": "query",
+                        "description": "Filter Credits by subcategory_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[created_at]",
+                        "in": "query",
+                        "description": "Filter Credits by created_at date range",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "2018-01-01,2018-12-31"
+                    },
+                    {
+                        "name": "filter[order_status_id]",
+                        "in": "query",
+                        "description": "Filter Credits by order_status_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "amount": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "notes": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "deposit_or_withdraw": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "credit_type": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": ""
+                                                        }
+                                                    },
+                                                    "supported_account": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "image": ""
+                                                        }
+                                                    },
+                                                    "credit_status": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": ""
+                                                        }
+                                                    },
+                                                    "from": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "email": "",
+                                                            "phone": "",
+                                                            "image": ""
+                                                        }
+                                                    },
+                                                    "to": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "email": "",
+                                                            "phone": "",
+                                                            "image": ""
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "VendorClientsCredits"
+                ],
+                "summary": "Vendor Add Clients Credits",
+                "description": "Vendor Add Clients Credits",
+                "operationId": "VendorAddClientsCredits",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "422": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/clients_credits/{id}/accept": {
+            "post": {
+                "tags": [
+                    "VendorClientsCredits"
+                ],
+                "summary": "Vendor Accept Clients Credits",
+                "description": "Vendor Accept Clients Credits",
+                "operationId": "VendorAcceptClientsCredits",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "clients credit request id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "422": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/clients_credits/{id}/reject": {
+            "post": {
+                "tags": [
+                    "VendorClientsCredits"
+                ],
+                "summary": "Vendor Reject Clients Credits",
+                "description": "Vendor Reject Clients Credits",
+                "operationId": "VendorRejectClientsCredits",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "clients credit request id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "422": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "dynamic-error-keys": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/vendors/clients_orders": {
+            "get": {
+                "tags": [
+                    "VendorClientsOrders"
+                ],
+                "summary": "Vendor Clients Orders",
+                "description": "Vendor Clients Orders",
+                "operationId": "VendorClientsOrders",
+                "parameters": [
+                    {
+                        "name": "filter[category_id]",
+                        "in": "query",
+                        "description": "Filter Orders by category_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[subcategory_id]",
+                        "in": "query",
+                        "description": "Filter Orders by subcategory_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[created_at]",
+                        "in": "query",
+                        "description": "Filter Orders by created_at date range",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "2018-01-01,2018-12-31"
+                    },
+                    {
+                        "name": "filter[id]",
+                        "in": "query",
+                        "description": "Filter Orders by id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[product_id]",
+                        "in": "query",
+                        "description": "Filter Orders by product_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[order_status_id]",
+                        "in": "query",
+                        "description": "Filter Orders by order_status_id",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[client_phone]",
+                        "in": "query",
+                        "description": "Filter Orders by client_phone",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[card_number_1]",
+                        "in": "query",
+                        "description": "Filter Orders by card_number_1",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "filter[card_number_2]",
+                        "in": "query",
+                        "description": "Filter Orders by card_number_2",
+                        "required": false,
+                        "schema": {
+                            "type": "int"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "price": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "device_name": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "type": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "image": "",
+                                                            "need_approval": "",
+                                                            "need_approval_message": ""
+                                                        }
+                                                    },
+                                                    "category": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "image": "",
+                                                            "order": ""
+                                                        }
+                                                    },
+                                                    "subcategory": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "image": ""
+                                                        }
+                                                    },
+                                                    "order_status": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": ""
+                                                        }
+                                                    },
+                                                    "product": {
+                                                        "type": "object",
+                                                        "example": {
+                                                            "id": "",
+                                                            "name": "",
+                                                            "description": "",
+                                                            "unavailable_notes": "",
+                                                            "how_to_use": "",
+                                                            "image": "",
+                                                            "suggested_price": "",
+                                                            "price": "",
+                                                            "stock": "",
+                                                            "is_vip": "",
+                                                            "type": {
+                                                                "id": "",
+                                                                "name": "",
+                                                                "image": "",
+                                                                "need_approval": "",
+                                                                "need_approval_message": ""
+                                                            },
+                                                            "category": {
+                                                                "id": "",
+                                                                "name": "",
+                                                                "image": "",
+                                                                "order": ""
+                                                            },
+                                                            "subcategory": {
+                                                                "id": "",
+                                                                "name": "",
+                                                                "image": ""
+                                                            },
+                                                            "fields": {
+                                                                "id": "",
+                                                                "name": "",
+                                                                "field_type": "",
+                                                                "is_confirmed": "",
+                                                                "answer": ""
+                                                            }
+                                                        }
+                                                    },
+                                                    "prepaid_cards": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "example": {
+                                                                "id": "",
+                                                                "serial1": "",
+                                                                "serial2": "",
+                                                                "number1": "",
+                                                                "number2": "",
+                                                                "cvc": "",
+                                                                "expiration_date": "",
+                                                                "is_printed": ""
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/vendors/credits": {
             "get": {
                 "tags": [
@@ -4344,6 +5012,51 @@
                 ]
             }
         },
+        "/api/vendors/statistics": {
+            "get": {
+                "tags": [
+                    "VendorStatistics"
+                ],
+                "summary": "Statistics",
+                "description": "Vendor Statistics",
+                "operationId": "VendorStatistics",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "clients": {
+                                            "type": "integer",
+                                            "example": ""
+                                        },
+                                        "clients_orders": {
+                                            "type": "integer",
+                                            "example": ""
+                                        },
+                                        "clients_credit_pending_requests": {
+                                            "type": "integer",
+                                            "example": ""
+                                        },
+                                        "profit": {
+                                            "type": "integer",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/vendors/privacy_policy": {
             "get": {
                 "tags": [
@@ -4487,6 +5200,14 @@
         {
             "name": "VendorAuth",
             "description": "API Endpoints of Vendor Auth"
+        },
+        {
+            "name": "VendorClientsCredits",
+            "description": "API Endpoints of Vendor Clients Credits"
+        },
+        {
+            "name": "VendorClientsOrders",
+            "description": "API Endpoints of Vendor Clients Orders"
         },
         {
             "name": "VendorCredits",

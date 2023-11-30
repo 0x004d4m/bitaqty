@@ -17,7 +17,7 @@ class UserAuth
     private function checkIfClient($AuthorizationHeader)
     {
         $ClientAccessToken = PersonalAccessToken::where('name', 'ClientAccessToken')
-            ->where("tokenable_type", 'App\Models\Client')
+            ->where("tokenable_type", Client::class)
             ->where('token', $AuthorizationHeader)
             ->where('expires_at', '>=', Carbon::now())
             ->first();
@@ -40,7 +40,7 @@ class UserAuth
     private function checkIfVendor($AuthorizationHeader)
     {
         $VendorAccessToken = PersonalAccessToken::where('name', 'VendorAccessToken')
-            ->where("tokenable_type", 'App\Models\Vendor')
+            ->where("tokenable_type", Vendor::class)
             ->where('token', $AuthorizationHeader)
             ->where('expires_at', '>=', Carbon::now())
             ->first();

@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\API\Vendor\AuthController;
+use App\Http\Controllers\API\Vendor\ClientsController;
+use App\Http\Controllers\API\Vendor\ClientsCreditController;
+use App\Http\Controllers\API\Vendor\ClientsOrdersController;
 use App\Http\Controllers\API\Vendor\CreditController;
 use App\Http\Controllers\API\Vendor\IssueController;
 use App\Http\Controllers\API\Vendor\MaintenanceController;
@@ -8,6 +11,7 @@ use App\Http\Controllers\API\Vendor\NewsController;
 use App\Http\Controllers\API\Vendor\NotificationController;
 use App\Http\Controllers\API\Vendor\OnboardingController;
 use App\Http\Controllers\API\Vendor\ProfileController;
+use App\Http\Controllers\API\Vendor\StatisticsController;
 use App\Http\Controllers\API\Vendor\TermsController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +31,7 @@ Route::group([
     Route::get('/onboarding', [OnboardingController::class, 'index']);
     Route::get('/privacy_policy', [TermsController::class, 'privacy']);
     Route::get('/terms_and_conditions', [TermsController::class, 'terms']);
+    Route::get('/statistics', [StatisticsController::class, 'index']);
     Route::group([
         "middleware" => "UserAuth"
     ], function () {
@@ -51,22 +56,31 @@ Route::group([
             "prefix" => "credits"
         ], function () {
             Route::get('/', [CreditController::class, 'index']);
-            // list, accept, reject client credit + add credit to client from vrndor balance
-            // list, register clients + edit groups
             Route::post('/request', [CreditController::class, 'request']);
             Route::get('/qr/{number}', [CreditController::class, 'qr']);
             Route::post('/prepaid', [CreditController::class, 'prepaid']);
         });
+        Route::group([
+            "prefix" => "clients"
+        ], function () {
+            Route::get('/', [ClientsController::class, 'index']);
+            Route::post('/', [ClientsController::class, 'add']);
+            Route::put('/{id}', [ClientsController::class, 'update']); // groups
+        });
+        Route::group([
+            "prefix" => "clients_credits"
+        ], function () {
+            Route::get('/', [ClientsCreditController::class, 'index']);
+            Route::post('/{id}/accept', [ClientsCreditController::class, 'accept']);
+            Route::post('/{id}/reject', [ClientsCreditController::class, 'reject']);
+            Route::post('/', [ClientsCreditController::class, 'add']);
+        });
+        Route::group([
+            "prefix" => "clients_orders"
+        ], function () {
+            Route::get('/', [ClientsOrdersController::class, 'index']);
+        });
 
-        // Dashboard:
-        // count of clients
-        // count of credit requists from clients
-        // sum of orders from clients
-        // sum of orders profit from clients orders
-
-        // Clients Orders:
-        // orders with filters: (category, supcategory, product, created_at between, card number 1, card number 2, client phone, id)
-        // display cost price and selling price and diffrence as totals
-        // id, user, category, sub, product, prices, card number 1, card number 2, date
+        // Profit History // new DB
     });
 });

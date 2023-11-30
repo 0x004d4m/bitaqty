@@ -84,7 +84,7 @@ class AuthController extends Controller
             ]);
             if (PersonalAccessToken::where("token", $request->fcm_token)->count() == 0) {
                 $ClientFcmToken = PersonalAccessToken::create([
-                    "tokenable_type" => 'App\Models\Client',
+                    "tokenable_type" => Client::class,
                     "tokenable_id" => $Client->id,
                     "name" => 'ClientFcmToken',
                     "token" => $request->fcm_token,
@@ -179,7 +179,7 @@ class AuthController extends Controller
             ]);
             if (PersonalAccessToken::where("token", $request->fcm_token)->count() == 0) {
                 $ClientFcmToken = PersonalAccessToken::create([
-                    "tokenable_type" => 'App\Models\Client',
+                    "tokenable_type" => Client::class,
                     "tokenable_id" => $Client->id,
                     "name" => 'ClientFcmToken',
                     "token" => $request->fcm_token,
@@ -249,7 +249,7 @@ class AuthController extends Controller
     public function otp(OtpRequest $request)
     {
         $ClientOtpToken = PersonalAccessToken::where('name', 'ClientOtpToken')
-            ->where("tokenable_type", 'App\Models\Client')
+            ->where("tokenable_type", Client::class)
             ->where('token', $request->otp_token)
             ->where('code', $request->code)
             ->first();
@@ -403,7 +403,7 @@ class AuthController extends Controller
     public function reset(ResetPasswordRequest $request)
     {
         $ClientForgetToken = PersonalAccessToken::where('name', 'ClientForgetToken')
-            ->where("tokenable_type", 'App\Models\Client')
+            ->where("tokenable_type", Client::class)
             ->where('token', $request->forget_token)
             ->first();
         if ($ClientForgetToken) {
@@ -477,7 +477,7 @@ class AuthController extends Controller
     public function refresh(RefreshTokenRequest $request)
     {
         $ClientRefreshToken = PersonalAccessToken::where('name', 'ClientRefreshToken')
-        ->where("tokenable_type", 'App\Models\Client')
+        ->where("tokenable_type", Client::class)
         ->where('token', $request->refresh_token)
         ->first();
         if ($ClientRefreshToken) {

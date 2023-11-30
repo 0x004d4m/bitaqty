@@ -98,9 +98,7 @@ class CreditController extends Controller
                     'creditStatus',
                     'userableFrom',
                 ])->where(function ($q) use ($vendor_id) {
-                    $q->where('userable_type', 'App\Models\Vendor')->where('userable_id', $vendor_id);
-                })->orWhere(function ($q) use ($vendor_id) {
-                    $q->where('userable_from_type', 'App\Models\Vendor')->where('userable_from_id', $vendor_id);
+                    $q->where('userable_type', Vendor::class)->where('userable_id', $vendor_id);
                 })->paginate()
         );
     }
@@ -147,7 +145,7 @@ class CreditController extends Controller
     public function request(CreditRequestRequset $request)
     {
         Log::debug($request->vendor_id);
-        if (Credit::where("userable_type", 'App\Models\Vendor')->where("userable_id", $request->vendor_id)->where('credit_status_id', 1)->where('credit_type_id', 1)->count() == 0) {
+        if (Credit::where("userable_type", Vendor::class)->where("userable_id", $request->vendor_id)->where('credit_status_id', 1)->where('credit_type_id', 1)->count() == 0) {
             $Vendor = Vendor::where('id', $request->vendor_id)->first();
             if($Vendor){
                 $balance = 0;
@@ -162,7 +160,7 @@ class CreditController extends Controller
                     "credit_before" => $Vendor->credit,
                     "credit_after" => $balance,
                     "credit_status_id" => 1,
-                    "userable_type" => 'App\Models\Vendor',
+                    "userable_type" => Vendor::class,
                     "userable_id" => $request->vendor_id,
                 ])) {
                     return response()->json(["data" => []], 200);
@@ -267,7 +265,7 @@ class CreditController extends Controller
             "credit_before" => $Vendor->credit,
             "credit_after" => $balance,
             "credit_status_id" => 2,
-            "userable_type" => 'App\Models\Vendor',
+            "userable_type" => Vendor::class,
             "userable_id" => $request->vendor_id,
         ])) {
             $Vendor->update([
@@ -356,7 +354,7 @@ class CreditController extends Controller
             "credit_before" => $Vendor->credit,
             "credit_after" => $balance,
             "credit_status_id" => 2,
-            "userable_type" => 'App\Models\Vendor',
+            "userable_type" => Vendor::class,
             "userable_id" => $request->vendor_id,
         ])) {
             $Vendor->update([
