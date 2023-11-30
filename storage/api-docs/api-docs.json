@@ -5012,6 +5012,59 @@
                 ]
             }
         },
+        "/api/vendors/profits": {
+            "get": {
+                "tags": [
+                    "VendorProfits"
+                ],
+                "summary": "Vendor Profits",
+                "description": "Vendor Profits",
+                "operationId": "VendorProfits",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "amount": {
+                                                        "type": "integer",
+                                                        "example": ""
+                                                    },
+                                                    "notes": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/vendors/statistics": {
             "get": {
                 "tags": [
@@ -5240,6 +5293,10 @@
         {
             "name": "VendorProfile",
             "description": "API Endpoints of Vendor Profile"
+        },
+        {
+            "name": "VendorProfits",
+            "description": "API Endpoints of Vendor Profits"
         },
         {
             "name": "VendorTerms",
