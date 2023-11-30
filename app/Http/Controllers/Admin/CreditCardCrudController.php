@@ -24,7 +24,12 @@ class CreditCardCrudController extends CrudController
     {
         $this->crud->column('number')->label(__('admin_fields.number'))->type('text');
         $this->crud->column('value')->label(__('admin_fields.value'))->type('double');
-        $this->crud->column('qr')->label(__('admin_fields.qr'))->type('textarea');
+        $this->crud->addColumn([
+            'name' => 'qr', // The name of the column in the database
+            'type' => 'view',
+            'view' => 'qr_code',
+            'label' => __('admin_fields.qr'),
+        ]);
         $this->crud->column('is_used')->label(__('admin_fields.is_used'))->type('boolean');
     }
 
@@ -36,13 +41,7 @@ class CreditCardCrudController extends CrudController
             "readonly"=>true
         ]);
         $this->crud->field('value')->label(__('admin_fields.value'))->type('double');
-        $this->crud->addColumn([
-            'name' => 'qr', // The name of the column in the database
-            'type' => 'view',
-            'view' => 'qr_code',
-            'label' => __('admin_fields.qr'),
-        ]);
-
+        $this->crud->field('qr')->label(__('admin_fields.qr'))->type('hidden');
         $this->crud->field('is_used')->label(__('admin_fields.is_used'))->type('boolean');
     }
 
