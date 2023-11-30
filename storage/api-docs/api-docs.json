@@ -5202,6 +5202,10 @@
             "description": "API Endpoints of Vendor Auth"
         },
         {
+            "name": "VendorClients",
+            "description": "API Endpoints of Vendor Clients"
+        },
+        {
             "name": "VendorClientsCredits",
             "description": "API Endpoints of Vendor Clients Credits"
         },

@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * @OA\Tag(
+ *     name="VendorClients",
+ *     description="API Endpoints of Vendor Clients"
+ * )
+ */
 class ClientsController extends Controller
 {
     /**
