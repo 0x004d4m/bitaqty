@@ -11,6 +11,7 @@ use App\Http\Controllers\API\Vendor\NewsController;
 use App\Http\Controllers\API\Vendor\NotificationController;
 use App\Http\Controllers\API\Vendor\OnboardingController;
 use App\Http\Controllers\API\Vendor\ProfileController;
+use App\Http\Controllers\API\Vendor\ProfitsController;
 use App\Http\Controllers\API\Vendor\StatisticsController;
 use App\Http\Controllers\API\Vendor\TermsController;
 use Illuminate\Support\Facades\Route;
@@ -79,6 +80,11 @@ Route::group([
             "prefix" => "clients_orders"
         ], function () {
             Route::get('/', [ClientsOrdersController::class, 'index']);
+        });
+        Route::group([
+            "prefix" => "profits"
+        ], function () {
+            Route::get('/', [ProfitsController::class, 'index']);
         });
     });
 });
