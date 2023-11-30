@@ -14,7 +14,7 @@ class VendorProfitCrudController extends CrudController
     {
         $this->crud->setModel(\App\Models\VendorProfit::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/vendor-profit');
-        $this->crud->setEntityNameStrings(__('vendor profit'), __('vendor profits'));
+        $this->crud->setEntityNameStrings(__('admin.vendor_profit'), __('admin.vendor_profits'));
     }
 
     protected function setupListOperation()

@@ -36,4 +36,5 @@ return [
     "credit_types"=>"انواع الارصدة",
     "credits"=>"الارصدة",
     "logs"=> "سجلات السيرفر",
+    "vendor_profits"=> "فوائد التجار",
 ];

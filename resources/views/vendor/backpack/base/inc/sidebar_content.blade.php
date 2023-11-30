@@ -58,9 +58,8 @@
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('issue') }}">{{ __('sidebar.issues') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('notification') }}">{{ __('sidebar.notifications') }}</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('credit') }}">{{ __('sidebar.credits') }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('vendor-profit') }}">{{ __('sidebar.vendor_profits') }}</a></li>
     </ul>
 </li>
 
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('log') }}'><i class='nav-icon la la-terminal'></i> {{ __('sidebar.logs') }}</a></li>
-
-<li class="nav-item"><a class="nav-link" href="{{ backpack_url('vendor-profit') }}"><i class="nav-icon la la-question"></i> Vendor profits</a></li>

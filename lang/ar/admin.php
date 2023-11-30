@@ -75,4 +75,6 @@ return [
     "send_error_already_sent" => "تم ارسال هذا الاشعار من قبل",
     "send_error_translation" => "يرجى ادخال جميع الترجمات",
     "send_error_notification_deleted" => "الاشعار محذوف",
+    "vendor_profit" => "فائدة التاجر",
+    "vendor_profits" => "فوائد التجار",
 ];

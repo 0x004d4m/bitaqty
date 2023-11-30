@@ -36,4 +36,5 @@ return [
     "credit_types"=>"Credit types",
     "credits"=>"Credits",
     "logs"=>"Logs",
+    "vendor_profits" => "Vendor Profits",
 ];

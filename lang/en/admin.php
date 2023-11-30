@@ -75,4 +75,6 @@ return [
     "send_error_already_sent" => "This notification is already sent",
     "send_error_translation" => "Please fill all translations",
     "send_error_notification_deleted" => "Notification deleted",
+    "vendor_profit" => "vendor profit",
+    "vendor_profits" => "vendor profits",
 ];
