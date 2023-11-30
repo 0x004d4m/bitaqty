@@ -36,7 +36,13 @@ class CreditCardCrudController extends CrudController
             "readonly"=>true
         ]);
         $this->crud->field('value')->label(__('admin_fields.value'))->type('double');
-        $this->crud->field('qr')->label(__('admin_fields.qr'))->type('hidden');
+        $this->crud->addColumn([
+            'name' => 'qr', // The name of the column in the database
+            'type' => 'view',
+            'view' => 'vendor.backpack.crud.columns.qr_code',
+            'label' => __('admin_fields.qr'),
+        ]);
+
         $this->crud->field('is_used')->label(__('admin_fields.is_used'))->type('boolean');
     }
 
