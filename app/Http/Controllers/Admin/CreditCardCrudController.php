@@ -39,7 +39,7 @@ class CreditCardCrudController extends CrudController
         $this->crud->addColumn([
             'name' => 'qr', // The name of the column in the database
             'type' => 'view',
-            'view' => 'vendor.backpack.crud.columns.qr_code',
+            'view' => 'qr_code',
             'label' => __('admin_fields.qr'),
         ]);
 
