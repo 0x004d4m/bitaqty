@@ -27,16 +27,10 @@ class VendorProfit extends Model
 
         static::creating(function ($model) {
             if (backpack_user()) {
-                $Vendor = Vendor::where('id', $model->userable_id)->first();
-                if($model->amount == 0){
-                    $Vendor->update([
-                        "credit" => 0
-                    ]);
-                }else{
-                    $Vendor->update([
-                        "credit" => $Vendor->credit + $model->amount
-                    ]);
-                }
+                $Vendor = Vendor::where('id', $model->vendor_id)->first();
+                $Vendor->update([
+                    "credit" => $model->amount
+                ]);
             }
         });
     }

@@ -43,7 +43,7 @@ class VendorProfitCrudController extends CrudController
             'attribute' => "name",
             'model' => 'App\Models\Vendor'
         ]);
-        $this->crud->field('amount')->label(__('admin_fields.amount'))->type('text')->hint(__('admin_fields.amount_hint'));
+        $this->crud->field('amount')->label(__('admin_fields.amount'))->type('text');
         $this->crud->field('notes')->label(__('admin_fields.notes'))->type('textarea');
     }
 }
