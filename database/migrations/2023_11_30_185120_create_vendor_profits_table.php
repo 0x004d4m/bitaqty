@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('in_app_messages', function (Blueprint $table) {
+        Schema::create('vendor_profits', function (Blueprint $table) {
             $table->id();
-            $table->text('type')->default('Client');
-            $table->json('title');
-            $table->json('description');
-            $table->text('image');
-            $table->text('action')->nullable();
-            $table->boolean('is_important')->default(false);
-            $table->boolean('is_active')->default(false);
+            $table->unsignedBigInteger('vendor_id');
+            $table->foreign('vendor_id')->references('id')->on('vendors');
+            $table->text('notes');
+            $table->double('amount');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('in_app_messages');
+        Schema::dropIfExists('vendor_profits');
     }
 };

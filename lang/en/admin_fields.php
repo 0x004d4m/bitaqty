@@ -88,4 +88,5 @@ return [
     'credit_from_after' => 'Sender Credit After Operation',
     'is_used' => 'Used?',
     'is_important' => 'is_important',
+    'amount_hint' => 'If value is 0 vendor profit will be 0, if value is something else value will be added to vandor profits'
 ];

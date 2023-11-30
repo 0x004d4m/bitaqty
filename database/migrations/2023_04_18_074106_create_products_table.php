@@ -26,6 +26,8 @@ return new class extends Migration
             $table->integer('stock_limit')->default(0);
             $table->boolean('is_active')->default(false);
             $table->boolean('is_vip')->default(false);
+            $table->unsignedBigInteger('type_id');
+            $table->foreign('type_id')->references('id')->on('types');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->unsignedBigInteger('subcategory_id');

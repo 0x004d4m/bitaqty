@@ -19,6 +19,7 @@ return new class extends Migration
             $table->json('data')->default("{}");
             $table->boolean('is_read')->default(false);;
             $table->nullableMorphs('userable');
+            $table->boolean('is_sent')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -80,7 +80,5 @@ Route::group([
         ], function () {
             Route::get('/', [ClientsOrdersController::class, 'index']);
         });
-
-        // Profit History // new DB
     });
 });

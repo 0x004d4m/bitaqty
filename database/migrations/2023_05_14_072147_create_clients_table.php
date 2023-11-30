@@ -34,13 +34,6 @@ return new class extends Migration
             $table->foreign('currency_id')->references('id')->on('currencies');
             $table->unsignedBigInteger('group_id')->nullable();
             $table->foreign('group_id')->references('id')->on('groups');
-
-            $table->text('fcm_token')->nullable();
-            $table->text('otp_token')->nullable();
-            $table->text('otp_code')->nullable();
-            $table->text('forget_token')->nullable();
-            $table->text('access_token')->nullable();
-            $table->text('refresh_token')->nullable();
             $table->boolean('is_email_verified')->default(0);
             $table->boolean('is_phone_verified')->default(0);
             $table->timestamps();
