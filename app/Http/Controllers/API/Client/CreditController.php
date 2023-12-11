@@ -10,6 +10,7 @@ use App\Http\Resources\General\CreditResource;
 use App\Models\Client;
 use App\Models\Credit;
 use App\Models\CreditCard;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\AllowedFilter;
