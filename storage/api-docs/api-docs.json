@@ -3452,9 +3452,9 @@
                         "example": "2018-01-01,2018-12-31"
                     },
                     {
-                        "name": "filter[order_status_id]",
+                        "name": "filter[credit_status_id]",
                         "in": "query",
-                        "description": "Filter Credits by order_status_id",
+                        "description": "Filter Credits by credit_status_id",
                         "required": false,
                         "schema": {
                             "type": "int"

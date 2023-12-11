@@ -54,9 +54,9 @@ class ClientsCreditController extends Controller
      *    @OA\Schema(type="string")
      *  ),
      *  @OA\Parameter(
-     *    name="filter[order_status_id]",
+     *    name="filter[credit_status_id]",
      *    in="query",
-     *    description="Filter Credits by order_status_id",
+     *    description="Filter Credits by credit_status_id",
      *    example="1",
      *    required=false,
      *    @OA\Schema(type="int")
@@ -92,7 +92,7 @@ class ClientsCreditController extends Controller
                 ->allowedFilters([
                     AllowedFilter::exact('category_id'),
                     AllowedFilter::exact('subcategory_id'),
-                    AllowedFilter::exact('order_status_id'),
+                    AllowedFilter::exact('credit_status_id'),
                     AllowedFilter::scope('created_at')
                 ])
                 ->whereHasMorph('userable', [Client::class], function ($q) use ($request) {
