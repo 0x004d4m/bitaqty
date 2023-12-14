@@ -32,10 +32,10 @@ Route::group([
     Route::get('/onboarding', [OnboardingController::class, 'index']);
     Route::get('/privacy_policy', [TermsController::class, 'privacy']);
     Route::get('/terms_and_conditions', [TermsController::class, 'terms']);
-    Route::get('/statistics', [StatisticsController::class, 'index']);
     Route::group([
         "middleware" => "UserAuth"
     ], function () {
+        Route::get('/statistics', [StatisticsController::class, 'index']);
         Route::get('/', [ProfileController::class, 'show']);
         Route::put('/', [ProfileController::class, 'update']);
         Route::delete('/', [ProfileController::class, 'destroy']);
