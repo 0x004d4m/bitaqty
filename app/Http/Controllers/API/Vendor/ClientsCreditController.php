@@ -339,6 +339,18 @@ class ClientsCreditController extends Controller
      *  operationId="VendorAddClientsCredits",
      *  tags={"VendorClientsCredits"},
      *  security={{"bearerAuth": {}}},
+     *  @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *          required={"amount","client_id"},
+     *         @OA\Property(property="amount", type="file", format="file"),
+     *         @OA\Property(property="notes", type="string", example=""),
+     *         @OA\Property(property="client_id", type="string", example=""),
+     *       ),
+     *     ),
+     *  ),
      *  @OA\Response(
      *    response=200,
      *    description="Success",

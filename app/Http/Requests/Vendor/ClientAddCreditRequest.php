@@ -10,7 +10,7 @@ class ClientAddCreditRequest extends FormRequest
     {
         return [
             "amount" => 'required',
-            "notes" => 'required',
+            "notes" => 'sometimes',
             "client_id" => 'required',
         ];
     }

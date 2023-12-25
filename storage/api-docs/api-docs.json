@@ -3559,6 +3559,34 @@
                 "summary": "Vendor Add Clients Credits",
                 "description": "Vendor Add Clients Credits",
                 "operationId": "VendorAddClientsCredits",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "amount",
+                                    "client_id"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "type": "file",
+                                        "format": "file"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "client_id": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Success"
