@@ -20,6 +20,8 @@ Route::get('/set-language/{locale}', [LandingPageController::class, 'setLanguage
 Route::get('/set-currency/{currency}', [LandingPageController::class, 'setCurrency'])->name('set-currency');
 Route::get('/clients/verifyEmail', [VerifyEmail::class, 'check']);
 Route::get('/terms/{id}', [TermsController::class, 'show']);
+Route::get('/privacy_policy', [TermsController::class, 'privacy']);
+Route::get('/terms_and_conditions', [TermsController::class, 'terms']);
 Route::get('/', function () {
     return view('welcome');
 });
